@@ -44,6 +44,7 @@ Required for core post-ingest path:
 - Statement analytics paths: `/statements/aggregate`, `/statements/aggregateAsync`, `/statements/count`, `/v1/statements/aggregate` (frozen in `lib/kernel/api/routes.js`)
 - Restify `/v2` model inventory: `lib/kernel/api/restifyModels.js` + `docs/api/restify-v2-inventory.md`
 - Optional native Client GET router behind `ENABLE_NATIVE_CLIENT_ROUTER` (`api/src/routes/clients/router.js`)
+- Optional native LRS GET router behind `ENABLE_NATIVE_LRS_ROUTER` (`api/src/routes/lrs/router.js`)
 
 ## xAPI peer
 
