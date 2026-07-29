@@ -17,6 +17,7 @@ A big-bang Express/Fastify rewrite would risk silent authorization regressions. 
 3. Keep `lib/services/auth/**` implementations in place initially; kernel re-exports without behavior change.
 4. Strangle API in this order: auth/scopes → statement aggregate/count → gradual `/v2` restify replacement.
 5. Do not change Passport strategy names, JWT claim shapes, or scope string values without dual-run parity.
+6. Statement analytics request parsing and response envelopes live in `lib/kernel/api/statements.js`; route path strings are frozen in `lib/kernel/api/routes.js`.
 
 ## Consequences
 
