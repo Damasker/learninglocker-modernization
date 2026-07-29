@@ -36,6 +36,7 @@ BRANCH=feat/lab-dual-run-golden-path bash lab/scripts/sync-app-branch.sh
 STACK=modern bash lab/scripts/build-core.sh
 bash lab/scripts/start-core.sh
 bash lab/scripts/ensure-golden-fixtures.sh
+bash lab/scripts/ensure-persona-collections.sh
 HOST_LABEL=ll-modern bash lab/scripts/golden-path.sh
 ```
 

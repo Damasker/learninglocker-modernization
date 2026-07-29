@@ -18,7 +18,15 @@ if [[ -f lab/scripts/apply-env-overlay.sh && -f lab/env/xapi.env.overlay ]]; the
   bash lab/scripts/apply-env-overlay.sh "${XAPI}/.env" lab/env/xapi.env.overlay
 fi
 
-pm2 delete API Worker xAPI >/dev/null 2>&1 || true
+# After overlays / before pm2 start, ensure Mongo schema for golden path.
+if [[ "${SKIP_MIGRATE:-0}" != "1" ]]; then
+  if [[ -f "${APP}/cli/dist/server/index.js" || -f "${APP}/cli/dist/server.js" ]]; then
+    (cd "${APP}" && yarn migrate || true)
+  fi
+  if [[ -f "${APP}/lab/scripts/ensure-persona-collections.sh" ]]; then
+    bash "${APP}/lab/scripts/ensure-persona-collections.sh" || true
+  fi
+fi
 pm2 start pm2/core.json
 (
   cd "${XAPI}"
@@ -31,7 +39,7 @@ for i in $(seq 1 60); do
   api_code="$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8080/ || true)"
   xapi_code="$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8081/ || true)"
   if [[ "${api_code}" != "000" && "${xapi_code}" != "000" ]]; then
-    echo "API HTTP ${api_code}, xAPI HTTP ${xapi_code}"
+    echo "API HTTP ${api_code}, xAPI HTTP ${xapi_code} (root may be 404)"
     pm2 list
     exit 0
   fi

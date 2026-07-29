@@ -8,7 +8,7 @@ const createPersonaIndexes = () => {
 };
 
 const up = async () => {
-  createPersonaIndexes();
+  await personaService.migrate();
 };
 
 const down = async () => {

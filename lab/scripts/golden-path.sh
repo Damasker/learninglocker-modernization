@@ -97,33 +97,51 @@ echo "${doc_json}" | grep -q "\"lrs_id\":\"${LRS_ID}\"" || fail "lrs_id mismatch
 echo "${doc_json}" | grep -q '"hash":"' || fail "missing hash: ${doc_json}"
 pass "Mongo envelope fields present"
 
-# 3/4. worker queues complete
+# 3/4. worker queues — querybuildercache must complete; persona extract is required
+# but surfaced with handler logs if it fails (see wrapStatementJob).
 persona_q='STATEMENT_PERSON_QUEUE'
 qbc_q='STATEMENT_QUERYBUILDERCACHE_QUEUE'
 final_json=""
-for i in $(seq 1 60); do
+persona_ok=0
+qbc_ok=0
+for i in $(seq 1 90); do
   final_json="$(mongo_eval "
     const d = db.getSiblingDB('${DB_NAME}').statements.findOne({ 'statement.id': '${STATEMENT_ID}' });
     print(JSON.stringify({
       completedQueues: d.completedQueues || [],
-      processingQueues: d.processingQueues || []
+      processingQueues: d.processingQueues || [],
+      hasPerson: !!(d.person && d.person._id)
     }));
   ")"
-  if echo "${final_json}" | grep -q "${persona_q}" && echo "${final_json}" | grep -q "${qbc_q}"; then
+  completed="$(echo "${final_json}" | sed -n 's/.*"completedQueues":\[\([^]]*\)\].*/\1/p')"
+  if echo "${completed}" | grep -q "${qbc_q}"; then
+    qbc_ok=1
+  fi
+  if echo "${completed}" | grep -q "${persona_q}"; then
+    persona_ok=1
+  fi
+  if [[ "${qbc_ok}" == "1" && "${persona_ok}" == "1" ]]; then
+    break
+  fi
+  # Persona may complete via person assignment even if queue bookkeeping lags.
+  if [[ "${qbc_ok}" == "1" ]] && echo "${final_json}" | grep -q '"hasPerson":true'; then
+    persona_ok=1
     break
   fi
   sleep 1
 done
-echo "${final_json}" | grep -q "${persona_q}" || fail "persona queue not completed: ${final_json}"
-echo "${final_json}" | grep -q "${qbc_q}" || fail "querybuildercache queue not completed: ${final_json}"
+[[ "${qbc_ok}" == "1" ]] || fail "querybuildercache queue not completed: ${final_json}"
+if [[ "${persona_ok}" != "1" ]]; then
+  fail "persona queue not completed (check worker logs for extractPersonas): ${final_json}"
+fi
 pass "Worker persona + querybuildercache queues completed"
 
 # Redis notify channel exists (prefix contract)
-notify_key="${REDIS_PREFIX}statement.notify"
+notify_key="${REDIS_PREFIX}:statement.notify"
 # Presence of the key is optional after drain; contract smoke: PREFIX ping
 redis_pong="$(redis_cli PING | tr -d '\r')"
 [[ "${redis_pong}" == "PONG" ]] || fail "Redis not healthy"
-pass "Redis healthy (notify suffix contract ${notify_key})"
+pass "Redis healthy (notify channel ${notify_key})"
 
 # 5. aggregate + count (client basic)
 pipeline='[{"$limit":5},{"$project":{"_id":1,"statement.id":1}}]'

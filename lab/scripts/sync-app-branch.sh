@@ -9,7 +9,8 @@ APP="${APP_ROOT:-/opt/learninglocker/app}"
 
 cd "${APP}"
 git fetch origin "${BRANCH}"
-git checkout "${BRANCH}"
-git pull --ff-only origin "${BRANCH}" || git reset --hard "origin/${BRANCH}"
+git reset --hard
+git clean -fd
+git checkout -B "${BRANCH}" "origin/${BRANCH}"
 
 echo "Synced ${APP} to ${BRANCH} @ $(git rev-parse --short HEAD)"
