@@ -1,4 +1,4 @@
-import createSha from '@learninglocker/xapi-statements/dist/tests/utils/createSha';
+import { createSha } from 'lib/kernel/xapiStatements/testUtils';
 import stringToStream from 'string-to-stream';
 import StatementForwarding from 'lib/models/statementForwarding';
 import Statement from 'lib/models/statement';

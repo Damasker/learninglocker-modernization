@@ -4,14 +4,12 @@ import union from 'lodash/union';
 import logger from 'lib/logger';
 import {
   getActivitiesFromStatement,
-  getRelatedActivitiesFromStatement
-} from '@learninglocker/xapi-statements/dist/service/storeStatements/queriables/getActivitiesFromStatement';
-import {
+  getRelatedActivitiesFromStatement,
   getAgentsFromStatement,
-  getRelatedAgentsFromStatement
-} from '@learninglocker/xapi-statements/dist/service/storeStatements/queriables/getAgentsFromStatement';
-import getRegistrationsFromStatement from '@learninglocker/xapi-statements/dist/service/storeStatements/queriables/getRegistrationsFromStatement';
-import getVerbsFromStatement from '@learninglocker/xapi-statements/dist/service/storeStatements/queriables/getVerbsFromStatement';
+  getRelatedAgentsFromStatement,
+  getRegistrationsFromStatement,
+  getVerbsFromStatement,
+} from 'lib/kernel/xapiStatements/queriables';
 
 const BATCH_SIZE = 10000;
 const REVISION = 1;

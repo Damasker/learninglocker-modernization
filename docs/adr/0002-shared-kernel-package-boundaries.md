@@ -13,8 +13,9 @@ Production code imports `@learninglocker/persona-service` and `@learninglocker/x
 1. Introduce `lib/kernel/` facades for all production `@learninglocker/*` deep imports used by API/lib/UI in this slice.
 2. Keep package installs unchanged for now; facades re-export identical symbols/behavior.
 3. Preserve `lib/connections/personaService` import path as a stable alias for existing callers.
-4. Defer `xapi-statements` worker facades and full vendoring/forks to a later PR.
+4. Defer full vendoring/forks of `@learninglocker/*` packages to a later PR.
 5. Do not rewrite `lib/services/auth` in this slice.
+6. Cover worker statement-forwarding and CLI queriable helpers via `lib/kernel/xapiStatements/*` facades.
 
 ## Consequences
 
@@ -27,4 +28,4 @@ Production code imports `@learninglocker/persona-service` and `@learninglocker/x
 ### Negative
 
 - Temporary indirection until packages are vendored.
-- Worker statement-forwarding still couples to `xapi-statements/dist` until the next kernel slice.
+- Auth still couples to its existing in-repo modules until a dedicated auth kernel slice.

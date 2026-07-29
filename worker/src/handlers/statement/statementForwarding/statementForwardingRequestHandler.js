@@ -2,9 +2,10 @@ import { post } from 'axios';
 import { assign, isPlainObject } from 'lodash';
 import { PassThrough } from 'stream';
 import highland from 'highland';
-import getAttachments from '@learninglocker/xapi-statements/dist/service/utils/getAttachments';
-import streamStatementsWithAttachments, { boundary }
-  from '@learninglocker/xapi-statements/dist/expressPresenter/utils/getStatements/streamStatementsWithAttachments';
+import getAttachments, {
+  streamStatementsWithAttachments,
+  boundary,
+} from 'lib/kernel/xapiStatements/attachments';
 import logger from 'lib/logger';
 import Statement, { mapDot } from 'lib/models/statement';
 import mongoose from 'mongoose';
