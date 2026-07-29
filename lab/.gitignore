@@ -1,0 +1,10 @@
+# Local lab secrets and generated env files
+.env
+.env.*
+!.env.example
+!**/.env.example
+!**/*.env.overlay
+
+# OS / editor
+.DS_Store
+Thumbs.db
