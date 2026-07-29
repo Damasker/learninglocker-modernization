@@ -55,6 +55,9 @@ import PersonasImport from 'lib/models/personasImport';
 import PersonasImportTemplate from 'lib/models/personasImportTemplate';
 import SiteSettings from 'lib/models/siteSettings';
 import BatchDelete from 'lib/models/batchDelete';
+import {
+  RESTIFY_V2_MODELS,
+} from 'lib/kernel/api/restifyModels';
 
 // REST
 import personaRESTHandler from 'api/routes/personas/personaRESTHandler';
@@ -404,27 +407,39 @@ restify.serve(router, BatchDelete, {
 /**
  * CONNECTIONS and INDEXES
  */
-const generatedRouteModels = [
+const modelsByName = {
   Organisation,
-  User,
-  Statement,
-  StatementForwarding,
-  LRS,
-  QueryBuilderCache,
-  QueryBuilderCacheValue,
-  Client,
-  Dashboard,
-  Visualisation,
-  Query,
+  Stream,
   Export,
   Download,
+  Query,
   ImportCsv,
+  User,
+  Client,
+  Visualisation,
+  Dashboard,
+  LRS,
+  Statement,
+  StatementForwarding,
+  QueryBuilderCache,
+  QueryBuilderCacheValue,
   Role,
   PersonaAttribute,
   PersonasImport,
   PersonasImportTemplate,
-  BatchDelete
-];
+  SiteSettings,
+  BatchDelete,
+};
+
+const generatedRouteModels = RESTIFY_V2_MODELS
+  .filter(model => model.connections)
+  .map((model) => {
+    const mongooseModel = modelsByName[model.modelName];
+    if (!mongooseModel) {
+      throw new Error(`Missing mongoose model for restify registry entry ${model.modelName}`);
+    }
+    return mongooseModel;
+  });
 
 const generateConnectionsRoute = (model, routeSuffix, authentication) => {
   const route = `${routes.CONNECTION}/${routeSuffix}`;
