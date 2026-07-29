@@ -20,7 +20,8 @@ Indexes from historical v2 migrations remain authoritative, especially:
 ## Redis
 
 - Prefix: `REDIS_PREFIX` (lab default `LEARNINGLOCKER`)
-- Statement notify channel/list used by worker listeners
+- Statement notify channel suffix: `statement.notify` (via `cachePrefix`, see `lib/kernel/worker/notify.js`)
+- Statement work list suffix: `statement.new` (RPOP after notify)
 - Aggregation cache keys and TTLs from `.env.example`
 
 ## Queues
