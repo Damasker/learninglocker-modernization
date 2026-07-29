@@ -74,6 +74,10 @@ import visualisationRouter from 'api/routes/visualisations/router';
 import queryRouter from 'api/routes/queries/router';
 import exportRouter from 'api/routes/exports/router';
 import downloadRouter from 'api/routes/downloads/router';
+import personaAttributeRouter from 'api/routes/personaAttributes/router';
+import personasImportRouter from 'api/routes/personasImports/router';
+import personasImportTemplateRouter from 'api/routes/personasImportTemplates/router';
+import importCsvRouter from 'api/routes/importCsv/router';
 import { isNativeClientRouterEnabled } from 'lib/kernel/api/client';
 import { isNativeLrsRouterEnabled } from 'lib/kernel/api/lrs';
 import { isNativeOrganisationRouterEnabled } from 'lib/kernel/api/organisation';
@@ -86,6 +90,12 @@ import {
   isNativeExportRouterEnabled,
   isNativeDownloadRouterEnabled,
 } from 'lib/kernel/api/analyticsFlags';
+import {
+  isNativePersonaAttributeRouterEnabled,
+  isNativePersonasImportRouterEnabled,
+  isNativePersonasImportTemplateRouterEnabled,
+  isNativeImportCsvRouterEnabled,
+} from 'lib/kernel/api/personaImportFlags';
 
 // CONSTANTS
 import * as routes from 'lib/constants/routes';
@@ -244,6 +254,19 @@ if (isNativeExportRouterEnabled()) {
 }
 if (isNativeDownloadRouterEnabled()) {
   router.use(downloadRouter);
+}
+
+if (isNativePersonaAttributeRouterEnabled()) {
+  router.use(personaAttributeRouter);
+}
+if (isNativePersonasImportRouterEnabled()) {
+  router.use(personasImportRouter);
+}
+if (isNativePersonasImportTemplateRouterEnabled()) {
+  router.use(personasImportTemplateRouter);
+}
+if (isNativeImportCsvRouterEnabled()) {
+  router.use(importCsvRouter);
 }
 
 /**

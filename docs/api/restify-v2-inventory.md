@@ -66,13 +66,24 @@ Independent flags (default **off**):
 
 Shared factories: `createScopedGetController` / `createScopedGetRouter`. Writes remain on restify.
 
+## Persona-import GET stranglers
+
+| Flag | Paths |
+|------|-------|
+| `ENABLE_NATIVE_PERSONA_ATTRIBUTE_ROUTER` | `/v2/personaattribute`, `/v2/personaattribute/:id` |
+| `ENABLE_NATIVE_PERSONAS_IMPORT_ROUTER` | `/v2/personasimport`, `/v2/personasimport/:id` |
+| `ENABLE_NATIVE_PERSONAS_IMPORT_TEMPLATE_ROUTER` | `/v2/personasimporttemplate`, `/v2/personasimporttemplate/:id` |
+| `ENABLE_NATIVE_IMPORT_CSV_ROUTER` | `/v2/importcsv`, `/v2/importcsv/:id` |
+
+Also maps `personasimporttemplate` into persona `getScopeFilter` (was missing). Defaults **off**.
+
 ## Replacement order (proposed)
 
 1. Keep Statement restify read + scoped delete behavior; never open create/update via `/v2`
 2. Client / LRS / Organisation (auth-adjacent) — GET stranglers landed (feature-flagged)
 3. Role / User — GET stranglers landed (feature-flagged)
 4. Dashboard / Visualisation / Query / Export / Download — GET stranglers landed (feature-flagged)
-5. PersonaAttribute / PersonasImport*
+5. PersonaAttribute / PersonasImport* — GET stranglers landed (feature-flagged)
 6. SiteSettings / Stream / BatchDelete read-only surfaces
 
 Do not flip traffic to a replacement router without dual-run parity of scope filters from `lib/kernel/auth`.
