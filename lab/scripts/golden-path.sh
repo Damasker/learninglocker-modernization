@@ -128,6 +128,10 @@ for i in $(seq 1 90); do
     persona_ok=1
     break
   fi
+  # On Mongo 7 hosts persona is blocked (OP_QUERY); do not wait the full timeout.
+  if [[ "${qbc_ok}" == "1" && "${GOLDEN_REQUIRE_PERSONA:-1}" == "0" ]]; then
+    break
+  fi
   sleep 1
 done
 [[ "${qbc_ok}" == "1" ]] || fail "querybuildercache queue not completed: ${final_json}"
