@@ -41,7 +41,7 @@ exec sudo docker run --rm \
   -e HOME=/tmp \
   -e npm_config_cache=/tmp/.npm \
   node:10 \
-  bash -lc "npm install -g yarn@1.22.19 >/dev/null 2>&1; $*"
+  bash -lc 'npm install -g yarn@1.22.19 >/tmp/yarn-global-install.log 2>&1 || cat /tmp/yarn-global-install.log; export PATH="/usr/local/bin:$PATH"; exec bash -lc "$*"'
 EOF
   sudo tee /usr/local/bin/ll-node10 >/dev/null <<'EOF'
 #!/usr/bin/env bash
