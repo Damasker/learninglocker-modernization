@@ -52,6 +52,10 @@ Required for core post-ingest path:
 - Optional persona-import GET routers: `ENABLE_NATIVE_PERSONA_ATTRIBUTE_ROUTER`, `ENABLE_NATIVE_PERSONAS_IMPORT_ROUTER`, `ENABLE_NATIVE_PERSONAS_IMPORT_TEMPLATE_ROUTER`, `ENABLE_NATIVE_IMPORT_CSV_ROUTER`
 - Optional restricted GET routers: `ENABLE_NATIVE_SITE_SETTINGS_ROUTER`, `ENABLE_NATIVE_STREAM_ROUTER`, `ENABLE_NATIVE_BATCH_DELETE_ROUTER`
 
+## Persona Mongo access
+
+- Persona-service DB handle is provided by `lib/kernel/persona/createMongoClient.js` (mongoose native `Db`), not mongodb@2 `MongoClient.connect`, so MongoDB 5.1+ / 7 reject OP_QUERY is avoided.
+
 ## xAPI peer
 
 - HTTP xAPI is served by `xapi-service`, not this app process

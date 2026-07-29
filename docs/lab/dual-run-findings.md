@@ -32,7 +32,7 @@ MongoError: Unsupported OP_QUERY command: find.
 The client driver may require an upgrade.
 ```
 
-`@learninglocker/persona-service` still uses a MongoDB Node driver that speaks OP_QUERY. MongoDB **5.1+** (lab Mongo **7**) removed it. Use `GOLDEN_REQUIRE_PERSONA=0` on modern until the driver is upgraded.
+**Mitigation (ADR 0012):** kernel `createMongoClient` reuses the mongoose connection (mongodb driver 3.x) instead of persona-service's mongodb@2 connect. Re-test modern with `GOLDEN_REQUIRE_PERSONA=1` after deploying `fix/persona-mongo7-driver`.
 
 ### Lab hardening landed
 
