@@ -36,7 +36,11 @@ pass() {
 }
 
 mongo_eval() {
-  docker exec -i ll-mongo-1 mongosh --quiet --eval "$1"
+  if docker exec ll-mongo-1 bash -lc 'command -v mongosh >/dev/null'; then
+    docker exec -i ll-mongo-1 mongosh --quiet --eval "$1"
+  else
+    docker exec -i ll-mongo-1 mongo --quiet --eval "$1"
+  fi
 }
 
 redis_cli() {
