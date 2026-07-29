@@ -67,9 +67,13 @@ import UserOrganisationSettingsRouter from 'api/routes/userOrganisationSettings/
 import clientRouter from 'api/routes/clients/router';
 import lrsRouter from 'api/routes/lrs/router';
 import organisationRouter from 'api/routes/organisations/router';
+import roleRouter from 'api/routes/roles/router';
+import userRouter from 'api/routes/users/router';
 import { isNativeClientRouterEnabled } from 'lib/kernel/api/client';
 import { isNativeLrsRouterEnabled } from 'lib/kernel/api/lrs';
 import { isNativeOrganisationRouterEnabled } from 'lib/kernel/api/organisation';
+import { isNativeRoleRouterEnabled } from 'lib/kernel/api/role';
+import { isNativeUserRouterEnabled } from 'lib/kernel/api/user';
 
 // CONSTANTS
 import * as routes from 'lib/constants/routes';
@@ -204,6 +208,14 @@ if (isNativeLrsRouterEnabled()) {
 // (including site-admin-only expiration preUpdate).
 if (isNativeOrganisationRouterEnabled()) {
   router.use(organisationRouter);
+}
+
+if (isNativeRoleRouterEnabled()) {
+  router.use(roleRouter);
+}
+
+if (isNativeUserRouterEnabled()) {
+  router.use(userRouter);
 }
 
 /**

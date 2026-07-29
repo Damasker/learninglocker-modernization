@@ -40,11 +40,23 @@ When `ENABLE_NATIVE_ORGANISATION_ROUTER=true`, native handlers serve:
 
 using organisation-specific scope filters (`_id: { $in: viewableOrgs }` / site admin `{}`). Restify continues to own writes (including expiration `preUpdate`). Default flag is **off**.
 
+## Role / User GET stranglers
+
+When `ENABLE_NATIVE_ROLE_ROUTER=true`:
+
+- `GET /v2/role`, `GET /v2/role/:id`
+
+When `ENABLE_NATIVE_USER_ROUTER=true`:
+
+- `GET /v2/user`, `GET /v2/user/:id` (applies `getScopeSelect` / MANAGER vs limited select)
+
+Writes remain on restify. Defaults **off**.
+
 ## Replacement order (proposed)
 
 1. Keep Statement restify read + scoped delete behavior; never open create/update via `/v2`
 2. Client / LRS / Organisation (auth-adjacent) — GET stranglers landed (feature-flagged)
-3. Role / User
+3. Role / User — GET stranglers landed (feature-flagged)
 4. Dashboard / Visualisation / Query / Export / Download
 5. PersonaAttribute / PersonasImport*
 6. SiteSettings / Stream / BatchDelete read-only surfaces
