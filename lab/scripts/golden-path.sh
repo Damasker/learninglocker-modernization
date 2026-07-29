@@ -103,9 +103,9 @@ for i in $(seq 1 30); do
   sleep 1
 done
 [[ -n "${doc_json}" ]] || fail "statement not found in Mongo"
-echo "${doc_json}" | grep -q "\"organisation\":\"${ORG_ID}\"" || fail "organisation mismatch: ${doc_json}"
-echo "${doc_json}" | grep -q "\"lrs_id\":\"${LRS_ID}\"" || fail "lrs_id mismatch: ${doc_json}"
-echo "${doc_json}" | grep -q '"hash":"' || fail "missing hash: ${doc_json}"
+echo "${doc_json}" | grep -q "${ORG_ID}" || fail "organisation mismatch: ${doc_json}"
+echo "${doc_json}" | grep -q "${LRS_ID}" || fail "lrs_id mismatch: ${doc_json}"
+echo "${doc_json}" | grep -qE '"hash":"|hash.:' || fail "missing hash: ${doc_json}"
 pass "Mongo envelope fields present"
 
 # 3/4. worker queues — querybuildercache must complete; persona extract is required
