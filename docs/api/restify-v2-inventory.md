@@ -77,6 +77,16 @@ Shared factories: `createScopedGetController` / `createScopedGetRouter`. Writes 
 
 Also maps `personasimporttemplate` into persona `getScopeFilter` (was missing). Defaults **off**.
 
+## Restricted GET stranglers
+
+| Flag | Paths | Notes |
+|------|-------|-------|
+| `ENABLE_NATIVE_SITE_SETTINGS_ROUTER` | `/v2/sitesettings`, `/v2/sitesettings/:id` | Scope filter `{}` (historical) |
+| `ENABLE_NATIVE_STREAM_ROUTER` | `/v2/stream`, `/v2/stream/:id` | Org scope; fixes missing `stream` mapping |
+| `ENABLE_NATIVE_BATCH_DELETE_ROUTER` | `/v2/batchdelete`, `/v2/batchdelete/:id` | Writes stay 405 / specialised POSTs |
+
+Defaults **off**. Completes inventory step 6.
+
 ## Replacement order (proposed)
 
 1. Keep Statement restify read + scoped delete behavior; never open create/update via `/v2`
@@ -84,6 +94,8 @@ Also maps `personasimporttemplate` into persona `getScopeFilter` (was missing). 
 3. Role / User — GET stranglers landed (feature-flagged)
 4. Dashboard / Visualisation / Query / Export / Download — GET stranglers landed (feature-flagged)
 5. PersonaAttribute / PersonasImport* — GET stranglers landed (feature-flagged)
-6. SiteSettings / Stream / BatchDelete read-only surfaces
+6. SiteSettings / Stream / BatchDelete — GET stranglers landed (feature-flagged)
+
+Remaining restify models (Statement, StatementForwarding, QueryBuilderCache*) stay on restify until separate dual-run work.
 
 Do not flip traffic to a replacement router without dual-run parity of scope filters from `lib/kernel/auth`.
