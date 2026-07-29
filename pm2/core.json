@@ -1,0 +1,32 @@
+{
+  "apps": [
+    {
+      "name": "API",
+      "script": "api/dist/server",
+      "cwd": ".",
+      "output": "./logs/api_stdout.log",
+      "error": "./logs/api_stderr.log",
+      "pid": "./pids/api.pid",
+      "instances": 1,
+      "exec_mode": "fork",
+      "wait_ready": true,
+      "listen_timeout": 60000,
+      "node_args": "--max-old-space-size=512",
+      "watch": false
+    },
+    {
+      "name": "Worker",
+      "script": "worker/dist/server",
+      "cwd": ".",
+      "output": "./logs/worker_stdout.log",
+      "error": "./logs/worker_stderr.log",
+      "pid": "./pids/worker.pid",
+      "instances": 1,
+      "exec_mode": "fork",
+      "wait_ready": true,
+      "listen_timeout": 60000,
+      "node_args": "--max-old-space-size=512",
+      "watch": false
+    }
+  ]
+}

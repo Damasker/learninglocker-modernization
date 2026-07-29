@@ -65,3 +65,5 @@ Required for core post-ingest path:
 3. Redis notify triggers worker
 4. Persona extract and query-builder cache complete
 5. Aggregate/count APIs return scoped results
+
+Lab automation: `docs/lab/dual-run.md` (`lab/scripts/golden-path.sh`, `dual-run-golden.sh`).
