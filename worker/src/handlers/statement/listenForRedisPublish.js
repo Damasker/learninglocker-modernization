@@ -11,6 +11,15 @@ import {
 
 const redisOpts = redis.getOptions();
 
+const parseNotifyPayload = (payload) => {
+  try {
+    return JSON.parse(payload);
+  } catch (err) {
+    logger.error('ERROR PARSING REDIS NOTIFY PAYLOAD', err, payload);
+    return null;
+  }
+};
+
 export default () => {
   const subClient = redis.createClient();
   const pubClient = redis.createClient();
@@ -33,18 +42,38 @@ export default () => {
           pubClient.rpop(pubKey, (err, payload) => {
             if (err) {
               logger.error('ERROR ON REDIS RPOP', err);
-              cb(err);
+              return cb(err);
             }
             latestResult = payload;
-            if (payload) {
-              logger.debug(`Popped '${pubKey}':`, payload);
-              Statement.findOne({ 'statement.id': JSON.parse(payload).statementId }, (err, statement) => {
-                // get the statement so that we can find its database id
+            if (!payload) {
+              return cb();
+            }
+
+            logger.debug(`Popped '${pubKey}':`, payload);
+            const parsed = parseNotifyPayload(payload);
+            if (!parsed || !parsed.statementId) {
+              logger.error('INVALID REDIS NOTIFY PAYLOAD', payload);
+              return cb();
+            }
+
+            return Statement.findOne(
+              { 'statement.id': parsed.statementId },
+              (findErr, statement) => {
+                if (findErr) {
+                  logger.error('ERROR LOADING STATEMENT FROM REDIS NOTIFY', findErr);
+                  return cb(findErr);
+                }
+                if (!statement) {
+                  logger.info(
+                    `Redis notify for missing statement.id ${parsed.statementId}; skipping`
+                  );
+                  return cb();
+                }
                 // push it straight into the correct queues
                 statementHandler({ statementId: statement._id });
-              });
-            }
-            cb();
+                return cb();
+              }
+            );
           });
         },
         () => !latestResult,
