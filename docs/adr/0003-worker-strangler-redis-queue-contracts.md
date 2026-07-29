@@ -13,7 +13,7 @@ Rewriting worker handlers without freezing these strings would break the golden 
 ## Decision
 
 1. Treat Redis notify suffixes and queue name string values as frozen compatibility contracts (see `docs/contracts/compatibility-freeze.md`).
-2. Centralize Redis notify suffixes in `lib/kernel/worker/notify.js` and keep queue names in `lib/constants/statements.js` (already the durable source).
+2. Centralize Redis notify suffixes in `lib/kernel/worker/notify.js` and post-ingest fan-out in `lib/kernel/worker/pipeline.js`; keep queue names in `lib/constants/statements.js` (already the durable source).
 3. Add contract tests that lock exact string values so accidental renames fail CI.
 4. Migrate worker handlers behind the strangler without changing subscribe/publish channel names or Bull queue names.
 5. Prefer incremental handler modernization (persona extract → query builder → forwarding) after notify/queue wiring is covered by tests.

@@ -17,19 +17,10 @@ import {
   STATEMENT_EXTRACT_PERSONAS_QUEUE,
   STATEMENT_FORWARDING_QUEUE
 } from 'lib/constants/statements';
+import { STATEMENT_POST_INGEST_QUEUES } from 'lib/kernel/worker/pipeline';
 import { isAllowedWorkerQueue } from './allowedWorkerQueues';
 
-const queueDependencies = {
-  [STATEMENT_QUERYBUILDERCACHE_QUEUE]: {
-    preReqs: []
-  },
-  [STATEMENT_EXTRACT_PERSONAS_QUEUE]: {
-    preReqs: []
-  },
-  [STATEMENT_FORWARDING_QUEUE]: {
-    preReqs: []
-  },
-};
+const queueDependencies = STATEMENT_POST_INGEST_QUEUES;
 
 export const addStatementToPendingQueues = (statement, passedQueues, done) => {
   const queues = passedQueues || queueDependencies;
