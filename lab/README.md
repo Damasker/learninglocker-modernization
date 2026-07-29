@@ -40,14 +40,16 @@ STACK=modern bash lab/scripts/install-node.sh
 
 Legacy app commands run through `ll-node10-exec` because Ubuntu 24.04 cannot host Node 10 natively.
 
-Install dependencies with engine ignore (upstream `@learninglocker/persona-service` still declares Node 6-8):
+Install dependencies with engine ignore (upstream `@learninglocker/persona-service` still declares Node 6-8).
+
+Legacy also needs `--ignore-scripts` because ancient `grpc@1.9.1` prebuilds are gone (HTTP 403) and its install script exits non-zero even after source compile. Lab uses `QUEUE_PROVIDER=REDIS`, so Pub/Sub gRPC is not required for the core path:
 
 ```bash
 # legacy
 cd /opt/learninglocker/app
-ll-node10-exec 'yarn install --frozen-lockfile --ignore-engines'
+ll-node10-exec 'yarn install --frozen-lockfile --ignore-engines --ignore-scripts'
 
-# modern
+# modern (currently blocked by native grpc on Node 20 — see docs/lab/baseline-findings.md)
 cd /opt/learninglocker/app
 yarn install --frozen-lockfile --ignore-engines
 ```

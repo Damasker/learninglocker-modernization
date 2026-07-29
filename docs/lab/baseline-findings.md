@@ -14,13 +14,21 @@
    - Mitigation: `yarn install --ignore-engines`
 2. Legacy/modern both pull ancient `grpc@1.9.1` via `@google-cloud/pubsub` / `google-gax`.
    - Prebuilt binaries return HTTP 403
-   - Source compile races under yarn parallel install scripts
+   - Source compile is flaky under yarn install scripts
    - Modern Node 20 cannot build this native addon at all
-3. Therefore modern host cannot yet `yarn install` the unmodified lockfile.
+3. Legacy baseline workaround (Redis-only queues):
+   - `yarn install --frozen-lockfile --ignore-engines --ignore-scripts`
+   - Core requires verified: express, mongoose, bull, ioredis, passport, dotenv
+   - `@google-cloud/pubsub` skipped until foundation replaces gRPC stack
+4. Therefore modern host cannot yet `yarn install` the unmodified lockfile.
    - This confirms foundation work must replace/remove legacy Pub/Sub gRPC path before Node 20 runtime.
 
-## Next baseline actions
+## Verified on 2026-07-29
 
-1. Finish legacy install with `CHILD_CONCURRENCY=1`
-2. Run `yarn test-lib` / API smoke on legacy as oracle
-3. Start foundation branch that swaps `@google-cloud/pubsub` optional path and vendors persona-service for modern Node
+| Check | ll-legacy | ll-modern |
+|---|---|---|
+| Mongo RS + Redis healthy | yes | yes |
+| Env overlays + APP_SECRET | yes | yes |
+| Node runtime | 10 via Docker helper | 20.20.2 native |
+| yarn install core path | yes (`--ignore-scripts`) | blocked (grpc/node-gyp) |
+| Core Node requires | yes | n/a until deps install |
