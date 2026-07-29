@@ -132,9 +132,15 @@ for i in $(seq 1 90); do
 done
 [[ "${qbc_ok}" == "1" ]] || fail "querybuildercache queue not completed: ${final_json}"
 if [[ "${persona_ok}" != "1" ]]; then
-  fail "persona queue not completed (check worker logs for extractPersonas): ${final_json}"
+  if [[ "${GOLDEN_REQUIRE_PERSONA:-1}" == "0" ]]; then
+    echo "WARN: persona queue not completed (GOLDEN_REQUIRE_PERSONA=0): ${final_json}"
+  else
+    fail "persona queue not completed (check worker logs for extractPersonas / OP_QUERY): ${final_json}"
+  fi
+else
+  pass "Worker persona queue completed"
 fi
-pass "Worker persona + querybuildercache queues completed"
+pass "Worker querybuildercache queue completed"
 
 # Redis notify channel exists (prefix contract)
 notify_key="${REDIS_PREFIX}:statement.notify"
