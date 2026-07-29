@@ -13,7 +13,11 @@ BASIC_SECRET="${LAB_BASIC_SECRET:-lab_golden_secret_000000000000000001}"
 DB_NAME="${LAB_DB_NAME:-learninglocker_v2}"
 
 mongo_eval() {
-  docker exec -i ll-mongo-1 mongosh --quiet --eval "$1"
+  if docker exec ll-mongo-1 bash -lc 'command -v mongosh >/dev/null'; then
+    docker exec -i ll-mongo-1 mongosh --quiet --eval "$1"
+  else
+    docker exec -i ll-mongo-1 mongo --quiet --eval "$1"
+  fi
 }
 
 mongo_eval "
@@ -22,7 +26,7 @@ const lrsId = ObjectId('${LRS_ID}');
 const clientId = ObjectId('${CLIENT_ID}');
 const dbn = db.getSiblingDB('${DB_NAME}');
 
-dbn.organisations.updateOne(
+dbn.organisations.update(
   { _id: orgId },
   {
     \$setOnInsert: {
@@ -35,7 +39,7 @@ dbn.organisations.updateOne(
   { upsert: true }
 );
 
-dbn.lrs.updateOne(
+dbn.lrs.update(
   { _id: lrsId },
   {
     \$set: {
@@ -53,7 +57,7 @@ dbn.lrs.updateOne(
   { upsert: true }
 );
 
-dbn.client.updateOne(
+dbn.client.update(
   { _id: clientId },
   {
     \$set: {
