@@ -27,7 +27,8 @@ if [[ "${STACK}" == "modern" ]]; then
 fi
 
 if [[ "${STACK}" == "legacy" ]]; then
-  sudo docker pull node:10-bullseye
+  # Official node:10 tag remains available; distro-specific tags may be gone.
+  sudo docker pull node:10
   sudo tee /usr/local/bin/ll-node10-exec >/dev/null <<'EOF'
 #!/usr/bin/env bash
 set -euo pipefail
@@ -39,7 +40,7 @@ exec sudo docker run --rm \
   -w "${workdir}" \
   -e HOME=/tmp \
   -e npm_config_cache=/tmp/.npm \
-  node:10-bullseye \
+  node:10 \
   bash -lc "npm install -g yarn@1.22.19 >/dev/null 2>&1; $*"
 EOF
   sudo tee /usr/local/bin/ll-node10 >/dev/null <<'EOF'
