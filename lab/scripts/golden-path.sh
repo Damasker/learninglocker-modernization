@@ -36,11 +36,18 @@ pass() {
 }
 
 mongo_eval() {
-  if docker exec ll-mongo-1 bash -lc 'command -v mongosh >/dev/null'; then
-    docker exec -i ll-mongo-1 mongosh --quiet --eval "$1"
-  else
-    docker exec -i ll-mongo-1 mongo --quiet --eval "$1"
+  local js="$1"
+  if docker exec -i ll-mongo-1 mongosh --quiet --eval "${js}" >/tmp/ll-mongo-eval.out 2>/tmp/ll-mongo-eval.err; then
+    cat /tmp/ll-mongo-eval.out
+    return 0
   fi
+  if docker exec -i ll-mongo-1 mongo --quiet --eval "${js}" >/tmp/ll-mongo-eval.out 2>/tmp/ll-mongo-eval.err; then
+    cat /tmp/ll-mongo-eval.out
+    return 0
+  fi
+  echo "mongo_eval failed:" >&2
+  cat /tmp/ll-mongo-eval.err >&2 || true
+  return 1
 }
 
 redis_cli() {

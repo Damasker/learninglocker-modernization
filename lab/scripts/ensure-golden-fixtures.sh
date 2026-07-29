@@ -1,9 +1,22 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Ensure synthetic Organisation / LRS / Client for golden-path xAPI posts.
-# Fixed ObjectIds and basic auth so dual-run hosts share identical credentials.
-# Usage: ./ensure-golden-fixtures.sh
+# Run a JS snippet against the lab Mongo container.
+# Mongo 7 images ship mongosh; Mongo 4.2 images ship legacy `mongo`.
+mongo_eval() {
+  local js="$1"
+  if docker exec -i ll-mongo-1 mongosh --quiet --eval "${js}" >/tmp/ll-mongo-eval.out 2>/tmp/ll-mongo-eval.err; then
+    cat /tmp/ll-mongo-eval.out
+    return 0
+  fi
+  if docker exec -i ll-mongo-1 mongo --quiet --eval "${js}" >/tmp/ll-mongo-eval.out 2>/tmp/ll-mongo-eval.err; then
+    cat /tmp/ll-mongo-eval.out
+    return 0
+  fi
+  echo "mongo_eval failed:" >&2
+  cat /tmp/ll-mongo-eval.err >&2 || true
+  return 1
+}
 
 ORG_ID="${LAB_ORG_ID:-aaaaaaaaaaaaaaaaaaaaaaaa}"
 LRS_ID="${LAB_LRS_ID:-bbbbbbbbbbbbbbbbbbbbbbbb}"
@@ -11,14 +24,6 @@ CLIENT_ID="${LAB_CLIENT_ID:-cccccccccccccccccccccccc}"
 BASIC_KEY="${LAB_BASIC_KEY:-lab_golden_key_00000000000000000001}"
 BASIC_SECRET="${LAB_BASIC_SECRET:-lab_golden_secret_000000000000000001}"
 DB_NAME="${LAB_DB_NAME:-learninglocker_v2}"
-
-mongo_eval() {
-  if docker exec ll-mongo-1 bash -lc 'command -v mongosh >/dev/null'; then
-    docker exec -i ll-mongo-1 mongosh --quiet --eval "$1"
-  else
-    docker exec -i ll-mongo-1 mongo --quiet --eval "$1"
-  fi
-}
 
 mongo_eval "
 const orgId = ObjectId('${ORG_ID}');
