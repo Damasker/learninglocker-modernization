@@ -8,8 +8,8 @@ Tooling on `feat/lab-dual-run-golden-path` ([PR #15](https://github.com/Damasker
 
 | Host | Role | Notes |
 |------|------|-------|
-| `ll-legacy` | infra oracle (Mongo 4.2 / Redis 4) | Node 20 + yarn + pm2 installed alongside `ll-node10-exec`; app tip build pending full golden pass |
-| `ll-modern` | migration target (Mongo 7 / Redis 7) | Core services up; first golden pass executed |
+| `ll-legacy` | infra oracle (Mongo **4.2** / Redis 4) | Node 20 + yarn + pm2 installed beside `ll-node10-exec` |
+| `ll-modern` | migration target (Mongo **7** / Redis 7) | API + Worker + xAPI online |
 
 Native GET strangler flags remain **off**.
 
@@ -20,19 +20,32 @@ Native GET strangler flags remain **off**.
 | API `/` smoke | PASS (HTTP 200) |
 | xAPI store statement | PASS (HTTP 200) |
 | Mongo envelope (`organisation`, `lrs_id`, `hash`) | PASS |
-| Redis notify contract (`REDIS_PREFIX:statement.notify`) | PASS (`LEARNINGLOCKER:statement.notify`) |
+| Redis notify (`LEARNINGLOCKER:statement.notify`) | PASS |
 | Query-builder cache queue complete | PASS |
-| Persona extract queue complete | **FAIL** — stays in `processingQueues`; `personas`/`personaIdentifiers` stay empty; Bull logs `JOB N FAILED No queue` after handler callback |
+| Persona extract queue complete | **BLOCKED** |
 | Aggregate / count | PASS (HTTP 200) |
 
-### Persona follow-ups
+### Persona blocker (Mongo 7)
 
-1. `personaService.migrate()` in `20171008104700_personas_indexes` was not awaited (fixed in this branch); lab helper `ensure-persona-collections.sh` creates collections.
-2. Even with collections present, extract still fails silently; `wrapStatementJob` now logs handler errors.
-3. Redis notify channel uses colon separator via `cachePrefix` (`PREFIX:suffix`), matching worker subscribe logs.
+Worker error:
+
+```text
+MongoError: Unsupported OP_QUERY command: find.
+The client driver may require an upgrade.
+```
+
+`@learninglocker/persona-service` still uses a MongoDB Node driver that speaks the legacy OP_QUERY opcode. MongoDB **5.1+** (including lab Mongo **7** on `ll-modern`) removed OP_QUERY, so persona extract cannot write `personas` / `personaIdentifiers`.
+
+Mitigations (pick one for a later PR):
+
+1. Upgrade/patch persona-service (or its mongo client) to a driver that uses the modern find command.
+2. Keep dual-run persona assertions on `ll-legacy` (Mongo 4.2) until (1) lands.
+3. Lab-only: set `GOLDEN_REQUIRE_PERSONA=0` on Mongo 7 hosts.
+
+Also fixed: `personaService.migrate()` was not awaited in `20171008104700_personas_indexes`; lab helper `ensure-persona-collections.sh` creates collections; `wrapStatementJob` logs handler errors.
 
 ## Next
 
-1. Capture the logged persona handler error after worker rebuild on both hosts.
-2. Finish legacy `STACK=modern` host-runtime golden pass (same app tip; infra differential).
-3. Optional: flag-on native GET dual-run after persona path is green.
+1. Finish golden path on `ll-legacy` (expect persona PASS on Mongo 4.2).
+2. Plan persona-service mongo driver upgrade for Mongo 7 parity.
+3. Optional flag-on native GET dual-run after persona path is green on modern.
