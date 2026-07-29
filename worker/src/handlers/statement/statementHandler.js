@@ -12,11 +12,6 @@ import {
 
 import * as Queue from 'lib/services/queue';
 
-import {
-  STATEMENT_QUERYBUILDERCACHE_QUEUE,
-  STATEMENT_EXTRACT_PERSONAS_QUEUE,
-  STATEMENT_FORWARDING_QUEUE
-} from 'lib/constants/statements';
 import { STATEMENT_POST_INGEST_QUEUES } from 'lib/kernel/worker/pipeline';
 import { isAllowedWorkerQueue } from './allowedWorkerQueues';
 
