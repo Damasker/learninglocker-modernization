@@ -13,6 +13,15 @@ Source of truth for model list: `lib/kernel/api/restifyModels.js`.
 
 Persona and PersonaIdentifier CRUD are **not** restify-mounted; they use dedicated routers under `api/src/routes/personas/`.
 
+## Client GET strangler
+
+When `ENABLE_NATIVE_CLIENT_ROUTER=true`, native handlers serve:
+
+- `GET /v2/client`
+- `GET /v2/client/:id`
+
+using `lib/kernel/auth` `getScopeFilter` + `lib/kernel/api/client` filter helpers. Restify continues to own POST/PUT/PATCH/DELETE for Client. Default flag is **off**.
+
 ## Replacement order (proposed)
 
 1. Keep Statement restify read + scoped delete behavior; never open create/update via `/v2`
