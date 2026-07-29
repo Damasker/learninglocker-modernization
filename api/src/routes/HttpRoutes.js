@@ -66,8 +66,10 @@ import UserOrganisationsRouter from 'api/routes/userOrganisations/router';
 import UserOrganisationSettingsRouter from 'api/routes/userOrganisationSettings/router';
 import clientRouter from 'api/routes/clients/router';
 import lrsRouter from 'api/routes/lrs/router';
+import organisationRouter from 'api/routes/organisations/router';
 import { isNativeClientRouterEnabled } from 'lib/kernel/api/client';
 import { isNativeLrsRouterEnabled } from 'lib/kernel/api/lrs';
+import { isNativeOrganisationRouterEnabled } from 'lib/kernel/api/organisation';
 
 // CONSTANTS
 import * as routes from 'lib/constants/routes';
@@ -196,6 +198,12 @@ if (isNativeClientRouterEnabled()) {
 // Native LRS GET strangler (feature-flagged). Writes stay on restify.
 if (isNativeLrsRouterEnabled()) {
   router.use(lrsRouter);
+}
+
+// Native Organisation GET strangler (feature-flagged). Writes stay on restify
+// (including site-admin-only expiration preUpdate).
+if (isNativeOrganisationRouterEnabled()) {
+  router.use(organisationRouter);
 }
 
 /**
