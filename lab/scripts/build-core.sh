@@ -24,6 +24,7 @@ else
   yarn build-cli-server
 fi
 
+# xapi-service is TypeScript and runs on Node 20 even on the legacy VM.
 if [[ "${SKIP_XAPI:-0}" != "1" ]]; then
   cd "${XAPI}"
   if [[ ! -d node_modules ]]; then
