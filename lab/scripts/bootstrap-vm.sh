@@ -15,9 +15,23 @@ rsync -a --delete "${APP}/lab/${STACK}/" "${INFRA}/"
 cp "${APP}/lab/scripts/"*.sh "${INFRA}/"
 chmod +x "${INFRA}/"*.sh
 
+# Stop earlier ad-hoc compose from first-boot experiments.
+if [[ -f /home/ubuntu/docker-compose.yml ]]; then
+  docker compose -f /home/ubuntu/docker-compose.yml -p ubuntu down --remove-orphans || true
+fi
+
 cd "${INFRA}"
 docker compose -p ll down --remove-orphans || true
 docker compose -p ll up -d
+
+# Wait for Mongo before replica init.
+for i in $(seq 1 60); do
+  if docker compose -p ll exec -T mongo bash -lc 'command -v mongosh >/dev/null && mongosh --quiet --eval "db.adminCommand(\"ping\").ok" || mongo --quiet --eval "db.adminCommand(\"ping\").ok"' >/dev/null 2>&1; then
+    break
+  fi
+  sleep 2
+done
+
 ./init-replica.sh
 
 if [[ ! -f "${APP}/.env" ]]; then

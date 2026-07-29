@@ -27,13 +27,18 @@ Both jump via `home-server` using `~/.ssh/laptop_key`.
   infra/               # compose + helper scripts synced from lab/
 ```
 
-## Start infrastructure
+## Bootstrap
 
 ```bash
-cd /opt/learninglocker/infra
-sudo docker compose -p ll up -d
-./init-replica.sh
+cd /opt/learninglocker/app
+git checkout chore/lab-baseline-infra
+STACK=legacy sudo -E bash lab/scripts/bootstrap-vm.sh   # on ll-legacy
+STACK=modern sudo -E bash lab/scripts/bootstrap-vm.sh   # on ll-modern
+STACK=legacy bash lab/scripts/install-node.sh
+STACK=modern bash lab/scripts/install-node.sh
 ```
+
+Legacy app commands run through `ll-node10-exec` because Ubuntu 24.04 cannot host Node 10 natively.
 
 ## Application env
 
