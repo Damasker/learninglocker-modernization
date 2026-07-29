@@ -69,11 +69,23 @@ import lrsRouter from 'api/routes/lrs/router';
 import organisationRouter from 'api/routes/organisations/router';
 import roleRouter from 'api/routes/roles/router';
 import userRouter from 'api/routes/users/router';
+import dashboardRouter from 'api/routes/dashboards/router';
+import visualisationRouter from 'api/routes/visualisations/router';
+import queryRouter from 'api/routes/queries/router';
+import exportRouter from 'api/routes/exports/router';
+import downloadRouter from 'api/routes/downloads/router';
 import { isNativeClientRouterEnabled } from 'lib/kernel/api/client';
 import { isNativeLrsRouterEnabled } from 'lib/kernel/api/lrs';
 import { isNativeOrganisationRouterEnabled } from 'lib/kernel/api/organisation';
 import { isNativeRoleRouterEnabled } from 'lib/kernel/api/role';
 import { isNativeUserRouterEnabled } from 'lib/kernel/api/user';
+import {
+  isNativeDashboardRouterEnabled,
+  isNativeVisualisationRouterEnabled,
+  isNativeQueryRouterEnabled,
+  isNativeExportRouterEnabled,
+  isNativeDownloadRouterEnabled,
+} from 'lib/kernel/api/analyticsFlags';
 
 // CONSTANTS
 import * as routes from 'lib/constants/routes';
@@ -216,6 +228,22 @@ if (isNativeRoleRouterEnabled()) {
 
 if (isNativeUserRouterEnabled()) {
   router.use(userRouter);
+}
+
+if (isNativeDashboardRouterEnabled()) {
+  router.use(dashboardRouter);
+}
+if (isNativeVisualisationRouterEnabled()) {
+  router.use(visualisationRouter);
+}
+if (isNativeQueryRouterEnabled()) {
+  router.use(queryRouter);
+}
+if (isNativeExportRouterEnabled()) {
+  router.use(exportRouter);
+}
+if (isNativeDownloadRouterEnabled()) {
+  router.use(downloadRouter);
 }
 
 /**
