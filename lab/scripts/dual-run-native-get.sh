@@ -7,7 +7,7 @@ set -euo pipefail
 
 LEGACY_HOST="${LEGACY_HOST:-ll-legacy}"
 MODERN_HOST="${MODERN_HOST:-ll-modern}"
-BRANCH="${BRANCH:-feat/lab-native-get-dual-run}"
+BRANCH="${BRANCH:-feat/api-native-forwarding-cache-routers}"
 SKIP_SYNC="${SKIP_SYNC:-0}"
 
 run() {

@@ -2,7 +2,7 @@
 
 ## Status
 
-Pass on `feat/lab-native-get-dual-run` ([PR #17](https://github.com/Damasker/learninglocker-modernization/pull/17)), stacked on persona Mongo 7 fix.
+Pass on `feat/api-native-forwarding-cache-routers` ([PR #18](https://github.com/Damasker/learninglocker-modernization/pull/18)), stacked on the initial native GET dual-run in PR #17.
 
 ## Method
 
@@ -13,7 +13,7 @@ Pass on `feat/lab-native-get-dual-run` ([PR #17](https://github.com/Damasker/lea
 
 ## Results (2026-07-30)
 
-`NATIVE_GET_COMPARE_OK` — 17/17 paths matched.
+`NATIVE_GET_COMPARE_OK` — 20/20 paths matched.
 
 | Path | Status (both) |
 |------|----------------|
@@ -24,11 +24,11 @@ Pass on `feat/lab-native-get-dual-run` ([PR #17](https://github.com/Damasker/lea
 | `/v2/dashboard`, `/v2/visualisation`, `/v2/query`, `/v2/export`, `/v2/download` | 403 |
 | `/v2/personaattribute`, `/v2/personasimport`, `/v2/personasimporttemplate`, `/v2/importcsv` | 403 |
 | `/v2/batchdelete` | 403 |
+| `/v2/statementforwarding`, `/v2/querybuildercache`, `/v2/querybuildercachevalue` | 403 |
 
 403s are expected for a client token without org/user scopes; parity of denial is the signal that native routers use the same `getScopeFilter` gates as restify.
 
 ## Next
 
 1. Optional JWT/org-token smoke for 200 bodies on scoped models (deeper payload parity).
-2. Re-run native GET dual-run after StatementForwarding / QueryBuilderCache* stranglers (ADR 0013).
-3. UI decision / Statement remains restify-only for CRUD.
+2. UI decision / Statement remains restify-only for CRUD.
