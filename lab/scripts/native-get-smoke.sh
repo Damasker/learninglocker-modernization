@@ -32,6 +32,9 @@ PATHS=(
   /v2/sitesettings
   /v2/stream
   /v2/batchdelete
+  /v2/statementforwarding
+  /v2/querybuildercache
+  /v2/querybuildercachevalue
 )
 
 mkdir -p "${REPORT_DIR}"

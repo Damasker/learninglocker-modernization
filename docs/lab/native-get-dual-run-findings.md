@@ -30,4 +30,5 @@ Pass on `feat/lab-native-get-dual-run` ([PR #17](https://github.com/Damasker/lea
 ## Next
 
 1. Optional JWT/org-token smoke for 200 bodies on scoped models (deeper payload parity).
-2. UI decision / remaining restify models (StatementForwarding, QueryBuilderCache*).
+2. Re-run native GET dual-run after StatementForwarding / QueryBuilderCache* stranglers (ADR 0013).
+3. UI decision / Statement remains restify-only for CRUD.
