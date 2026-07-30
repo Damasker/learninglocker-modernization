@@ -28,7 +28,28 @@ Pass on `feat/api-native-forwarding-cache-routers` ([PR #18](https://github.com/
 
 403s are expected for a client token without org/user scopes; parity of denial is the signal that native routers use the same `getScopeFilter` gates as restify.
 
+## Organisation JWT body parity (2026-07-30)
+
+`ORG_JWT_BODY_COMPARE_OK` — 20/20 paths returned HTTP 200 with identical
+canonical response kind, item count, and SHA-256 body hash.
+
+The run used a deterministic synthetic organisation-admin user and scoped
+fixtures. Canonicalization removes volatile timestamps, password/reset data,
+and transient auth fields before hashing. Client, LRS, Organisation, User,
+QueryBuilderCache, QueryBuilderCacheValue, and SiteSettings had non-empty
+matching responses; the remaining scoped lists matched as empty arrays.
+
+The first diagnostic run exposed fixture-only differences:
+
+- BatchDelete needed the explicit `statements/delete` scope (`all` does not imply it).
+- User needed an `_id` request filter rather than the other models'
+  `organisation` filter.
+- QueryBuilderCache collections contained history from earlier golden runs and
+  were replaced with deterministic fixtures.
+
+After correcting the test contract, restify and native bodies matched.
+
 ## Next
 
-1. Optional JWT/org-token smoke for 200 bodies on scoped models (deeper payload parity).
-2. UI decision / Statement remains restify-only for CRUD.
+1. UI decision for enabling native GET flags.
+2. Statement remains restify-only for CRUD.

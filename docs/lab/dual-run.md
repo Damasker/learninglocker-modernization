@@ -17,20 +17,26 @@ Differential check of the compatibility freeze golden path on `ll-legacy` vs `ll
 | `lab/scripts/sync-app-branch.sh` | `git fetch/checkout` on a VM |
 | `lab/scripts/build-core.sh` | yarn install + build API/worker/CLI (+ xapi-service) |
 | `lab/scripts/start-core.sh` | pm2 API + Worker + xAPI (`pm2/core.json`) |
-| `lab/scripts/ensure-golden-fixtures.sh` | upsert synthetic org/LRS/client with fixed basic auth |
+| `lab/scripts/ensure-golden-fixtures.sh` | upsert synthetic org/LRS/client/user + deterministic cache fixtures |
 | `lab/scripts/golden-path.sh` | run the five checks; write `lab/reports/*.json` |
 | `lab/scripts/dual-run-golden.sh` | orchestrate both VMs from the workstation |
 | `lab/scripts/set-native-get-flags.sh` | toggle all `ENABLE_NATIVE_*_ROUTER` flags + restart API |
 | `lab/scripts/native-get-smoke.sh` | GET `/v2/*` list endpoints with golden client auth |
 | `lab/scripts/compare-native-get-reports.sh` | compare status codes between two smoke reports |
 | `lab/scripts/dual-run-native-get.sh` | legacy flags-off vs modern flags-on |
+| `lab/scripts/org-jwt-get-smoke.sh` | GET scoped `/v2/*` lists with a synthetic org-admin JWT |
+| `lab/scripts/canonical-json-report.js` | hash canonical JSON after removing volatile/auth fields |
+| `lab/scripts/compare-org-jwt-get-reports.js` | require 200 + equal kind/count/body hash per path |
+| `lab/scripts/dual-run-org-jwt-get.sh` | orchestrate org-JWT body parity across both VMs |
 
 Fixed lab credentials (synthetic only):
 
 - org `aaaaaaaaaaaaaaaaaaaaaaaa`
 - lrs `bbbbbbbbbbbbbbbbbbbbbbbb`
 - client `cccccccccccccccccccccccc`
+- user `dddddddddddddddddddddddd`
 - basic key/secret: `lab_golden_key_00000000000000000001` / `lab_golden_secret_000000000000000001`
+- user/password: `lab-golden@example.invalid` / `LabGolden123!`
 
 ## One-host run
 
@@ -75,6 +81,19 @@ bash lab/scripts/compare-native-get-reports.sh \
 ```
 
 Same HTTP status per path is the pass criterion (client basic auth; 403 is OK if both sides match).
+
+## Organisation JWT body-parity dual-run
+
+```bash
+bash lab/scripts/dual-run-org-jwt-get.sh
+```
+
+The orchestrator authenticates the synthetic user, exchanges its user token for an
+organisation token, and requests the same scoped fixtures from restify (legacy,
+flags off) and native handlers (modern, flags on). Every endpoint must return
+HTTP 200 with equal response kind, item count, and canonical SHA-256 body hash.
+Canonicalization sorts keys/arrays and removes timestamps, password/reset data,
+and transient authentication fields.
 
 ## Reports
 
