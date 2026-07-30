@@ -8,26 +8,24 @@ set -euo pipefail
 LEFT="${1:?legacy/off report}"
 RIGHT="${2:?modern/on report}"
 
-python3 - <<'PY' "${LEFT}" "${RIGHT}"
-import json, sys
-left_path, right_path = sys.argv[1], sys.argv[2]
-left = json.load(open(left_path))
-right = json.load(open(right_path))
-lmap = {r["path"]: r for r in left["results"]}
-rmap = {r["path"]: r for r in right["results"]}
-paths = sorted(set(lmap) | set(rmap))
-mismatches = []
-print(f"compare {left.get('host')}/{left.get('nativeMode')} vs {right.get('host')}/{right.get('nativeMode')}")
-for path in paths:
-    l = lmap.get(path, {})
-    r = rmap.get(path, {})
-    ls, rs = l.get("status"), r.get("status")
-    mark = "PASS" if ls == rs else "DIFF"
-    print(f"{mark} {path}: {ls} -> {rs}")
-    if ls != rs:
-        mismatches.append(path)
-if mismatches:
-    print(f"NATIVE_GET_COMPARE_FAIL ({len(mismatches)} paths)")
-    sys.exit(1)
-print("NATIVE_GET_COMPARE_OK")
-PY
+node -e '
+const left = require(require("path").resolve(process.argv[1]));
+const right = require(require("path").resolve(process.argv[2]));
+const lmap = Object.fromEntries(left.results.map((r) => [r.path, r]));
+const rmap = Object.fromEntries(right.results.map((r) => [r.path, r]));
+const paths = [...new Set([...Object.keys(lmap), ...Object.keys(rmap)])].sort();
+let mismatches = 0;
+console.log(`compare ${left.host}/${left.nativeMode} vs ${right.host}/${right.nativeMode}`);
+for (const path of paths) {
+  const ls = (lmap[path] || {}).status;
+  const rs = (rmap[path] || {}).status;
+  const ok = ls === rs;
+  if (!ok) mismatches += 1;
+  console.log(`${ok ? "PASS" : "DIFF"} ${path}: ${ls} -> ${rs}`);
+}
+if (mismatches) {
+  console.log(`NATIVE_GET_COMPARE_FAIL (${mismatches} paths)`);
+  process.exit(1);
+}
+console.log("NATIVE_GET_COMPARE_OK");
+' "${LEFT}" "${RIGHT}"
