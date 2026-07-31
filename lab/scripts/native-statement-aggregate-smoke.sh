@@ -11,7 +11,8 @@ HOST_LABEL="${HOST_LABEL:-$(hostname -s 2>/dev/null || hostname)}"
 API_URL="${API_URL:-http://127.0.0.1:8080}"
 BASIC_KEY="${LAB_BASIC_KEY:-lab_golden_key_00000000000000000001}"
 BASIC_SECRET="${LAB_BASIC_SECRET:-lab_golden_secret_000000000000000001}"
-PIPELINE='[{"$limit":5},{"$project":{"_id":1,"statement.id":1}}]'
+PIPELINE='[{"$match":{"statement.id":"11111111-1111-4111-8111-111111111111"}},{"$project":{"_id":1,"statement.id":1}}]'
+COUNT_FILTER='{"statement.id":"11111111-1111-4111-8111-111111111111"}'
 
 mkdir -p "${REPORT_DIR}"
 REPORT="${REPORT_DIR}/${HOST_LABEL}-native-statement-aggregate.json"
@@ -50,7 +51,7 @@ probe() {
 
 agg="$(probe aggregate -G "${API_URL}/statements/aggregate" --data-urlencode "pipeline=${PIPELINE}")"
 async="$(probe aggregateAsync -G "${API_URL}/statements/aggregateAsync" --data-urlencode "pipeline=${PIPELINE}")"
-count="$(probe count -G "${API_URL}/statements/count" --data-urlencode 'filter={}')"
+count="$(probe count -G "${API_URL}/statements/count" --data-urlencode "filter=${COUNT_FILTER}")"
 v1="$(probe v1aggregate -G "${API_URL}/v1/statements/aggregate" --data-urlencode "pipeline=${PIPELINE}")"
 
 export HOST_LABEL REPORT AGG="${agg}" ASYNC="${async}" COUNT="${count}" V1="${v1}"
