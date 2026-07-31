@@ -21,14 +21,23 @@ mongo_eval() {
 ORG_ID="${LAB_ORG_ID:-aaaaaaaaaaaaaaaaaaaaaaaa}"
 LRS_ID="${LAB_LRS_ID:-bbbbbbbbbbbbbbbbbbbbbbbb}"
 CLIENT_ID="${LAB_CLIENT_ID:-cccccccccccccccccccccccc}"
+USER_ID="${LAB_USER_ID:-dddddddddddddddddddddddd}"
+QUERY_CACHE_ID="${LAB_QUERY_CACHE_ID:-eeeeeeeeeeeeeeeeeeeeeeee}"
+QUERY_CACHE_VALUE_ID="${LAB_QUERY_CACHE_VALUE_ID:-ffffffffffffffffffffffff}"
 BASIC_KEY="${LAB_BASIC_KEY:-lab_golden_key_00000000000000000001}"
 BASIC_SECRET="${LAB_BASIC_SECRET:-lab_golden_secret_000000000000000001}"
+USER_EMAIL="${LAB_USER_EMAIL:-lab-golden@example.invalid}"
+# bcrypt hash for the synthetic password LabGolden123!
+USER_PASSWORD_HASH="${LAB_USER_PASSWORD_HASH:-\$2a\$10\$m5C8wR95wyFJVd7BfgH41emHEzUrbvV2XDtjrWGtm.5GLkbArSrLG}"
 DB_NAME="${LAB_DB_NAME:-learninglocker_v2}"
 
 mongo_eval "
 const orgId = ObjectId('${ORG_ID}');
 const lrsId = ObjectId('${LRS_ID}');
 const clientId = ObjectId('${CLIENT_ID}');
+const userId = ObjectId('${USER_ID}');
+const queryCacheId = ObjectId('${QUERY_CACHE_ID}');
+const queryCacheValueId = ObjectId('${QUERY_CACHE_VALUE_ID}');
 const dbn = db.getSiblingDB('${DB_NAME}');
 
 dbn.organisations.update(
@@ -90,12 +99,85 @@ dbn.client.update(
   { upsert: true }
 );
 
+dbn.users.update(
+  { _id: userId },
+  {
+    \$set: {
+      name: 'Lab Golden User',
+      email: '${USER_EMAIL}',
+      password: '${USER_PASSWORD_HASH}',
+      organisations: [orgId],
+      organisationSettings: [{
+        organisation: orgId,
+        scopes: ['all'],
+        roles: [],
+        filter: '{}'
+      }],
+      ownerOrganisation: orgId,
+      ownerOrganisationSettings: {
+        LOCKOUT_ENABLED: false,
+        LOCKOUT_ATTEMPS: 5,
+        LOCKOUT_SECONDS: 1800,
+        PASSWORD_HISTORY_CHECK: false,
+        PASSWORD_HISTORY_TOTAL: 0,
+        PASSWORD_MIN_LENGTH: 8,
+        PASSWORD_REQUIRE_ALPHA: true,
+        PASSWORD_REQUIRE_NUMBER: true,
+        PASSWORD_USE_CUSTOM_REGEX: false,
+        PASSWORD_CUSTOM_REGEX: null,
+        PASSWORD_CUSTOM_MESSAGE: null
+      },
+      scopes: ['all', 'statements/delete'],
+      verified: true,
+      authFailedAttempts: 0,
+      authLockoutExpiry: null,
+      hasBeenMigrated: true,
+      updatedAt: new Date()
+    },
+    \$setOnInsert: {
+      _id: userId,
+      settings: { CONFIRM_BEFORE_DELETE: true },
+      resetTokens: [],
+      passwordHistory: [],
+      createdAt: new Date()
+    }
+  },
+  { upsert: true }
+);
+
+dbn.queryBuilderCaches.deleteMany({ organisation: orgId });
+dbn.queryBuilderCaches.insertOne({
+  _id: queryCacheId,
+  organisation: orgId,
+  path: ['statement', 'actor'],
+  searchString: 'lab-golden',
+  valueType: 'String',
+  createdAt: new Date(),
+  updatedAt: new Date()
+});
+
+dbn.queryBuilderCacheValues.deleteMany({ organisation: orgId });
+dbn.queryBuilderCacheValues.insertOne({
+  _id: queryCacheValueId,
+  organisation: orgId,
+  path: 'statement.actor',
+  hash: 'lab-golden-hash',
+  value: 'Lab Golden',
+  display: null,
+  valueType: 'String',
+  searchString: 'lab-golden',
+  createdAt: new Date(),
+  updatedAt: new Date()
+});
+
 print(JSON.stringify({
   ok: true,
   organisationId: '${ORG_ID}',
   lrsId: '${LRS_ID}',
   clientId: '${CLIENT_ID}',
-  basicKey: '${BASIC_KEY}'
+  userId: '${USER_ID}',
+  basicKey: '${BASIC_KEY}',
+  userEmail: '${USER_EMAIL}'
 }));
 "
 
