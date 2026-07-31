@@ -1,0 +1,55 @@
+# Compatibility freeze (lab baseline)
+
+Do not change these contracts without dual-run parity between `ll-legacy` and `ll-modern`.
+
+## Mongo collections / shape
+
+Primary models under `lib/models/`:
+
+- `statements` — nested `statement`, `organisation`, `lrs_id`, `client`, persona fields, queue markers, forwarding state, `hash`, `metadata`
+- `lrs`, `client`, `organisation`, `user`, `role`
+- persona-related collections via `@learninglocker/persona-service`
+- `querybuildercache`, `querybuildercachevalue`, `statementForwarding`, `export`, `download`, `batchDelete`
+
+Indexes from historical v2 migrations remain authoritative, especially:
+
+- unique `{organisation, lrs_id, hash}`
+- timestamp/stored cursor indexes
+- actor/verb/object and persona identifier paths
+
+## Redis
+
+- Prefix: `REDIS_PREFIX` (lab default `LEARNINGLOCKER`)
+- Statement notify channel/list used by worker listeners
+- Aggregation cache keys and TTLs from `.env.example`
+
+## Queues
+
+Names in `lib/constants/statements.js` are durable contracts, including historical typos.
+
+Required for core post-ingest path:
+
+- `STATEMENT_QUEUE`
+- `STATEMENT_PERSON_QUEUE` (`STATEMENT_EXTRACT_PERSONAS_QUEUE`)
+- `STATEMENT_QUERYBUILDERCACHE_QUEUE`
+- forwarding queues when enabled
+
+## Auth / API
+
+- Passport strategies and JWT shapes in `api/src/auth/`
+- Scope filters in `lib/services/auth/`
+- `/v2` REST surface and statement aggregate/count routes in `api/src/routes/HttpRoutes.js`
+
+## xAPI peer
+
+- HTTP xAPI is served by `xapi-service`, not this app process
+- Shared Mongo DB name and Redis must match Learning Locker
+- Lab uses Express port `8081` for xAPI, `8080` for LL API, `3000` for UI
+
+## Golden path
+
+1. Authenticated client stores a statement through xAPI
+2. Document appears in Mongo with expected envelope fields
+3. Redis notify triggers worker
+4. Persona extract and query-builder cache complete
+5. Aggregate/count APIs return scoped results
