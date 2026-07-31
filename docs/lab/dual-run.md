@@ -39,6 +39,8 @@ Differential check of the compatibility freeze golden path on `ll-legacy` vs `ll
 | `lab/scripts/dual-run-native-statement-aggregate.sh` | legacy vs modern analytics status + body hash |
 | `lab/scripts/native-connection-indexes-smoke.sh` | connection/indexes status + body hash |
 | `lab/scripts/dual-run-native-connection-indexes.sh` | legacy vs modern connection/indexes parity |
+| `lab/scripts/native-persona-smoke.sh` | persona/personaIdentifier GETs under org JWT |
+| `lab/scripts/dual-run-native-persona.sh` | host parity for always-on persona routers |
 
 Fixed lab credentials (synthetic only):
 
