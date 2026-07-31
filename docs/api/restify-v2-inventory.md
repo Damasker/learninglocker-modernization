@@ -97,16 +97,26 @@ Defaults **off**. Completes inventory step 6.
 
 Shared factories: `createScopedGetController` / `createScopedGetRouter`. Writes remain on restify. Defaults **off**. Completes inventory step 7 (non-Statement).
 
+## Statement GET strangler
+
+When `ENABLE_NATIVE_STATEMENT_ROUTER=true`, native handlers serve:
+
+- `GET /v2/statement`
+- `GET /v2/statement/:id`
+
+using existing statement `getScopeFilter` (LRS / read-mine / org filters). Restify continues to own create/update (405) and delete (`ENABLE_STATEMENT_DELETION`). Default flag is **off**. Completes inventory step 8.
+
 ## Replacement order (proposed)
 
-1. Keep Statement restify read + scoped delete behavior; never open create/update via `/v2`
+1. Keep Statement restify create/update blocked + scoped delete; native GET landed (feature-flagged)
 2. Client / LRS / Organisation (auth-adjacent) — GET stranglers landed (feature-flagged)
 3. Role / User — GET stranglers landed (feature-flagged)
 4. Dashboard / Visualisation / Query / Export / Download — GET stranglers landed (feature-flagged)
 5. PersonaAttribute / PersonasImport* — GET stranglers landed (feature-flagged)
 6. SiteSettings / Stream / BatchDelete — GET stranglers landed (feature-flagged)
 7. StatementForwarding / QueryBuilderCache* — GET stranglers landed (feature-flagged)
+8. Statement GET — landed (feature-flagged); writes stay on restify
 
-Remaining restify-only CRUD surface: Statement (create/update blocked; delete gated).
+Remaining restify-owned Statement writes: create/update 405, delete gated. Analytics routes (`/statements/aggregate*`) stay separate.
 
 Do not flip traffic to a replacement router without dual-run parity of scope filters from `lib/kernel/auth`.

@@ -35,6 +35,7 @@ PATHS=(
   /v2/statementforwarding
   /v2/querybuildercache
   /v2/querybuildercachevalue
+  /v2/statement
 )
 
 mkdir -p "${REPORT_DIR}"

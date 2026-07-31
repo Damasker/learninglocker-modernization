@@ -24,6 +24,7 @@ CLIENT_ID="${LAB_CLIENT_ID:-cccccccccccccccccccccccc}"
 USER_ID="${LAB_USER_ID:-dddddddddddddddddddddddd}"
 QUERY_CACHE_ID="${LAB_QUERY_CACHE_ID:-eeeeeeeeeeeeeeeeeeeeeeee}"
 QUERY_CACHE_VALUE_ID="${LAB_QUERY_CACHE_VALUE_ID:-ffffffffffffffffffffffff}"
+STATEMENT_ID="${LAB_STATEMENT_ID:-111111111111111111111111}"
 BASIC_KEY="${LAB_BASIC_KEY:-lab_golden_key_00000000000000000001}"
 BASIC_SECRET="${LAB_BASIC_SECRET:-lab_golden_secret_000000000000000001}"
 USER_EMAIL="${LAB_USER_EMAIL:-lab-golden@example.invalid}"
@@ -38,6 +39,7 @@ const clientId = ObjectId('${CLIENT_ID}');
 const userId = ObjectId('${USER_ID}');
 const queryCacheId = ObjectId('${QUERY_CACHE_ID}');
 const queryCacheValueId = ObjectId('${QUERY_CACHE_VALUE_ID}');
+const statementId = ObjectId('${STATEMENT_ID}');
 const dbn = db.getSiblingDB('${DB_NAME}');
 
 dbn.organisations.update(
@@ -170,12 +172,44 @@ dbn.queryBuilderCacheValues.insertOne({
   updatedAt: new Date()
 });
 
+dbn.statements.deleteMany({ _id: statementId });
+dbn.statements.insertOne({
+  _id: statementId,
+  organisation: orgId,
+  lrs_id: lrsId,
+  client: clientId,
+  client_id: '${CLIENT_ID}',
+  active: true,
+  voided: false,
+  timestamp: new Date('2026-01-01T00:00:00.000Z'),
+  stored: new Date('2026-01-01T00:00:00.000Z'),
+  hash: 'lab-golden-statement-hash',
+  refs: {},
+  metadata: {},
+  completedQueues: [],
+  processingQueues: [],
+  deadForwardingQueue: [],
+  failedForwardingLog: [],
+  pendingForwardingQueue: [],
+  completedForwardingQueue: [],
+  statement: {
+    id: '11111111-1111-4111-8111-111111111111',
+    actor: { mbox: 'mailto:lab-golden@example.invalid', objectType: 'Agent' },
+    verb: { id: 'http://adlnet.gov/expapi/verbs/experienced', display: { 'en-US': 'experienced' } },
+    object: { id: 'http://example.com/activities/lab-golden', objectType: 'Activity' },
+    version: '1.0.3',
+    timestamp: '2026-01-01T00:00:00.000Z',
+    stored: '2026-01-01T00:00:00.000Z'
+  }
+});
+
 print(JSON.stringify({
   ok: true,
   organisationId: '${ORG_ID}',
   lrsId: '${LRS_ID}',
   clientId: '${CLIENT_ID}',
   userId: '${USER_ID}',
+  statementId: '${STATEMENT_ID}',
   basicKey: '${BASIC_KEY}',
   userEmail: '${USER_EMAIL}'
 }));

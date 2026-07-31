@@ -84,6 +84,7 @@ import batchDeleteRouter from 'api/routes/batchDeletes/router';
 import statementForwardingRouter from 'api/routes/statementForwardings/router';
 import queryBuilderCacheRouter from 'api/routes/queryBuilderCaches/router';
 import queryBuilderCacheValueRouter from 'api/routes/queryBuilderCacheValues/router';
+import statementRouter from 'api/routes/statements/router';
 import { isNativeClientRouterEnabled } from 'lib/kernel/api/client';
 import { isNativeLrsRouterEnabled } from 'lib/kernel/api/lrs';
 import { isNativeOrganisationRouterEnabled } from 'lib/kernel/api/organisation';
@@ -112,6 +113,7 @@ import {
   isNativeQueryBuilderCacheRouterEnabled,
   isNativeQueryBuilderCacheValueRouterEnabled,
 } from 'lib/kernel/api/forwardingCacheFlags';
+import { isNativeStatementRouterEnabled } from 'lib/kernel/api/statementFlags';
 
 // CONSTANTS
 import * as routes from 'lib/constants/routes';
@@ -303,6 +305,9 @@ if (isNativeQueryBuilderCacheRouterEnabled()) {
 }
 if (isNativeQueryBuilderCacheValueRouterEnabled()) {
   router.use(queryBuilderCacheValueRouter);
+}
+if (isNativeStatementRouterEnabled()) {
+  router.use(statementRouter);
 }
 
 /**
