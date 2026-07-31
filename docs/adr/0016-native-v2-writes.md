@@ -25,14 +25,10 @@ model (not GET-only):
 - Organisation expiration remains site-admin-only (`beforeUpdate`)
 - Defaults stay **off** in code; lab modern overlay remains **on**
 
-Exceptions (writes stay on restify):
+Exceptions (special write semantics, still native when flag on — ADR 0017):
 
 - **Statement** — create/update 405; delete gated by `ENABLE_STATEMENT_DELETION`
 - **BatchDelete** — create/update/delete 405; specialised POSTs stay custom
-
-**User** writes are native when `ENABLE_NATIVE_USER_ROUTER=true`
-(`lib/kernel/api/userWrite.js`: organisations `checkOrg` parity on create,
-field picks on create/update, `MANAGER_SELECT` response shape).
 
 ## Consequences
 
@@ -43,7 +39,5 @@ field picks on create/update, `MANAGER_SELECT` response shape).
 
 ### Negative
 
-- Statement/BatchDelete write paths still diverge from the shared factory until
-  follow-up ADRs.
-- Dual-run must cover write status parity (dashboard + user smoke) in addition
-  to GET.
+- Dual-run must cover write status parity (dashboard + user + statement/batchdelete
+  405 smokes) in addition to GET.

@@ -18,7 +18,9 @@ in `lib/services/auth/modelFilters/statement.js` and is reused by restify.
    `ENABLE_NATIVE_STATEMENT_ROUTER` (default `false`).
 2. Reuse `createScopedGetController` / `createScopedGetRouter` and existing
    `getScopeFilter({ modelName: 'statement', actionName: 'view' })`.
-3. Keep restify owning create/update (405) and delete (gated).
+3. Keep restify as fallback when the flag is off. When the flag is on, native
+   also owns write verbs (ADR 0017): create/update **405**, delete gated by
+   `ENABLE_STATEMENT_DELETION`.
 4. Do not alter statement document shape, notify channels, or queue names.
 5. Include the flag in lab dual-run / stage-1 modern overlay once verified.
 
