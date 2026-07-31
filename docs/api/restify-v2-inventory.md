@@ -13,110 +13,89 @@ Source of truth for model list: `lib/kernel/api/restifyModels.js`.
 
 Persona and PersonaIdentifier CRUD are **not** restify-mounted; they use dedicated routers under `api/src/routes/personas/`.
 
-## Client GET strangler
+## Client
 
-When `ENABLE_NATIVE_CLIENT_ROUTER=true`, native handlers serve:
+When `ENABLE_NATIVE_CLIENT_ROUTER=true`, native handlers serve full CRUD on
+`/v2/client` (ADR 0016). Default flag is **off**.
 
-- `GET /v2/client`
-- `GET /v2/client/:id`
+## LRS
 
-using `lib/kernel/auth` `getScopeFilter` + `lib/kernel/api/client` filter helpers. Restify continues to own POST/PUT/PATCH/DELETE for Client. Default flag is **off**.
+When `ENABLE_NATIVE_LRS_ROUTER=true`, native handlers serve full CRUD on
+`/v2/lrs`. Default flag is **off**.
 
-## LRS GET strangler
+## Organisation
 
-When `ENABLE_NATIVE_LRS_ROUTER=true`, native handlers serve:
+When `ENABLE_NATIVE_ORGANISATION_ROUTER=true`, native handlers serve full CRUD
+on `/v2/organisation` (expiration remains site-admin-only on update). Default
+flag is **off**.
 
-- `GET /v2/lrs`
-- `GET /v2/lrs/:id`
+## Role / User
 
-using `lib/kernel/auth` `getScopeFilter` + `lib/kernel/api/lrs` filter helpers. Restify continues to own writes. Default flag is **off**.
+When `ENABLE_NATIVE_ROLE_ROUTER=true`: Role full CRUD on `/v2/role`.
 
-## Organisation GET strangler
+When `ENABLE_NATIVE_USER_ROUTER=true`: GET list/by-id only (applies
+`getScopeSelect`). User **writes stay on restify**. Defaults **off**.
 
-When `ENABLE_NATIVE_ORGANISATION_ROUTER=true`, native handlers serve:
+## Analytics
 
-- `GET /v2/organisation`
-- `GET /v2/organisation/:id`
-
-using organisation-specific scope filters (`_id: { $in: viewableOrgs }` / site admin `{}`). Restify continues to own writes (including expiration `preUpdate`). Default flag is **off**.
-
-## Role / User GET stranglers
-
-When `ENABLE_NATIVE_ROLE_ROUTER=true`:
-
-- `GET /v2/role`, `GET /v2/role/:id`
-
-When `ENABLE_NATIVE_USER_ROUTER=true`:
-
-- `GET /v2/user`, `GET /v2/user/:id` (applies `getScopeSelect` / MANAGER vs limited select)
-
-Writes remain on restify. Defaults **off**.
-
-## Analytics GET stranglers
-
-Independent flags (default **off**):
+Independent flags (default **off**). When on, each flag owns full CRUD via
+`createScopedCrudController` / `createScopedGetRouter`:
 
 | Flag | Paths |
 |------|-------|
-| `ENABLE_NATIVE_DASHBOARD_ROUTER` | `/v2/dashboard`, `/v2/dashboard/:id` |
-| `ENABLE_NATIVE_VISUALISATION_ROUTER` | `/v2/visualisation`, `/v2/visualisation/:id` |
-| `ENABLE_NATIVE_QUERY_ROUTER` | `/v2/query`, `/v2/query/:id` |
-| `ENABLE_NATIVE_EXPORT_ROUTER` | `/v2/export`, `/v2/export/:id` |
-| `ENABLE_NATIVE_DOWNLOAD_ROUTER` | `/v2/download`, `/v2/download/:id` |
+| `ENABLE_NATIVE_DASHBOARD_ROUTER` | `/v2/dashboard` |
+| `ENABLE_NATIVE_VISUALISATION_ROUTER` | `/v2/visualisation` |
+| `ENABLE_NATIVE_QUERY_ROUTER` | `/v2/query` |
+| `ENABLE_NATIVE_EXPORT_ROUTER` | `/v2/export` |
+| `ENABLE_NATIVE_DOWNLOAD_ROUTER` | `/v2/download` |
 
-Shared factories: `createScopedGetController` / `createScopedGetRouter`. Writes remain on restify.
-
-## Persona-import GET stranglers
+## Persona-import
 
 | Flag | Paths |
 |------|-------|
-| `ENABLE_NATIVE_PERSONA_ATTRIBUTE_ROUTER` | `/v2/personaattribute`, `/v2/personaattribute/:id` |
-| `ENABLE_NATIVE_PERSONAS_IMPORT_ROUTER` | `/v2/personasimport`, `/v2/personasimport/:id` |
-| `ENABLE_NATIVE_PERSONAS_IMPORT_TEMPLATE_ROUTER` | `/v2/personasimporttemplate`, `/v2/personasimporttemplate/:id` |
-| `ENABLE_NATIVE_IMPORT_CSV_ROUTER` | `/v2/importcsv`, `/v2/importcsv/:id` |
+| `ENABLE_NATIVE_PERSONA_ATTRIBUTE_ROUTER` | `/v2/personaattribute` CRUD |
+| `ENABLE_NATIVE_PERSONAS_IMPORT_ROUTER` | `/v2/personasimport` CRUD |
+| `ENABLE_NATIVE_PERSONAS_IMPORT_TEMPLATE_ROUTER` | `/v2/personasimporttemplate` CRUD |
+| `ENABLE_NATIVE_IMPORT_CSV_ROUTER` | `/v2/importcsv` CRUD |
 
-Also maps `personasimporttemplate` into persona `getScopeFilter` (was missing). Defaults **off**.
+Defaults **off**.
 
-## Restricted GET stranglers
+## Restricted
 
 | Flag | Paths | Notes |
 |------|-------|-------|
-| `ENABLE_NATIVE_SITE_SETTINGS_ROUTER` | `/v2/sitesettings`, `/v2/sitesettings/:id` | Scope filter `{}` (historical) |
-| `ENABLE_NATIVE_STREAM_ROUTER` | `/v2/stream`, `/v2/stream/:id` | Org scope; fixes missing `stream` mapping |
-| `ENABLE_NATIVE_BATCH_DELETE_ROUTER` | `/v2/batchdelete`, `/v2/batchdelete/:id` | Writes stay 405 / specialised POSTs |
+| `ENABLE_NATIVE_SITE_SETTINGS_ROUTER` | `/v2/sitesettings` CRUD | Scope filter `{}` |
+| `ENABLE_NATIVE_STREAM_ROUTER` | `/v2/stream` CRUD | Org scope |
+| `ENABLE_NATIVE_BATCH_DELETE_ROUTER` | `/v2/batchdelete` GET | Writes stay 405 / specialised POSTs |
 
-Defaults **off**. Completes inventory step 6.
+Defaults **off**.
 
-## Forwarding / cache GET stranglers
+## Forwarding / cache
 
 | Flag | Paths |
 |------|-------|
-| `ENABLE_NATIVE_STATEMENT_FORWARDING_ROUTER` | `/v2/statementforwarding`, `/v2/statementforwarding/:id` |
-| `ENABLE_NATIVE_QUERY_BUILDER_CACHE_ROUTER` | `/v2/querybuildercache`, `/v2/querybuildercache/:id` |
-| `ENABLE_NATIVE_QUERY_BUILDER_CACHE_VALUE_ROUTER` | `/v2/querybuildercachevalue`, `/v2/querybuildercachevalue/:id` |
+| `ENABLE_NATIVE_STATEMENT_FORWARDING_ROUTER` | `/v2/statementforwarding` CRUD |
+| `ENABLE_NATIVE_QUERY_BUILDER_CACHE_ROUTER` | `/v2/querybuildercache` CRUD |
+| `ENABLE_NATIVE_QUERY_BUILDER_CACHE_VALUE_ROUTER` | `/v2/querybuildercachevalue` CRUD |
 
-Shared factories: `createScopedGetController` / `createScopedGetRouter`. Writes remain on restify. Defaults **off**. Completes inventory step 7 (non-Statement).
+Defaults **off**.
 
-## Statement GET strangler
+## Statement
 
-When `ENABLE_NATIVE_STATEMENT_ROUTER=true`, native handlers serve:
+When `ENABLE_NATIVE_STATEMENT_ROUTER=true`, native handlers serve GET list/by-id.
+Restify continues to own create/update (405) and delete (`ENABLE_STATEMENT_DELETION`).
+Default flag is **off**.
 
-- `GET /v2/statement`
-- `GET /v2/statement/:id`
+## Native writes (ADR 0016)
 
-using existing statement `getScopeFilter` (LRS / read-mine / org filters). Restify continues to own create/update (405) and delete (`ENABLE_STATEMENT_DELETION`). Default flag is **off**. Completes inventory step 8.
+Same `ENABLE_NATIVE_*_ROUTER` flags mount POST/PUT/PATCH/DELETE beside GET for
+all models except User, Statement, and BatchDelete.
 
-## Replacement order (proposed)
+## Remaining restify-owned
 
-1. Keep Statement restify create/update blocked + scoped delete; native GET landed (feature-flagged)
-2. Client / LRS / Organisation (auth-adjacent) — GET stranglers landed (feature-flagged)
-3. Role / User — GET stranglers landed (feature-flagged)
-4. Dashboard / Visualisation / Query / Export / Download — GET stranglers landed (feature-flagged)
-5. PersonaAttribute / PersonasImport* — GET stranglers landed (feature-flagged)
-6. SiteSettings / Stream / BatchDelete — GET stranglers landed (feature-flagged)
-7. StatementForwarding / QueryBuilderCache* — GET stranglers landed (feature-flagged)
-8. Statement GET — landed (feature-flagged); writes stay on restify
+- User writes
+- Statement create/update 405 + gated delete
+- BatchDelete write 405
+- Analytics routes (`/statements/aggregate*`)
 
-Remaining restify-owned Statement writes: create/update 405, delete gated. Analytics routes (`/statements/aggregate*`) stay separate.
-
-Do not flip traffic to a replacement router without dual-run parity of scope filters from `lib/kernel/auth`.
+Do not flip traffic without dual-run parity of scope filters from `lib/kernel/auth`.

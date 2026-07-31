@@ -7,4 +7,7 @@ export default createScopedGetRouter({
   idPath: routes.IMPORT_CSV_ID,
   listHandler: ImportCsvRestController.list,
   getByIdHandler: ImportCsvRestController.getById,
+  createHandler: ImportCsvRestController.create,
+  updateHandler: ImportCsvRestController.update,
+  deleteHandler: ImportCsvRestController.remove,
 });

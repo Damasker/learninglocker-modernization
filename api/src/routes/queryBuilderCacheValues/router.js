@@ -7,4 +7,7 @@ export default createScopedGetRouter({
   idPath: routes.QUERY_BUILDER_CACHE_VALUE_ID,
   listHandler: QueryBuilderCacheValueRestController.list,
   getByIdHandler: QueryBuilderCacheValueRestController.getById,
+  createHandler: QueryBuilderCacheValueRestController.create,
+  updateHandler: QueryBuilderCacheValueRestController.update,
+  deleteHandler: QueryBuilderCacheValueRestController.remove,
 });

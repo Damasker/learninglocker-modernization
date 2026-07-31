@@ -7,4 +7,7 @@ export default createScopedGetRouter({
   idPath: routes.PERSONAS_IMPORT_TEMPLATE_ID,
   listHandler: PersonasImportTemplateController.list,
   getByIdHandler: PersonasImportTemplateController.getById,
+  createHandler: PersonasImportTemplateController.create,
+  updateHandler: PersonasImportTemplateController.update,
+  deleteHandler: PersonasImportTemplateController.remove,
 });

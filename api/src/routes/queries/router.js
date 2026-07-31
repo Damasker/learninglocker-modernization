@@ -7,4 +7,7 @@ export default createScopedGetRouter({
   idPath: routes.QUERY_ID,
   listHandler: QueryController.list,
   getByIdHandler: QueryController.getById,
+  createHandler: QueryController.create,
+  updateHandler: QueryController.update,
+  deleteHandler: QueryController.remove,
 });

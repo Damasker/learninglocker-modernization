@@ -1,7 +1,7 @@
 import Query from 'lib/models/query';
-import createScopedGetController from 'api/controllers/utils/createScopedGetController';
+import createScopedCrudController from 'api/controllers/utils/createScopedCrudController';
 
-export default createScopedGetController({
+export default createScopedCrudController({
   Model: Query,
   modelName: 'query',
   entityLabel: 'Query',

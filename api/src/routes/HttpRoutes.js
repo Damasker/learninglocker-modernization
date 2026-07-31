@@ -233,19 +233,19 @@ router.get(
 router.use(personaRESTHandler);
 router.use(personaIdentifierRESTHandler);
 
-// Native Client GET strangler (feature-flagged). When enabled, mounts before restify
-// so GET /v2/client(+/:id) hits the kernel-backed controller; writes stay on restify.
+// Native Client CRUD strangler (feature-flagged). When enabled, mounts before restify
+// so /v2/client(+/:id) hits the kernel-backed controller for GET/POST/PUT/PATCH/DELETE.
 if (isNativeClientRouterEnabled()) {
   router.use(clientRouter);
 }
 
-// Native LRS GET strangler (feature-flagged). Writes stay on restify.
+// Native LRS CRUD strangler (feature-flagged).
 if (isNativeLrsRouterEnabled()) {
   router.use(lrsRouter);
 }
 
-// Native Organisation GET strangler (feature-flagged). Writes stay on restify
-// (including site-admin-only expiration preUpdate).
+// Native Organisation CRUD strangler (feature-flagged). Expiration remains
+// site-admin-only via beforeUpdate (parity with restify preUpdate).
 if (isNativeOrganisationRouterEnabled()) {
   router.use(organisationRouter);
 }

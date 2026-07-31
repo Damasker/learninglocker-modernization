@@ -7,4 +7,7 @@ export default createScopedGetRouter({
   idPath: routes.VISUALISATION_ID,
   listHandler: VisualisationController.list,
   getByIdHandler: VisualisationController.getById,
+  createHandler: VisualisationController.create,
+  updateHandler: VisualisationController.update,
+  deleteHandler: VisualisationController.remove,
 });

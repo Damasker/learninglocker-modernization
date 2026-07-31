@@ -1,7 +1,7 @@
 import Export from 'lib/models/export';
-import createScopedGetController from 'api/controllers/utils/createScopedGetController';
+import createScopedCrudController from 'api/controllers/utils/createScopedCrudController';
 
-export default createScopedGetController({
+export default createScopedCrudController({
   Model: Export,
   modelName: 'export',
   entityLabel: 'Export',

@@ -1,7 +1,7 @@
 import Dashboard from 'lib/models/dashboard';
-import createScopedGetController from 'api/controllers/utils/createScopedGetController';
+import createScopedCrudController from 'api/controllers/utils/createScopedCrudController';
 
-export default createScopedGetController({
+export default createScopedCrudController({
   Model: Dashboard,
   modelName: 'dashboard',
   entityLabel: 'Dashboard',

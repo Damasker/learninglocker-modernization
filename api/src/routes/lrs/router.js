@@ -5,17 +5,13 @@ import * as routes from 'lib/constants/routes';
 import LrsController from 'api/controllers/LrsController';
 
 const router = new express.Router();
+const auth = passport.authenticate(['jwt', 'clientBasic'], DEFAULT_PASSPORT_OPTIONS);
 
-router.get(
-  routes.LRS,
-  passport.authenticate(['jwt', 'clientBasic'], DEFAULT_PASSPORT_OPTIONS),
-  LrsController.getLrsList
-);
-
-router.get(
-  routes.LRS_ID,
-  passport.authenticate(['jwt', 'clientBasic'], DEFAULT_PASSPORT_OPTIONS),
-  LrsController.getLrs
-);
+router.get(routes.LRS, auth, LrsController.getLrsList);
+router.get(routes.LRS_ID, auth, LrsController.getLrs);
+router.post(routes.LRS, auth, LrsController.createLrs);
+router.put(routes.LRS_ID, auth, LrsController.updateLrs);
+router.patch(routes.LRS_ID, auth, LrsController.updateLrs);
+router.delete(routes.LRS_ID, auth, LrsController.deleteLrs);
 
 export default router;

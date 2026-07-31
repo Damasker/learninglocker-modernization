@@ -7,4 +7,7 @@ export default createScopedGetRouter({
   idPath: routes.STREAM_ID,
   listHandler: StreamRestController.list,
   getByIdHandler: StreamRestController.getById,
+  createHandler: StreamRestController.create,
+  updateHandler: StreamRestController.update,
+  deleteHandler: StreamRestController.remove,
 });
