@@ -73,12 +73,16 @@ Native GET strangler flags stay **off** during the first golden pass so both hos
 | 1 Lab-only | `ll-modern` | all `ENABLE_NATIVE_*_ROUTER=true` |
 | 1 Oracle | `ll-legacy` | all `false` (restify) |
 | 2 Canary | `ll-modern` UI (`build-ui`/`start-ui`) | `true`, with off-switch |
-| 3 Default on | deployment defaults | `true` after soak |
+| 3 Default on (lab) | base `app.env.overlay` | all `true`; legacy stack overlay forces `false` |
 
-`start-core.sh` with `STACK=modern` (or hostname `*modern*`) applies
-`lab/env/app.env.overlay.modern-native-get` after the base overlay. Code defaults
-stay `false`. Dual-run orchestrators keep modern flags on unless
-`KEEP_MODERN_NATIVE_ON=0`.
+`start-core.sh` / `start-ui.sh` apply base `lab/env/app.env.overlay` (native
+**on**), then:
+
+- `STACK=modern` (or hostname `*modern*`) → `app.env.overlay.modern-native-get`
+- `STACK=legacy` (or hostname `*legacy*`) → `app.env.overlay.legacy-restify`
+
+Code / `.env.example` defaults stay `false`. Dual-run orchestrators keep modern
+flags on unless `KEEP_MODERN_NATIVE_ON=0`.
 
 Stage 2 canary on modern:
 
@@ -88,14 +92,18 @@ bash lab/scripts/start-ui.sh
 # UI proxies /api → API with native GET+write flags on
 ```
 
-## Native writes (ADR 0016)
+## Native writes (ADR 0016 / 0017)
 
-Same flags own POST/PUT/PATCH/DELETE (except User / Statement / BatchDelete).
+Same `ENABLE_NATIVE_*_ROUTER` flags own POST/PUT/PATCH/DELETE for inventory
+models, including User, Statement (scope then 405/delete), and BatchDelete
+(scope then 405; specialised POSTs unchanged).
 
 ```bash
 BRANCH=feat/... bash lab/scripts/dual-run-native-write.sh
 # or one host:
 HOST_LABEL=ll-modern bash lab/scripts/native-write-smoke.sh
+HOST_LABEL=ll-modern bash lab/scripts/native-user-write-smoke.sh
+HOST_LABEL=ll-modern bash lab/scripts/native-statement-write-smoke.sh
 ```
 
 ## Native GET flag-on dual-run

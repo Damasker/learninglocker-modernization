@@ -15,7 +15,7 @@ if [[ ! -f ui/dist/server.js && ! -f ui/dist/server/index.js && ! -d ui/dist/ser
   exit 1
 fi
 
-# Re-apply modern native overlay when on modern host (stage 1+2).
+# ADR 0014 stage 3: base overlay default-on; stack overlays pin modern/legacy.
 STACK="${STACK:-}"
 if [[ -z "${STACK}" ]]; then
   case "$(hostname -s 2>/dev/null || hostname)" in
@@ -28,6 +28,9 @@ if [[ -f lab/scripts/apply-env-overlay.sh && -f lab/env/app.env.overlay ]]; then
 fi
 if [[ "${STACK}" == "modern" && -f lab/env/app.env.overlay.modern-native-get ]]; then
   bash lab/scripts/apply-env-overlay.sh "${APP}/.env" lab/env/app.env.overlay.modern-native-get
+fi
+if [[ "${STACK}" == "legacy" && -f lab/env/app.env.overlay.legacy-restify ]]; then
+  bash lab/scripts/apply-env-overlay.sh "${APP}/.env" lab/env/app.env.overlay.legacy-restify
 fi
 
 pm2 delete UIServer >/dev/null 2>&1 || true
