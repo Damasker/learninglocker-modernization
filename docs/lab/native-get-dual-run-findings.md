@@ -51,6 +51,5 @@ After correcting the test contract, restify and native bodies matched.
 
 ## Next
 
-1. ADR 0014 stage 1 (lab-only): keep `ll-modern` native GET flags **on**; `ll-legacy` stays restify.
-2. Stage 2 canary on a UI-serving modern instance when ready.
-3. Statement GET strangler (ADR 0015) — feature-flagged; writes stay on restify.
+Superseded by stages 2–3 (UI canary, native writes ADRs 0016/0017, lab
+default-on in ADR 0014). See `docs/lab/native-get-rollout-findings.md`.

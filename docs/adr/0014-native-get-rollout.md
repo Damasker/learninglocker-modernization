@@ -1,49 +1,47 @@
-# ADR 0014: Staged rollout for native `/v2` GET routers
+# ADR 0014: Staged rollout for native `/v2` routers
 
 ## Status
 
-Accepted — stage 1 live; stage 2 canary UI on `ll-modern`
+Accepted — stages 1–3 live in lab (`ll-modern` native default-on;
+`ll-legacy` restify oracle)
 
 ## Context
 
-All non-Statement restify GET models now have feature-flagged native routers
-(ADRs 0005–0013). Lab dual-run proved:
+All restify `/v2` models have feature-flagged native routers (ADRs 0005–0017),
+including writes. Lab dual-run proved GET status/body parity and write status
+parity (dashboard, user, statement/batchdelete). Canary UI on `ll-modern`
+exercises the native path continuously.
 
-- client-basic status parity (20/20)
-- organisation-JWT canonical body parity (20/20)
-
-Code defaults remain `false`. The UI and admin `/v2` GETs can move to native
-handlers without waiting for Statement or write stranglers, but traffic flip
-must stay staged so restify remains the rollback path.
-
-ADR 0016 later extends the same flags to own writes when enabled.
+Code defaults remain `false` so non-lab deploys stay opt-in. Lab deployment
+defaults flip to native on (stage 3) while dual-run keeps an explicit restify
+oracle overlay for legacy.
 
 ## Decision
 
-Roll out native GET flags in three stages:
+Roll out native flags in three stages:
 
-1. **Lab-only (`ll-modern`)** — all `ENABLE_NATIVE_*_ROUTER=true` on the modern
-   lab host. `ll-legacy` stays `false` as the restify oracle. Code/.env.example
-   defaults stay `false`.
-2. **Canary** — enable the same flags on a non-production modern instance that
-   serves real UI traffic; keep an off switch and dual-run smoke available.
-   Lab executes this on `ll-modern` via `lab/scripts/build-ui.sh` +
-   `lab/scripts/start-ui.sh` (`pm2/ui.json`) beside core, with native flags on.
-3. **Default on** — only after canary soak, change lab overlays / deployment
-   defaults to `true`.
+1. **Lab-only (`ll-modern`)** — `ENABLE_NATIVE_*_ROUTER=true` via
+   `app.env.overlay.modern-native-get`. `ll-legacy` stays restify.
+2. **Canary** — same flags on `ll-modern` with UI
+   (`build-ui.sh` / `start-ui.sh`).
+3. **Default on (lab)** — base `lab/env/app.env.overlay` sets all
+   `ENABLE_NATIVE_*_ROUTER=true`. `STACK=legacy` applies
+   `lab/env/app.env.overlay.legacy-restify` (all `false`) so dual-run oracle
+   stays restify. Code/.env.example defaults stay `false`.
 
-Lab automation applies stage 1 via `STACK=modern` +
-`lab/env/app.env.overlay.modern-native-get` during `start-core.sh`, and keeps
-modern flags on after dual-run scripts complete.
+`start-core.sh` / `start-ui.sh` detect `STACK` from env or hostname
+(`*modern*` / `*legacy*`) and apply the matching stack overlay after the base
+overlay.
 
 ## Consequences
 
 ### Positive
 
-- UI on modern lab exercises native GETs (and writes per ADR 0016) continuously.
-- Rollback is still a flag flip (`MODE=off`).
+- Modern lab and canary UI default to native CRUD without manual flag toggles.
+- Legacy dual-run oracle remains a one-overlay flip away (`STACK=legacy`).
+- Non-lab installs remain opt-in via unset/false code defaults.
 
 ### Negative
 
-- Two lab hosts diverge on read/write path by design until stage 3.
-- Operators must remember `STACK=modern` when restarting core on `ll-modern`.
+- Operators must use `STACK=legacy` (or hostname) when restarting core on
+  `ll-legacy`, otherwise base overlay would enable native there too.
