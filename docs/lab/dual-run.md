@@ -41,6 +41,8 @@ Differential check of the compatibility freeze golden path on `ll-legacy` vs `ll
 | `lab/scripts/dual-run-native-connection-indexes.sh` | legacy vs modern connection/indexes parity |
 | `lab/scripts/native-persona-smoke.sh` | persona/personaIdentifier GETs under org JWT |
 | `lab/scripts/dual-run-native-persona.sh` | host parity for always-on persona routers |
+| `lab/scripts/native-always-on-httproutes-smoke.sh` | health/version/downloadlogo/statementmetadata |
+| `lab/scripts/dual-run-native-always-on-httproutes.sh` | host parity for remaining always-on HttpRoutes |
 
 Fixed lab credentials (synthetic only):
 
