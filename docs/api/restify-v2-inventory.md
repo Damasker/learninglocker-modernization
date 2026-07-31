@@ -87,6 +87,16 @@ Also maps `personasimporttemplate` into persona `getScopeFilter` (was missing). 
 
 Defaults **off**. Completes inventory step 6.
 
+## Forwarding / cache GET stranglers
+
+| Flag | Paths |
+|------|-------|
+| `ENABLE_NATIVE_STATEMENT_FORWARDING_ROUTER` | `/v2/statementforwarding`, `/v2/statementforwarding/:id` |
+| `ENABLE_NATIVE_QUERY_BUILDER_CACHE_ROUTER` | `/v2/querybuildercache`, `/v2/querybuildercache/:id` |
+| `ENABLE_NATIVE_QUERY_BUILDER_CACHE_VALUE_ROUTER` | `/v2/querybuildercachevalue`, `/v2/querybuildercachevalue/:id` |
+
+Shared factories: `createScopedGetController` / `createScopedGetRouter`. Writes remain on restify. Defaults **off**. Completes inventory step 7 (non-Statement).
+
 ## Replacement order (proposed)
 
 1. Keep Statement restify read + scoped delete behavior; never open create/update via `/v2`
@@ -95,7 +105,8 @@ Defaults **off**. Completes inventory step 6.
 4. Dashboard / Visualisation / Query / Export / Download — GET stranglers landed (feature-flagged)
 5. PersonaAttribute / PersonasImport* — GET stranglers landed (feature-flagged)
 6. SiteSettings / Stream / BatchDelete — GET stranglers landed (feature-flagged)
+7. StatementForwarding / QueryBuilderCache* — GET stranglers landed (feature-flagged)
 
-Remaining restify models (Statement, StatementForwarding, QueryBuilderCache*) stay on restify until separate dual-run work.
+Remaining restify-only CRUD surface: Statement (create/update blocked; delete gated).
 
 Do not flip traffic to a replacement router without dual-run parity of scope filters from `lib/kernel/auth`.

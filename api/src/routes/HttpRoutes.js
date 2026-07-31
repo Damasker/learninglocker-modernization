@@ -81,6 +81,9 @@ import importCsvRouter from 'api/routes/importCsv/router';
 import siteSettingsRouter from 'api/routes/siteSettings/router';
 import streamRouter from 'api/routes/streams/router';
 import batchDeleteRouter from 'api/routes/batchDeletes/router';
+import statementForwardingRouter from 'api/routes/statementForwardings/router';
+import queryBuilderCacheRouter from 'api/routes/queryBuilderCaches/router';
+import queryBuilderCacheValueRouter from 'api/routes/queryBuilderCacheValues/router';
 import { isNativeClientRouterEnabled } from 'lib/kernel/api/client';
 import { isNativeLrsRouterEnabled } from 'lib/kernel/api/lrs';
 import { isNativeOrganisationRouterEnabled } from 'lib/kernel/api/organisation';
@@ -104,6 +107,11 @@ import {
   isNativeStreamRouterEnabled,
   isNativeBatchDeleteRouterEnabled,
 } from 'lib/kernel/api/restrictedFlags';
+import {
+  isNativeStatementForwardingRouterEnabled,
+  isNativeQueryBuilderCacheRouterEnabled,
+  isNativeQueryBuilderCacheValueRouterEnabled,
+} from 'lib/kernel/api/forwardingCacheFlags';
 
 // CONSTANTS
 import * as routes from 'lib/constants/routes';
@@ -285,6 +293,16 @@ if (isNativeStreamRouterEnabled()) {
 }
 if (isNativeBatchDeleteRouterEnabled()) {
   router.use(batchDeleteRouter);
+}
+
+if (isNativeStatementForwardingRouterEnabled()) {
+  router.use(statementForwardingRouter);
+}
+if (isNativeQueryBuilderCacheRouterEnabled()) {
+  router.use(queryBuilderCacheRouter);
+}
+if (isNativeQueryBuilderCacheValueRouterEnabled()) {
+  router.use(queryBuilderCacheValueRouter);
 }
 
 /**
