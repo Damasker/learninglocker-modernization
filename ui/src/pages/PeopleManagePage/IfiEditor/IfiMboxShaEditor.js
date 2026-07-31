@@ -1,4 +1,4 @@
-import validateSha1 from '@learninglocker/xapi-validation/dist/regexValues/sha1';
+import { validateSha1 } from 'lib/kernel/xapiValidation/regex';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { compose, setPropTypes, defaultProps } from 'recompose';

@@ -1,4 +1,4 @@
-import XTypeWarning from '@learninglocker/xapi-validation/dist/warnings/TypeWarning';
+import { XTypeWarning } from 'lib/kernel/xapiValidation/warnings';
 import { Warning, TypeWarning, RequiredWarning, RestrictedKeysWarning } from 'rulr';
 
 export function constructMessageFromRulrWarning(warning) {

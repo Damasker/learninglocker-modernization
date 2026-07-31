@@ -1,4 +1,4 @@
-import createStatementsRepo from '@learninglocker/xapi-statements/dist/repo/facade';
+import { createStatementsRepo } from 'lib/kernel/xapiStatements/repo';
 import once from 'lodash/once';
 import defaultTo from 'lodash/defaultTo';
 import { join as joinPath } from 'path';

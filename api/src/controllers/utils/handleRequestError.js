@@ -1,6 +1,8 @@
-import PersonaConflict from '@learninglocker/persona-service/dist/errors/Conflict';
-import PersonaNoModelWithId from '@learninglocker/persona-service/dist/errors/NoModelWithId';
-import PersonaHasIdentsError from '@learninglocker/persona-service/dist/errors/PersonaHasIdentsError';
+import {
+  PersonaConflict,
+  PersonaNoModelWithId,
+  PersonaHasIdentsError,
+} from 'lib/kernel/persona/errors';
 import NoModel from 'jscommons/dist/errors/NoModel';
 import defaultTo from 'lodash/defaultTo';
 import { v4 as uuid } from 'uuid';

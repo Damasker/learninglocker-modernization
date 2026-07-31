@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import validateIri from '@learninglocker/xapi-validation/dist/regexValues/iri';
+import { validateIri } from 'lib/kernel/xapiValidation/regex';
 import { Map } from 'immutable';
 import classNames from 'classnames';
 import { compose, setPropTypes, defaultProps } from 'recompose';
