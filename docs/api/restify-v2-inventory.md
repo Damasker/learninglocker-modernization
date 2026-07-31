@@ -52,12 +52,26 @@ When `ENABLE_NATIVE_USER_ROUTER=true`:
 
 Writes remain on restify. Defaults **off**.
 
+## Analytics GET stranglers
+
+Independent flags (default **off**):
+
+| Flag | Paths |
+|------|-------|
+| `ENABLE_NATIVE_DASHBOARD_ROUTER` | `/v2/dashboard`, `/v2/dashboard/:id` |
+| `ENABLE_NATIVE_VISUALISATION_ROUTER` | `/v2/visualisation`, `/v2/visualisation/:id` |
+| `ENABLE_NATIVE_QUERY_ROUTER` | `/v2/query`, `/v2/query/:id` |
+| `ENABLE_NATIVE_EXPORT_ROUTER` | `/v2/export`, `/v2/export/:id` |
+| `ENABLE_NATIVE_DOWNLOAD_ROUTER` | `/v2/download`, `/v2/download/:id` |
+
+Shared factories: `createScopedGetController` / `createScopedGetRouter`. Writes remain on restify.
+
 ## Replacement order (proposed)
 
 1. Keep Statement restify read + scoped delete behavior; never open create/update via `/v2`
 2. Client / LRS / Organisation (auth-adjacent) — GET stranglers landed (feature-flagged)
 3. Role / User — GET stranglers landed (feature-flagged)
-4. Dashboard / Visualisation / Query / Export / Download
+4. Dashboard / Visualisation / Query / Export / Download — GET stranglers landed (feature-flagged)
 5. PersonaAttribute / PersonasImport*
 6. SiteSettings / Stream / BatchDelete read-only surfaces
 

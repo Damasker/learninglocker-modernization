@@ -48,6 +48,7 @@ Required for core post-ingest path:
 - Optional native Organisation GET router behind `ENABLE_NATIVE_ORGANISATION_ROUTER` (`api/src/routes/organisations/router.js`)
 - Optional native Role GET router behind `ENABLE_NATIVE_ROLE_ROUTER` (`api/src/routes/roles/router.js`)
 - Optional native User GET router behind `ENABLE_NATIVE_USER_ROUTER` (`api/src/routes/users/router.js`)
+- Optional analytics GET routers: `ENABLE_NATIVE_DASHBOARD_ROUTER`, `ENABLE_NATIVE_VISUALISATION_ROUTER`, `ENABLE_NATIVE_QUERY_ROUTER`, `ENABLE_NATIVE_EXPORT_ROUTER`, `ENABLE_NATIVE_DOWNLOAD_ROUTER`
 
 ## xAPI peer
 
