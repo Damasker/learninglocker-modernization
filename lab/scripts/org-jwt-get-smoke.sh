@@ -68,6 +68,7 @@ for path in "${PATHS[@]}"; do
   code="$(curl -sS -o "${body_file}" -w '%{http_code}' -G \
     -H "Authorization: Bearer ${ORG_TOKEN}" \
     -H 'Accept: application/json' \
+    --data-urlencode "query=${filter}" \
     --data-urlencode "filter=${filter}" \
     "${API_URL}${path}" || echo '000')"
   body_report="$(node lab/scripts/canonical-json-report.js "${body_file}")"
