@@ -31,10 +31,19 @@ When `ENABLE_NATIVE_LRS_ROUTER=true`, native handlers serve:
 
 using `lib/kernel/auth` `getScopeFilter` + `lib/kernel/api/lrs` filter helpers. Restify continues to own writes. Default flag is **off**.
 
+## Organisation GET strangler
+
+When `ENABLE_NATIVE_ORGANISATION_ROUTER=true`, native handlers serve:
+
+- `GET /v2/organisation`
+- `GET /v2/organisation/:id`
+
+using organisation-specific scope filters (`_id: { $in: viewableOrgs }` / site admin `{}`). Restify continues to own writes (including expiration `preUpdate`). Default flag is **off**.
+
 ## Replacement order (proposed)
 
 1. Keep Statement restify read + scoped delete behavior; never open create/update via `/v2`
-2. Client / LRS / Organisation (auth-adjacent)
+2. Client / LRS / Organisation (auth-adjacent) — GET stranglers landed (feature-flagged)
 3. Role / User
 4. Dashboard / Visualisation / Query / Export / Download
 5. PersonaAttribute / PersonasImport*
