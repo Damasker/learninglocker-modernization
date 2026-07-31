@@ -8,6 +8,7 @@ HOST_LABEL="${HOST_LABEL:-$(hostname)}"
 NATIVE_MODE="${NATIVE_MODE:-unknown}"
 ORG_ID="${LAB_ORG_ID:-aaaaaaaaaaaaaaaaaaaaaaaa}"
 USER_ID="${LAB_USER_ID:-dddddddddddddddddddddddd}"
+STATEMENT_ID="${LAB_STATEMENT_ID:-111111111111111111111111}"
 USER_EMAIL="${LAB_USER_EMAIL:-lab-golden@example.invalid}"
 USER_PASSWORD="${LAB_USER_PASSWORD:-LabGolden123!}"
 REPORT_DIR="${REPORT_DIR:-/opt/learninglocker/app/lab/reports}"
@@ -41,6 +42,7 @@ PATHS=(
   /v2/statementforwarding
   /v2/querybuildercache
   /v2/querybuildercachevalue
+  /v2/statement
 )
 
 mkdir -p "${REPORT_DIR}"
@@ -57,6 +59,8 @@ for path in "${PATHS[@]}"; do
     filter="{\"_id\":\"${ORG_ID}\"}"
   elif [[ "${path}" == "/v2/user" ]]; then
     filter="{\"_id\":\"${USER_ID}\"}"
+  elif [[ "${path}" == "/v2/statement" ]]; then
+    filter="{\"_id\":\"${STATEMENT_ID}\"}"
   elif [[ "${path}" == "/v2/sitesettings" ]]; then
     filter='{}'
   fi

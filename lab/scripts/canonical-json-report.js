@@ -19,6 +19,12 @@ const omittedKeys = new Set([
   'password',
   'passwordHistory',
   'resetTokens',
+  'completedQueues',
+  'processingQueues',
+  'pendingForwardingQueue',
+  'completedForwardingQueue',
+  'deadForwardingQueue',
+  'failedForwardingLog',
 ]);
 
 const canonicalize = (value) => {
