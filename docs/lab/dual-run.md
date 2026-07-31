@@ -35,6 +35,8 @@ Differential check of the compatibility freeze golden path on `ll-legacy` vs `ll
 | `lab/scripts/native-statement-write-smoke.sh` | statement/batchdelete write verbs + specialised POSTs |
 | `lab/scripts/dual-run-native-write.sh` | legacy restify vs modern native dashboard write status |
 | `lab/scripts/dual-run-native-statement-write.sh` | legacy vs modern statement/batchdelete write + specialised POST status |
+| `lab/scripts/native-statement-aggregate-smoke.sh` | aggregate/async/count/v1 status + body hash |
+| `lab/scripts/dual-run-native-statement-aggregate.sh` | legacy vs modern analytics status + body hash |
 
 Fixed lab credentials (synthetic only):
 
@@ -106,6 +108,7 @@ HOST_LABEL=ll-modern bash lab/scripts/native-write-smoke.sh
 HOST_LABEL=ll-modern bash lab/scripts/native-user-write-smoke.sh
 HOST_LABEL=ll-modern bash lab/scripts/native-statement-write-smoke.sh
 BRANCH=feat/... bash lab/scripts/dual-run-native-statement-write.sh
+BRANCH=feat/... bash lab/scripts/dual-run-native-statement-aggregate.sh
 ```
 
 ## Native GET flag-on dual-run

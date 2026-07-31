@@ -91,14 +91,26 @@ plus write verbs (ADR 0017):
 
 Default flag is **off**.
 
+## Statement analytics (ADR 0019)
+
+When `ENABLE_NATIVE_STATEMENT_AGGREGATE_ROUTER=true`, native handlers serve:
+
+- `GET /statements/aggregate`
+- `GET /statements/aggregateAsync`
+- `GET /statements/count`
+- `GET /v1/statements/aggregate`
+
+Same `StatementController` handlers as the HttpRoutes fallback. Default **off**.
+
 ## Native writes (ADR 0016 / 0017)
 
 Same `ENABLE_NATIVE_*_ROUTER` flags mount POST/PUT/PATCH/DELETE beside GET for
 all restify models. Statement keeps 405 / gated delete (ADR 0017). BatchDelete
 keeps CUD 405 plus specialised POSTs under the same flag (ADR 0018).
 
-## Remaining restify-owned write specials
+## Remaining restify-owned specials
 
-- Analytics routes (`/statements/aggregate*`)
+None for the inventory map in this doc. Connection/index helpers and persona
+dedicated routers remain as documented above.
 
 Do not flip traffic without dual-run parity of scope filters from `lib/kernel/auth`.

@@ -25,6 +25,8 @@ const omittedKeys = new Set([
   'completedForwardingQueue',
   'deadForwardingQueue',
   'failedForwardingLog',
+  'startedAt',
+  'completedAt',
 ]);
 
 const canonicalize = (value) => {

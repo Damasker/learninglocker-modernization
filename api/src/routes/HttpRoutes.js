@@ -85,6 +85,7 @@ import statementForwardingRouter from 'api/routes/statementForwardings/router';
 import queryBuilderCacheRouter from 'api/routes/queryBuilderCaches/router';
 import queryBuilderCacheValueRouter from 'api/routes/queryBuilderCacheValues/router';
 import statementRouter from 'api/routes/statements/router';
+import statementAnalyticsRouter from 'api/routes/statementAnalytics/router';
 import { isNativeClientRouterEnabled } from 'lib/kernel/api/client';
 import { isNativeLrsRouterEnabled } from 'lib/kernel/api/lrs';
 import { isNativeOrganisationRouterEnabled } from 'lib/kernel/api/organisation';
@@ -113,7 +114,10 @@ import {
   isNativeQueryBuilderCacheRouterEnabled,
   isNativeQueryBuilderCacheValueRouterEnabled,
 } from 'lib/kernel/api/forwardingCacheFlags';
-import { isNativeStatementRouterEnabled } from 'lib/kernel/api/statementFlags';
+import {
+  isNativeStatementRouterEnabled,
+  isNativeStatementAggregateRouterEnabled,
+} from 'lib/kernel/api/statementFlags';
 
 // CONSTANTS
 import * as routes from 'lib/constants/routes';
@@ -309,6 +313,9 @@ if (isNativeQueryBuilderCacheValueRouterEnabled()) {
 if (isNativeStatementRouterEnabled()) {
   router.use(statementRouter);
 }
+if (isNativeStatementAggregateRouterEnabled()) {
+  router.use(statementAnalyticsRouter);
+}
 
 /**
  * User Organisations
@@ -377,23 +384,25 @@ router.get(
 );
 
 /**
- * STATEMENTS
+ * STATEMENTS analytics (ADR 0019: native router when flag on).
  */
-router.get(
-  routes.STATEMENTS_AGGREGATE,
-  passport.authenticate(['jwt', 'clientBasic'], DEFAULT_PASSPORT_OPTIONS),
-  StatementController.aggregate
-);
-router.get(
-  routes.STATEMENTS_AGGREGATE_ASYNC,
-  passport.authenticate(['jwt', 'clientBasic'], DEFAULT_PASSPORT_OPTIONS),
-  StatementController.aggregateAsync
-);
-router.get(
-  routes.STATEMENTS_COUNT,
-  passport.authenticate(['jwt', 'clientBasic'], DEFAULT_PASSPORT_OPTIONS),
-  StatementController.count
-);
+if (!isNativeStatementAggregateRouterEnabled()) {
+  router.get(
+    routes.STATEMENTS_AGGREGATE,
+    passport.authenticate(['jwt', 'clientBasic'], DEFAULT_PASSPORT_OPTIONS),
+    StatementController.aggregate
+  );
+  router.get(
+    routes.STATEMENTS_AGGREGATE_ASYNC,
+    passport.authenticate(['jwt', 'clientBasic'], DEFAULT_PASSPORT_OPTIONS),
+    StatementController.aggregateAsync
+  );
+  router.get(
+    routes.STATEMENTS_COUNT,
+    passport.authenticate(['jwt', 'clientBasic'], DEFAULT_PASSPORT_OPTIONS),
+    StatementController.count
+  );
+}
 
 router.patch(
   routes.STATEMENT_METADATA,
@@ -428,13 +437,15 @@ if (!isNativeBatchDeleteRouterEnabled()) {
 }
 
 /**
- * V1 compatability
+ * V1 compatability (ADR 0019: native router when flag on).
  */
-router.get(
-  routes.V1_STATEMENTS_AGGREGATE,
-  passport.authenticate(['jwt', 'clientBasic'], DEFAULT_PASSPORT_OPTIONS),
-  StatementController.v1aggregate
-);
+if (!isNativeStatementAggregateRouterEnabled()) {
+  router.get(
+    routes.V1_STATEMENTS_AGGREGATE,
+    passport.authenticate(['jwt', 'clientBasic'], DEFAULT_PASSPORT_OPTIONS),
+    StatementController.v1aggregate
+  );
+}
 
 /**
  * REST APIS
