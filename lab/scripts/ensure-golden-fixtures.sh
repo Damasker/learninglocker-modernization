@@ -231,7 +231,7 @@ dbn.personaIdentifiers.update(
   {
     \$set: {
       organisation: orgId,
-      personaId: personaId,
+      persona: personaId,
       ifi: {
         key: 'mbox',
         value: 'mailto:lab-golden-persona@example.invalid'
@@ -242,7 +242,8 @@ dbn.personaIdentifiers.update(
     \$setOnInsert: {
       _id: personaIdentifierId,
       createdAt: new Date()
-    }
+    },
+    \$unset: { personaId: '' }
   },
   { upsert: true }
 );

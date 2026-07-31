@@ -36,7 +36,7 @@ probe() {
   local body
   body="$(mktemp)"
   local code
-  code="$(curl -sS -o "${body}" -w '%{http_code}' \
+  code="$(curl -sS --max-time 30 -o "${body}" -w '%{http_code}' \
     -H "Authorization: Bearer ${ORG_TOKEN}" "${url}")"
   local meta
   meta="$(node lab/scripts/canonical-json-report.js "${body}")"
