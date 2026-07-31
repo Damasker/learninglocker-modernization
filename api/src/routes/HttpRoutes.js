@@ -78,6 +78,9 @@ import personaAttributeRouter from 'api/routes/personaAttributes/router';
 import personasImportRouter from 'api/routes/personasImports/router';
 import personasImportTemplateRouter from 'api/routes/personasImportTemplates/router';
 import importCsvRouter from 'api/routes/importCsv/router';
+import siteSettingsRouter from 'api/routes/siteSettings/router';
+import streamRouter from 'api/routes/streams/router';
+import batchDeleteRouter from 'api/routes/batchDeletes/router';
 import { isNativeClientRouterEnabled } from 'lib/kernel/api/client';
 import { isNativeLrsRouterEnabled } from 'lib/kernel/api/lrs';
 import { isNativeOrganisationRouterEnabled } from 'lib/kernel/api/organisation';
@@ -96,6 +99,11 @@ import {
   isNativePersonasImportTemplateRouterEnabled,
   isNativeImportCsvRouterEnabled,
 } from 'lib/kernel/api/personaImportFlags';
+import {
+  isNativeSiteSettingsRouterEnabled,
+  isNativeStreamRouterEnabled,
+  isNativeBatchDeleteRouterEnabled,
+} from 'lib/kernel/api/restrictedFlags';
 
 // CONSTANTS
 import * as routes from 'lib/constants/routes';
@@ -267,6 +275,16 @@ if (isNativePersonasImportTemplateRouterEnabled()) {
 }
 if (isNativeImportCsvRouterEnabled()) {
   router.use(importCsvRouter);
+}
+
+if (isNativeSiteSettingsRouterEnabled()) {
+  router.use(siteSettingsRouter);
+}
+if (isNativeStreamRouterEnabled()) {
+  router.use(streamRouter);
+}
+if (isNativeBatchDeleteRouterEnabled()) {
+  router.use(batchDeleteRouter);
 }
 
 /**
