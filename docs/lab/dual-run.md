@@ -32,8 +32,9 @@ Differential check of the compatibility freeze golden path on `ll-legacy` vs `ll
 | `lab/scripts/dual-run-org-jwt-get.sh` | orchestrate org-JWT body parity across both VMs |
 | `lab/scripts/native-write-smoke.sh` | dashboard create/update/delete under org JWT |
 | `lab/scripts/native-user-write-smoke.sh` | user create/update/delete under org JWT |
-| `lab/scripts/native-statement-write-smoke.sh` | statement/batchdelete write verb statuses |
+| `lab/scripts/native-statement-write-smoke.sh` | statement/batchdelete write verbs + specialised POSTs |
 | `lab/scripts/dual-run-native-write.sh` | legacy restify vs modern native dashboard write status |
+| `lab/scripts/dual-run-native-statement-write.sh` | legacy vs modern statement/batchdelete write + specialised POST status |
 
 Fixed lab credentials (synthetic only):
 
@@ -96,7 +97,7 @@ bash lab/scripts/start-ui.sh
 
 Same `ENABLE_NATIVE_*_ROUTER` flags own POST/PUT/PATCH/DELETE for inventory
 models, including User, Statement (scope then 405/delete), and BatchDelete
-(scope then 405; specialised POSTs unchanged).
+(scope then 405 plus specialised initialise/terminate POSTs; ADR 0018).
 
 ```bash
 BRANCH=feat/... bash lab/scripts/dual-run-native-write.sh
@@ -104,6 +105,7 @@ BRANCH=feat/... bash lab/scripts/dual-run-native-write.sh
 HOST_LABEL=ll-modern bash lab/scripts/native-write-smoke.sh
 HOST_LABEL=ll-modern bash lab/scripts/native-user-write-smoke.sh
 HOST_LABEL=ll-modern bash lab/scripts/native-statement-write-smoke.sh
+BRANCH=feat/... bash lab/scripts/dual-run-native-statement-write.sh
 ```
 
 ## Native GET flag-on dual-run

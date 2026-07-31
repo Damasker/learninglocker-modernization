@@ -406,23 +406,26 @@ router.post(
   StatementMetadataController.postStatementMetadata
 );
 
-router.post(
-  routes.STATEMENT_BATCH_DELETE_INITIALISE,
-  passport.authenticate(['jwt', 'clientBasic'], DEFAULT_PASSPORT_OPTIONS),
-  BatchDeleteController.initialiseBatchDelete
-);
+// ADR 0018: specialised POSTs live on native batchDeletes router when flag on.
+if (!isNativeBatchDeleteRouterEnabled()) {
+  router.post(
+    routes.STATEMENT_BATCH_DELETE_INITIALISE,
+    passport.authenticate(['jwt', 'clientBasic'], DEFAULT_PASSPORT_OPTIONS),
+    BatchDeleteController.initialiseBatchDelete
+  );
 
-router.post(
-  routes.STATEMENT_BATCH_DELETE_TERMINATE_ALL,
-  passport.authenticate(['jwt', 'clientBasic'], DEFAULT_PASSPORT_OPTIONS),
-  BatchDeleteController.terminateAllBatchDeletes
-);
+  router.post(
+    routes.STATEMENT_BATCH_DELETE_TERMINATE_ALL,
+    passport.authenticate(['jwt', 'clientBasic'], DEFAULT_PASSPORT_OPTIONS),
+    BatchDeleteController.terminateAllBatchDeletes
+  );
 
-router.post(
-  routes.STATEMENT_BATCH_DELETE_TERMINATE,
-  passport.authenticate(['jwt', 'clientBasic'], DEFAULT_PASSPORT_OPTIONS),
-  BatchDeleteController.terminateBatchDelete
-);
+  router.post(
+    routes.STATEMENT_BATCH_DELETE_TERMINATE,
+    passport.authenticate(['jwt', 'clientBasic'], DEFAULT_PASSPORT_OPTIONS),
+    BatchDeleteController.terminateBatchDelete
+  );
+}
 
 /**
  * V1 compatability
