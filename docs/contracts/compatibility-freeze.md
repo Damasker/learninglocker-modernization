@@ -52,6 +52,7 @@ Required for core post-ingest path:
 - Optional persona-import GET routers: `ENABLE_NATIVE_PERSONA_ATTRIBUTE_ROUTER`, `ENABLE_NATIVE_PERSONAS_IMPORT_ROUTER`, `ENABLE_NATIVE_PERSONAS_IMPORT_TEMPLATE_ROUTER`, `ENABLE_NATIVE_IMPORT_CSV_ROUTER`
 - Optional restricted GET routers: `ENABLE_NATIVE_SITE_SETTINGS_ROUTER`, `ENABLE_NATIVE_STREAM_ROUTER`, `ENABLE_NATIVE_BATCH_DELETE_ROUTER`
 - Optional forwarding/cache GET routers: `ENABLE_NATIVE_STATEMENT_FORWARDING_ROUTER`, `ENABLE_NATIVE_QUERY_BUILDER_CACHE_ROUTER`, `ENABLE_NATIVE_QUERY_BUILDER_CACHE_VALUE_ROUTER`
+- Native GET rollout is staged (ADR 0014): lab `ll-modern` may run with all flags `true` while code defaults stay `false`
 
 ## Persona Mongo access
 

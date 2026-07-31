@@ -60,24 +60,25 @@ SKIP_BUILD=1 bash lab/scripts/dual-run-golden.sh
 
 Native GET strangler flags stay **off** during the first golden pass so both hosts exercise restify reads.
 
+## Native GET rollout (ADR 0014)
+
+| Stage | Where | Flags |
+|-------|-------|-------|
+| 1 Lab-only | `ll-modern` | all `ENABLE_NATIVE_*_ROUTER=true` |
+| 1 Oracle | `ll-legacy` | all `false` (restify) |
+| 2 Canary | non-prod modern serving UI | `true`, with off-switch |
+| 3 Default on | deployment defaults | `true` after soak |
+
+`start-core.sh` with `STACK=modern` (or hostname `*modern*`) applies
+`lab/env/app.env.overlay.modern-native-get` after the base overlay. Code defaults
+stay `false`. Dual-run orchestrators keep modern flags on unless
+`KEEP_MODERN_NATIVE_ON=0`.
+
 ## Native GET flag-on dual-run
 
 ```bash
 # On each host, or via workstation orchestrator:
-bash lab/scripts/dual-run-native-get.sh
-
-# Manual:
-# ll-legacy
-MODE=off bash lab/scripts/set-native-get-flags.sh
-HOST_LABEL=ll-legacy NATIVE_MODE=off bash lab/scripts/native-get-smoke.sh
-
-# ll-modern (after yarn build-api-server)
-MODE=on bash lab/scripts/set-native-get-flags.sh
-HOST_LABEL=ll-modern NATIVE_MODE=on bash lab/scripts/native-get-smoke.sh
-
-bash lab/scripts/compare-native-get-reports.sh \
-  lab/reports/native-get-ll-legacy-off.json \
-  lab/reports/native-get-ll-modern-on.json
+BRANCH=master bash lab/scripts/dual-run-native-get.sh
 ```
 
 Same HTTP status per path is the pass criterion (client basic auth; 403 is OK if both sides match).
@@ -85,7 +86,7 @@ Same HTTP status per path is the pass criterion (client basic auth; 403 is OK if
 ## Organisation JWT body-parity dual-run
 
 ```bash
-bash lab/scripts/dual-run-org-jwt-get.sh
+BRANCH=master bash lab/scripts/dual-run-org-jwt-get.sh
 ```
 
 The orchestrator authenticates the synthetic user, exchanges its user token for an

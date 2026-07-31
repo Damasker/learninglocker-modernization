@@ -7,8 +7,10 @@ set -euo pipefail
 
 LEGACY_HOST="${LEGACY_HOST:-ll-legacy}"
 MODERN_HOST="${MODERN_HOST:-ll-modern}"
-BRANCH="${BRANCH:-feat/api-native-forwarding-cache-routers}"
+BRANCH="${BRANCH:-master}"
 SKIP_SYNC="${SKIP_SYNC:-0}"
+# ADR 0014 stage 1: leave modern native GET flags on after the compare.
+KEEP_MODERN_NATIVE_ON="${KEEP_MODERN_NATIVE_ON:-1}"
 
 run() {
   local host="$1"
@@ -44,3 +46,9 @@ scp "${MODERN_HOST}:${MODERN_REPORT}" lab/reports/native-get-ll-modern-on.json
 bash lab/scripts/compare-native-get-reports.sh \
   lab/reports/native-get-ll-legacy-off.json \
   lab/reports/native-get-ll-modern-on.json
+
+if [[ "${KEEP_MODERN_NATIVE_ON}" == "1" ]]; then
+  echo "Keeping ${MODERN_HOST} native GET flags on (ADR 0014 stage 1)"
+else
+  run "${MODERN_HOST}" "cd /opt/learninglocker/app && MODE=off bash lab/scripts/set-native-get-flags.sh"
+fi

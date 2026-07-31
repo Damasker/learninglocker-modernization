@@ -5,8 +5,10 @@ set -euo pipefail
 
 LEGACY_HOST="${LEGACY_HOST:-ll-legacy}"
 MODERN_HOST="${MODERN_HOST:-ll-modern}"
-BRANCH="${BRANCH:-feat/lab-org-jwt-body-parity}"
+BRANCH="${BRANCH:-master}"
 SKIP_SYNC="${SKIP_SYNC:-0}"
+# ADR 0014 stage 1: leave modern native GET flags on after the compare.
+KEEP_MODERN_NATIVE_ON="${KEEP_MODERN_NATIVE_ON:-1}"
 
 run() {
   local host="$1"
@@ -15,6 +17,10 @@ run() {
 }
 
 cleanup() {
+  if [[ "${KEEP_MODERN_NATIVE_ON}" == "1" ]]; then
+    echo "Keeping ${MODERN_HOST} native GET flags on (ADR 0014 stage 1)"
+    return 0
+  fi
   run "${MODERN_HOST}" \
     "cd /opt/learninglocker/app && MODE=off bash lab/scripts/set-native-get-flags.sh" \
     >/dev/null 2>&1 || true

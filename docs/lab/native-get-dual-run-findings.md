@@ -51,5 +51,6 @@ After correcting the test contract, restify and native bodies matched.
 
 ## Next
 
-1. UI decision for enabling native GET flags.
-2. Statement remains restify-only for CRUD.
+1. ADR 0014 stage 1 (lab-only): keep `ll-modern` native GET flags **on**; `ll-legacy` stays restify.
+2. Stage 2 canary on a UI-serving modern instance when ready.
+3. Statement remains restify-only for CRUD.
