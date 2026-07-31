@@ -113,7 +113,9 @@ keeps CUD 405 plus specialised POSTs under the same flag (ADR 0018).
 ## Remaining restify-owned specials
 
 None for the inventory map in this doc. Persona / PersonaIdentifier are
-always-on dedicated natives (ADR 0021).
+always-on dedicated natives (ADR 0021). Non-restify always-on mounts
+(uploads, downloads, statement metadata, user-org helpers) are catalogued in
+[always-on-httproutes.md](./always-on-httproutes.md) (ADR 0022).
 
 When `ENABLE_NATIVE_CONNECTION_INDEXES_ROUTER=true` (ADR 0020), native handlers
 serve `GET /connection/:model` and `GET /indexes/:model` for models with

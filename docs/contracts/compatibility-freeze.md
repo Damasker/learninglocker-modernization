@@ -56,6 +56,7 @@ Required for core post-ingest path:
 - Optional statement analytics router: `ENABLE_NATIVE_STATEMENT_AGGREGATE_ROUTER` (`/statements/aggregate*`, `/statements/count`, `/v1/statements/aggregate`)
 - Optional connection/indexes router: `ENABLE_NATIVE_CONNECTION_INDEXES_ROUTER` (`/connection/:model`, `/indexes/:model`)
 - Always-on Persona / PersonaIdentifier dedicated routers (ADR 0021; no gate flag)
+- Always-on non-restify HttpRoutes inventory (ADR 0022; uploads/downloads/metadata/user-org)
 - Native GET rollout is staged (ADR 0014): lab `ll-modern` may run with all flags `true` while code defaults stay `false`
 
 ## Persona Mongo access

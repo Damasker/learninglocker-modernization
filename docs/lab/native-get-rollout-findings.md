@@ -58,10 +58,16 @@ ADR 0021 Persona / PersonaIdentifier (always-on native):
   kind; by-id requires hash). Fixture fix: seed `persona` (not `personaId`) so
   persona-service `document.persona.toString()` does not crash.
 
+ADR 0022 always-on HttpRoutes inventory:
+
+- `NATIVE_ALWAYS_ON_HTTP_COMPARE_OK` — health/version **200**; downloadlogo
+  unauth **401**, auth **500** without logo (status parity); statementmetadata
+  unauth **401**, client-basic POST `{}` **200** with matching body hash.
+  Catalog: `docs/api/always-on-httproutes.md`.
+
 ## Next
 
 1. Keep soaking canary UI on `ll-modern`.
 2. Non-lab deploys remain opt-in (code defaults `false`).
-3. Remaining always-on HttpRoutes outside the restify inventory (uploads, statement
-   metadata, mergepersona) stay documented separately; no further GET strangler
-   flags on the inventory map.
+3. Longer-term: worker / xAPI-service / UI runtime modernization outside the
+   restify HTTP strangler map.
