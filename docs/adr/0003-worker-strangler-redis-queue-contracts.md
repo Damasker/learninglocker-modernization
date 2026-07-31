@@ -17,6 +17,7 @@ Rewriting worker handlers without freezing these strings would break the golden 
 3. Add contract tests that lock exact string values so accidental renames fail CI.
 4. Migrate worker handlers behind the strangler without changing subscribe/publish channel names or Bull queue names.
 5. Prefer incremental handler modernization (persona extract → query builder → forwarding) after notify/queue wiring is covered by tests.
+6. Keep statement job load/complete publishing in `lib/kernel/worker/wrapStatementJob.js`; harden Redis notify against bad/missing payloads.
 
 ## Consequences
 
