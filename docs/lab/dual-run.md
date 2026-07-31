@@ -32,6 +32,7 @@ Differential check of the compatibility freeze golden path on `ll-legacy` vs `ll
 | `lab/scripts/dual-run-org-jwt-get.sh` | orchestrate org-JWT body parity across both VMs |
 | `lab/scripts/native-write-smoke.sh` | dashboard create/update/delete under org JWT |
 | `lab/scripts/native-user-write-smoke.sh` | user create/update/delete under org JWT |
+| `lab/scripts/native-statement-write-smoke.sh` | statement/batchdelete write verb statuses |
 | `lab/scripts/dual-run-native-write.sh` | legacy restify vs modern native dashboard write status |
 
 Fixed lab credentials (synthetic only):

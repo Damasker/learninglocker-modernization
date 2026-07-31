@@ -7,4 +7,7 @@ export default createScopedGetRouter({
   idPath: routes.BATCH_DELETE_ID,
   listHandler: BatchDeleteRestController.list,
   getByIdHandler: BatchDeleteRestController.getById,
+  createHandler: BatchDeleteRestController.create,
+  updateHandler: BatchDeleteRestController.update,
+  deleteHandler: BatchDeleteRestController.remove,
 });
