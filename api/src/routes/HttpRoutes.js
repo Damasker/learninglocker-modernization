@@ -234,7 +234,7 @@ router.get(
 );
 
 /**
- * Personas
+ * Personas (ADR 0021: always-on dedicated native routers; no restify fallback).
  */
 router.use(personaRESTHandler);
 router.use(personaIdentifierRESTHandler);

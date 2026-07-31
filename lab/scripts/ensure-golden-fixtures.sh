@@ -25,6 +25,8 @@ USER_ID="${LAB_USER_ID:-dddddddddddddddddddddddd}"
 QUERY_CACHE_ID="${LAB_QUERY_CACHE_ID:-eeeeeeeeeeeeeeeeeeeeeeee}"
 QUERY_CACHE_VALUE_ID="${LAB_QUERY_CACHE_VALUE_ID:-ffffffffffffffffffffffff}"
 STATEMENT_ID="${LAB_STATEMENT_ID:-111111111111111111111111}"
+PERSONA_ID="${LAB_PERSONA_ID:-222222222222222222222222}"
+PERSONA_IDENTIFIER_ID="${LAB_PERSONA_IDENTIFIER_ID:-333333333333333333333333}"
 BASIC_KEY="${LAB_BASIC_KEY:-lab_golden_key_00000000000000000001}"
 BASIC_SECRET="${LAB_BASIC_SECRET:-lab_golden_secret_000000000000000001}"
 USER_EMAIL="${LAB_USER_EMAIL:-lab-golden@example.invalid}"
@@ -40,6 +42,8 @@ const userId = ObjectId('${USER_ID}');
 const queryCacheId = ObjectId('${QUERY_CACHE_ID}');
 const queryCacheValueId = ObjectId('${QUERY_CACHE_VALUE_ID}');
 const statementId = ObjectId('${STATEMENT_ID}');
+const personaId = ObjectId('${PERSONA_ID}');
+const personaIdentifierId = ObjectId('${PERSONA_IDENTIFIER_ID}');
 const dbn = db.getSiblingDB('${DB_NAME}');
 
 dbn.organisations.update(
@@ -203,6 +207,46 @@ dbn.statements.insertOne({
   }
 });
 
+try { dbn.createCollection('personas'); } catch (e) {}
+try { dbn.createCollection('personaIdentifiers'); } catch (e) {}
+
+dbn.personas.update(
+  { _id: personaId },
+  {
+    \$set: {
+      organisation: orgId,
+      name: 'Lab Golden Persona',
+      updatedAt: new Date()
+    },
+    \$setOnInsert: {
+      _id: personaId,
+      createdAt: new Date()
+    }
+  },
+  { upsert: true }
+);
+
+dbn.personaIdentifiers.update(
+  { _id: personaIdentifierId },
+  {
+    \$set: {
+      organisation: orgId,
+      personaId: personaId,
+      ifi: {
+        key: 'mbox',
+        value: 'mailto:lab-golden-persona@example.invalid'
+      },
+      locked: false,
+      updatedAt: new Date()
+    },
+    \$setOnInsert: {
+      _id: personaIdentifierId,
+      createdAt: new Date()
+    }
+  },
+  { upsert: true }
+);
+
 print(JSON.stringify({
   ok: true,
   organisationId: '${ORG_ID}',
@@ -210,6 +254,8 @@ print(JSON.stringify({
   clientId: '${CLIENT_ID}',
   userId: '${USER_ID}',
   statementId: '${STATEMENT_ID}',
+  personaId: '${PERSONA_ID}',
+  personaIdentifierId: '${PERSONA_IDENTIFIER_ID}',
   basicKey: '${BASIC_KEY}',
   userEmail: '${USER_EMAIL}'
 }));

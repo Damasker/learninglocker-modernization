@@ -11,7 +11,9 @@ Source of truth for model list: `lib/kernel/api/restifyModels.js`.
 
 ## Persona exception
 
-Persona and PersonaIdentifier CRUD are **not** restify-mounted; they use dedicated routers under `api/src/routes/personas/`.
+Persona and PersonaIdentifier CRUD are **not** restify-mounted; they use dedicated
+routers under `api/src/routes/personas/` and are **always-on native** (ADR 0021).
+No `ENABLE_NATIVE_*` gate — there is no restify fallback.
 
 ## Client
 
@@ -110,11 +112,12 @@ keeps CUD 405 plus specialised POSTs under the same flag (ADR 0018).
 
 ## Remaining restify-owned specials
 
-None for the inventory map in this doc. Persona / PersonaIdentifier stay on
-dedicated routers under `api/src/routes/personas/`.
+None for the inventory map in this doc. Persona / PersonaIdentifier are
+always-on dedicated natives (ADR 0021).
 
 When `ENABLE_NATIVE_CONNECTION_INDEXES_ROUTER=true` (ADR 0020), native handlers
 serve `GET /connection/:model` and `GET /indexes/:model` for models with
-`connections: true` in `restifyModels.js`.
+`connections: true` in `restifyModels.js`. Persona connection helpers remain on
+the dedicated persona routers (`/connection/persona`, `/connection/personaidentifier`).
 
 Do not flip traffic without dual-run parity of scope filters from `lib/kernel/auth`.

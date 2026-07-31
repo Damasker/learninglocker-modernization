@@ -53,5 +53,4 @@ ADR 0020 connection/indexes:
 ## Next
 
 1. Keep soaking canary UI on `ll-modern`.
-2. Persona / PersonaIdentifier dedicated routers (optional strangler).
-3. Non-lab deploys remain opt-in (code defaults `false`).
+2. Non-lab deploys remain opt-in (code defaults `false`).
