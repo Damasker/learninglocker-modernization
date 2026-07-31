@@ -44,7 +44,14 @@ ADR 0019 analytics:
 - `NATIVE_STATEMENT_AGGREGATE_COMPARE_OK` — aggregate / async / count / v1 all
   **200** with matching kind/count/body hash (golden `statement.id` filter)
 
+ADR 0020 connection/indexes:
+
+- `NATIVE_CONNECTION_INDEXES_COMPARE_OK` — status parity on connection + indexes
+  for organisation/lrs/client/statement/querybuildercache; indexes body hashes
+  match; connection accepts 200/403 (client-basic scope)
+
 ## Next
 
 1. Keep soaking canary UI on `ll-modern`.
-2. Non-lab deploys remain opt-in (code defaults `false`).
+2. Persona / PersonaIdentifier dedicated routers (optional strangler).
+3. Non-lab deploys remain opt-in (code defaults `false`).

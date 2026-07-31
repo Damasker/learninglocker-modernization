@@ -54,6 +54,7 @@ Required for core post-ingest path:
 - Optional forwarding/cache GET routers: `ENABLE_NATIVE_STATEMENT_FORWARDING_ROUTER`, `ENABLE_NATIVE_QUERY_BUILDER_CACHE_ROUTER`, `ENABLE_NATIVE_QUERY_BUILDER_CACHE_VALUE_ROUTER`
 - Optional Statement GET router: `ENABLE_NATIVE_STATEMENT_ROUTER` (create/update stay 405; delete stays restify-gated)
 - Optional statement analytics router: `ENABLE_NATIVE_STATEMENT_AGGREGATE_ROUTER` (`/statements/aggregate*`, `/statements/count`, `/v1/statements/aggregate`)
+- Optional connection/indexes router: `ENABLE_NATIVE_CONNECTION_INDEXES_ROUTER` (`/connection/:model`, `/indexes/:model`)
 - Native GET rollout is staged (ADR 0014): lab `ll-modern` may run with all flags `true` while code defaults stay `false`
 
 ## Persona Mongo access
