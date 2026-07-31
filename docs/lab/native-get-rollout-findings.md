@@ -30,7 +30,8 @@ Stage 2 / writes:
 - UI canary on modern: `UI HTTP 200`, `/api` proxy `HTTP 200`
 - `NATIVE_USER_WRITE_SMOKE_OK` — user **201 / 200 / 204** (both hosts)
 - `NATIVE_STATEMENT_WRITE_SMOKE_OK` — statement create/put **403**, delete **204**;
-  batchdelete CUD **403** (both hosts; scope-then-405 parity)
+  batchdelete CUD **405**; specialised POSTs initialise **200**, terminate **204**,
+  empty filter **400** (both hosts; ADR 0018)
 
 Stage 3:
 
@@ -40,4 +41,5 @@ Stage 3:
 ## Next
 
 1. Keep soaking canary UI on `ll-modern`.
-2. Non-lab deploys remain opt-in (code defaults `false`).
+2. Statement analytics aggregate routes (`/statements/aggregate*`) — follow-on ADR.
+3. Non-lab deploys remain opt-in (code defaults `false`).

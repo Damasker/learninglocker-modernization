@@ -67,7 +67,7 @@ Defaults **off**.
 |------|-------|-------|
 | `ENABLE_NATIVE_SITE_SETTINGS_ROUTER` | `/v2/sitesettings` CRUD | Scope filter `{}` |
 | `ENABLE_NATIVE_STREAM_ROUTER` | `/v2/stream` CRUD | Org scope |
-| `ENABLE_NATIVE_BATCH_DELETE_ROUTER` | `/v2/batchdelete` GET + CUD **405** | Specialised POSTs stay custom (ADR 0017) |
+| `ENABLE_NATIVE_BATCH_DELETE_ROUTER` | `/v2/batchdelete` GET + CUD **405** + specialised POSTs | initialise / terminate / terminate-all (ADR 0018) |
 
 Defaults **off**.
 
@@ -94,12 +94,11 @@ Default flag is **off**.
 ## Native writes (ADR 0016 / 0017)
 
 Same `ENABLE_NATIVE_*_ROUTER` flags mount POST/PUT/PATCH/DELETE beside GET for
-all restify models. Statement and BatchDelete keep 405 / gated / specialised
-POST semantics (ADR 0017).
+all restify models. Statement keeps 405 / gated delete (ADR 0017). BatchDelete
+keeps CUD 405 plus specialised POSTs under the same flag (ADR 0018).
 
 ## Remaining restify-owned write specials
 
-- BatchDelete specialised POSTs (`initialise` / `terminate`)
 - Analytics routes (`/statements/aggregate*`)
 
 Do not flip traffic without dual-run parity of scope filters from `lib/kernel/auth`.

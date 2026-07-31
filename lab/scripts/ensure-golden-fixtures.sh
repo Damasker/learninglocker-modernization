@@ -80,7 +80,7 @@ dbn.client.update(
       title: 'Lab Golden Client',
       organisation: orgId,
       lrs_id: lrsId,
-      scopes: ['xapi/all'],
+      scopes: ['xapi/all', 'statements/delete'],
       isTrusted: true,
       api: {
         basic_key: '${BASIC_KEY}',
@@ -111,7 +111,7 @@ dbn.users.update(
       organisations: [orgId],
       organisationSettings: [{
         organisation: orgId,
-        scopes: ['all'],
+        scopes: ['all', 'statements/delete'],
         roles: [],
         filter: '{}'
       }],

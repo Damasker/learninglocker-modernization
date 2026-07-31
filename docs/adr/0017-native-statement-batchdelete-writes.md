@@ -23,7 +23,8 @@ channels, or queue names. Write *semantics* must stay identical to restify.
      `getScopeFilter({ actionName: 'delete' })` + document remove (204)
 2. When `ENABLE_NATIVE_BATCH_DELETE_ROUTER=true`, native router mounts
    POST/PUT/PATCH/DELETE → run `getScopeFilter` then **405**. Specialised POSTs
-   (`/v2/batchdelete/initialise`, `terminate`, …) stay on existing controllers.
+   (`/v2/batchdelete/initialise`, `terminate`, …) stay on existing controllers
+   until ADR 0018 moves mount ownership under the same flag.
 3. Defaults remain **off**; lab modern overlay stays **on**.
 4. Do not change statement document shape, notify, or queue contracts.
 
@@ -38,4 +39,5 @@ channels, or queue names. Write *semantics* must stay identical to restify.
 ### Negative
 
 - Actual Statement deletion still requires `statements/delete` scope (unchanged).
-- BatchDelete mutations remain on specialised routes, not `/v2/batchdelete` CRUD.
+- BatchDelete specialised POST mount ownership moves under the same flag in
+  ADR 0018 (controllers unchanged).
