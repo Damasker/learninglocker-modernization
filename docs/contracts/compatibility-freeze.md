@@ -38,7 +38,8 @@ Required for core post-ingest path:
 ## Auth / API
 
 - Passport strategies and JWT shapes in `api/src/auth/`
-- Scope filters in `lib/services/auth/`
+- Scope filters and authInfo selectors via `lib/kernel/auth` (implementations in `lib/services/auth/`)
+- Durable scope strings frozen in `lib/kernel/auth` contract tests (`site_admin`, `xapi/*`, `statements/*`)
 - `/v2` REST surface and statement aggregate/count routes in `api/src/routes/HttpRoutes.js`
 
 ## xAPI peer

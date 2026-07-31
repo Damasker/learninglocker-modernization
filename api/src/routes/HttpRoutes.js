@@ -10,12 +10,15 @@ import {
   pick
 } from 'lodash';
 import getAuthFromRequest from 'lib/helpers/getAuthFromRequest';
-import getTokenTypeFromAuthInfo from 'lib/services/auth/authInfoSelectors/getTokenTypeFromAuthInfo';
-import getScopesFromAuthInfo from 'lib/services/auth/authInfoSelectors/getScopesFromAuthInfo';
-import getUserIdFromAuthInfo from 'lib/services/auth/authInfoSelectors/getUserIdFromAuthInfo';
+import {
+  getTokenTypeFromAuthInfo,
+  getScopesFromAuthInfo,
+  getUserIdFromAuthInfo,
+  MANAGER_SELECT,
+  SITE_ADMIN,
+} from 'lib/kernel/auth';
 import { jsonSuccess, serverError } from 'api/utils/responses';
 import passport from 'api/auth/passport';
-import { MANAGER_SELECT } from 'lib/services/auth/selects/models/user.js';
 
 // CONTROLLERS
 import AuthController from 'api/controllers/AuthController';
@@ -61,7 +64,6 @@ import UserOrganisationSettingsRouter from 'api/routes/userOrganisationSettings/
 
 // CONSTANTS
 import * as routes from 'lib/constants/routes';
-import { SITE_ADMIN } from 'lib/constants/scopes';
 import {
   GOOGLE_AUTH_OPTIONS,
   DEFAULT_PASSPORT_OPTIONS,
