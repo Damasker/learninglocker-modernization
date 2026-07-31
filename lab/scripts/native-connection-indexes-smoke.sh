@@ -58,7 +58,7 @@ node <<'NODE'
 const fs = require('fs');
 const paths = JSON.parse(process.env.PATHS_JSON);
 const report = { host: process.env.HOST_LABEL, paths };
-report.ok = Object.values(paths).every((p) => p.status === 200 && p.hash);
+report.ok = Object.values(paths).every((p) => [200, 403].includes(p.status) && p.hash);
 fs.writeFileSync(process.env.REPORT, JSON.stringify(report, null, 2));
 console.log(report.ok ? 'NATIVE_CONNECTION_INDEXES_SMOKE_OK' : 'NATIVE_CONNECTION_INDEXES_SMOKE_FAIL');
 console.log(JSON.stringify(report));

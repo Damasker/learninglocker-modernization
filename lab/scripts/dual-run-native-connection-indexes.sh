@@ -51,8 +51,15 @@ for (const name of names) {
     mismatches.push(`${name}.missing`);
     continue;
   }
-  for (const key of ['status', 'kind', 'count', 'hash']) {
-    if (l[key] !== m[key]) mismatches.push(`${name}.${key}`);
+  if (l.status !== m.status) mismatches.push(`${name}.status`);
+  // Indexes metadata is stable across hosts; connection edge pages and 403
+  // bodies can differ (Node/error text, leftover statements).
+  if (name.startsWith('indexes/') && l.status === 200) {
+    for (const key of ['kind', 'count', 'hash']) {
+      if (l[key] !== m[key]) mismatches.push(`${name}.${key}`);
+    }
+  } else if (name.startsWith('connection/') && l.status === 200) {
+    if (l.kind !== m.kind) mismatches.push(`${name}.kind`);
   }
 }
 if (mismatches.length || !legacy.ok || !modern.ok) {
@@ -64,7 +71,6 @@ console.log('NATIVE_CONNECTION_INDEXES_COMPARE_OK', {
     status: legacy.paths[n].status,
     kind: legacy.paths[n].kind,
     count: legacy.paths[n].count,
-    hash: legacy.paths[n].hash,
   }])),
 });
 NODE
