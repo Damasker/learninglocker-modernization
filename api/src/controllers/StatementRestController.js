@@ -18,9 +18,18 @@ const reads = createScopedGetController({
 });
 
 /**
- * Restify-parity: Statement create/update are permanently Method Not Allowed.
+ * Restify-parity: preMiddleware scope check runs before preCreate/preUpdate 405.
  */
-const methodNotAllowed = (req, res) => res.sendStatus(405);
+const methodNotAllowedAfterScope = actionName => catchErrors(async (req, res) => {
+  const authInfo = getAuthFromRequest(req);
+  await getScopeFilter({
+    modelName: 'statement',
+    actionName,
+    authInfo,
+    body: req.body,
+  });
+  return res.sendStatus(405);
+});
 
 /**
  * Restify-parity Statement delete: gated by ENABLE_STATEMENT_DELETION + scope.
@@ -60,7 +69,7 @@ const remove = catchErrors(async (req, res) => {
 
 export default {
   ...reads,
-  create: methodNotAllowed,
-  update: methodNotAllowed,
+  create: methodNotAllowedAfterScope('create'),
+  update: methodNotAllowedAfterScope('edit'),
   remove,
 };

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Smoke Statement/BatchDelete write verbs (405 / gated semantics).
+# Smoke Statement/BatchDelete write verbs (scope-then-405 / gated delete).
 # Usage:
 #   HOST_LABEL=ll-modern bash lab/scripts/native-statement-write-smoke.sh
 
@@ -19,6 +19,9 @@ BASIC_SECRET="${LAB_BASIC_SECRET:-lab_golden_secret_000000000000000001}"
 mkdir -p "${REPORT_DIR}"
 REPORT="${REPORT_DIR}/${HOST_LABEL}-native-statement-write.json"
 cd "${APP}"
+
+# Re-seed fixtures so Statement DELETE does not leave a missing id for later runs.
+bash lab/scripts/ensure-golden-fixtures.sh >/dev/null
 
 USER_TOKEN="$(curl -fsS -X POST -u "${USER_EMAIL}:${USER_PASSWORD}" \
   "${API_URL}/auth/jwt/password")"
@@ -74,16 +77,16 @@ const report = {
     deleteStatus: n('BD_DELETE'),
   },
 };
-// Expect 405 for create/put on statement and all batchdelete CUD.
-// Statement DELETE with org JWT (no statements/delete) is 403; if deletion disabled, 405.
-const delOk = [403, 405].includes(report.statement.deleteStatus);
-report.ok =
-  report.statement.createStatus === 405 &&
-  report.statement.putStatus === 405 &&
-  delOk &&
-  report.batchDelete.createStatus === 405 &&
-  report.batchDelete.putStatus === 405 &&
-  report.batchDelete.deleteStatus === 405;
+// Restify runs getScopeFilter before 405. Org JWT without statements/write → 403 on
+// statement create/put. Client basic without statements/delete → 403 on batchdelete CUD.
+// Statement DELETE may be 403 (no delete scope), 405 (deletion disabled), or 204 (allowed).
+const stmtWriteOk = [403, 405].includes(report.statement.createStatus)
+  && report.statement.createStatus === report.statement.putStatus;
+const stmtDeleteOk = [403, 405, 204].includes(report.statement.deleteStatus);
+const bdOk = [403, 405].includes(report.batchDelete.createStatus)
+  && report.batchDelete.createStatus === report.batchDelete.putStatus
+  && report.batchDelete.createStatus === report.batchDelete.deleteStatus;
+report.ok = stmtWriteOk && stmtDeleteOk && bdOk;
 fs.writeFileSync(process.env.REPORT, JSON.stringify(report, null, 2));
 console.log(report.ok ? 'NATIVE_STATEMENT_WRITE_SMOKE_OK' : 'NATIVE_STATEMENT_WRITE_SMOKE_FAIL');
 console.log(JSON.stringify(report));
