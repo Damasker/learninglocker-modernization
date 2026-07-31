@@ -37,9 +37,14 @@ Stage 3:
 
 - Sync + `start-core.sh` on both hosts (2026-07-31): `ll-modern` → 21×`true`;
   `ll-legacy` → 21×`false` via `app.env.overlay.legacy-restify`.
+  (Flag count is now **22** with ADR 0019 aggregate router.)
+
+ADR 0019 analytics:
+
+- `NATIVE_STATEMENT_AGGREGATE_COMPARE_OK` — aggregate / async / count / v1 all
+  **200** with matching kind/count/body hash (golden `statement.id` filter)
 
 ## Next
 
 1. Keep soaking canary UI on `ll-modern`.
-2. Statement analytics aggregate routes (`/statements/aggregate*`) — follow-on ADR.
-3. Non-lab deploys remain opt-in (code defaults `false`).
+2. Non-lab deploys remain opt-in (code defaults `false`).
