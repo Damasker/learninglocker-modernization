@@ -123,6 +123,7 @@ const stmtDeleteOk = [403, 405, 204].includes(report.statement.deleteStatus);
 const bdOk = [403, 405].includes(report.batchDelete.createStatus)
   && report.batchDelete.createStatus === report.batchDelete.putStatus
   && report.batchDelete.createStatus === report.batchDelete.deleteStatus;
+// After fixtures grant statements/delete, CUD is scope-then-405 (405); without it, 403.
 const bdSpecialOk = report.batchDelete.initialiseStatus === 200
   && report.batchDelete.terminateStatus === 204
   && report.batchDelete.terminateAllStatus === 204
