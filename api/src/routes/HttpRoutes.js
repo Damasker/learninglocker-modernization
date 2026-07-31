@@ -65,7 +65,9 @@ import personaIdentifierRESTHandler from 'api/routes/personas/personaIdentifierR
 import UserOrganisationsRouter from 'api/routes/userOrganisations/router';
 import UserOrganisationSettingsRouter from 'api/routes/userOrganisationSettings/router';
 import clientRouter from 'api/routes/clients/router';
+import lrsRouter from 'api/routes/lrs/router';
 import { isNativeClientRouterEnabled } from 'lib/kernel/api/client';
+import { isNativeLrsRouterEnabled } from 'lib/kernel/api/lrs';
 
 // CONSTANTS
 import * as routes from 'lib/constants/routes';
@@ -189,6 +191,11 @@ router.use(personaIdentifierRESTHandler);
 // so GET /v2/client(+/:id) hits the kernel-backed controller; writes stay on restify.
 if (isNativeClientRouterEnabled()) {
   router.use(clientRouter);
+}
+
+// Native LRS GET strangler (feature-flagged). Writes stay on restify.
+if (isNativeLrsRouterEnabled()) {
+  router.use(lrsRouter);
 }
 
 /**

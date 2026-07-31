@@ -22,6 +22,15 @@ When `ENABLE_NATIVE_CLIENT_ROUTER=true`, native handlers serve:
 
 using `lib/kernel/auth` `getScopeFilter` + `lib/kernel/api/client` filter helpers. Restify continues to own POST/PUT/PATCH/DELETE for Client. Default flag is **off**.
 
+## LRS GET strangler
+
+When `ENABLE_NATIVE_LRS_ROUTER=true`, native handlers serve:
+
+- `GET /v2/lrs`
+- `GET /v2/lrs/:id`
+
+using `lib/kernel/auth` `getScopeFilter` + `lib/kernel/api/lrs` filter helpers. Restify continues to own writes. Default flag is **off**.
+
 ## Replacement order (proposed)
 
 1. Keep Statement restify read + scoped delete behavior; never open create/update via `/v2`
