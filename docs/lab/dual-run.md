@@ -30,6 +30,9 @@ Differential check of the compatibility freeze golden path on `ll-legacy` vs `ll
 | `lab/scripts/canonical-json-report.js` | hash canonical JSON after removing volatile/auth fields |
 | `lab/scripts/compare-org-jwt-get-reports.js` | require 200 + equal kind/count/body hash per path |
 | `lab/scripts/dual-run-org-jwt-get.sh` | orchestrate org-JWT body parity across both VMs |
+| `lab/scripts/native-write-smoke.sh` | dashboard create/update/delete under org JWT |
+| `lab/scripts/native-user-write-smoke.sh` | user create/update/delete under org JWT |
+| `lab/scripts/dual-run-native-write.sh` | legacy restify vs modern native dashboard write status |
 
 Fixed lab credentials (synthetic only):
 

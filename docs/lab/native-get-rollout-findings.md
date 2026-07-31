@@ -4,8 +4,7 @@
 
 Stage 1 **live** and stage 2 **canary UI** on `ll-modern` under
 [ADR 0014](../adr/0014-native-get-rollout.md). Native writes follow
-[ADR 0016](../adr/0016-native-v2-writes.md)
-(`feat/api-native-writes-and-ui-canary`).
+[ADR 0016](../adr/0016-native-v2-writes.md) (incl. User CRUD).
 
 ## Decision executed
 
@@ -27,12 +26,16 @@ Stage 1:
 
 Stage 2 / writes:
 
-- `NATIVE_WRITE_SMOKE_OK` on `ll-modern` (native) — dashboard create **201** / update **200** / delete **204**
-- `NATIVE_WRITE_SMOKE_OK` on `ll-legacy` (restify) — same statuses
-- UI canary on modern: `UI HTTP 200`, `/api` proxy `HTTP 200`, dashboard flag on
+- `NATIVE_WRITE_SMOKE_OK` — dashboard create **201** / update **200** / delete **204** (both hosts)
+- UI canary on modern: `UI HTTP 200`, `/api` proxy `HTTP 200`
+
+User writes (`feat/api-native-user-writes`):
+
+- `NATIVE_USER_WRITE_SMOKE_OK` on `ll-modern` (native) — **201 / 200 / 204**
+- `NATIVE_USER_WRITE_SMOKE_OK` on `ll-legacy` (restify) — same statuses
 
 ## Next
 
 1. Soak canary UI on `ll-modern`.
 2. Default-on (stage 3) only after soak.
-3. User / Statement / BatchDelete write stranglers (follow-up).
+3. Statement / BatchDelete write specials (follow-up; keep 405 / specialised POSTs).

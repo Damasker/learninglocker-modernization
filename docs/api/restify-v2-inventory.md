@@ -33,8 +33,9 @@ flag is **off**.
 
 When `ENABLE_NATIVE_ROLE_ROUTER=true`: Role full CRUD on `/v2/role`.
 
-When `ENABLE_NATIVE_USER_ROUTER=true`: GET list/by-id only (applies
-`getScopeSelect`). User **writes stay on restify**. Defaults **off**.
+When `ENABLE_NATIVE_USER_ROUTER=true`: User full CRUD on `/v2/user`
+(organisations `checkOrg` parity on create; field picks; `MANAGER_SELECT`
+response). Defaults **off**.
 
 ## Analytics
 
@@ -89,11 +90,10 @@ Default flag is **off**.
 ## Native writes (ADR 0016)
 
 Same `ENABLE_NATIVE_*_ROUTER` flags mount POST/PUT/PATCH/DELETE beside GET for
-all models except User, Statement, and BatchDelete.
+all models except Statement and BatchDelete.
 
 ## Remaining restify-owned
 
-- User writes
 - Statement create/update 405 + gated delete
 - BatchDelete write 405
 - Analytics routes (`/statements/aggregate*`)
