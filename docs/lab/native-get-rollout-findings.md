@@ -34,8 +34,8 @@ Stage 2 / writes:
 
 Stage 3:
 
-- Base overlay default-on; legacy-restify overlay keeps dual-run oracle off
-  (verify after sync: modern flags `true`, legacy flags `false`).
+- Sync + `start-core.sh` on both hosts (2026-07-31): `ll-modern` → 21×`true`;
+  `ll-legacy` → 21×`false` via `app.env.overlay.legacy-restify`.
 
 ## Next
 
