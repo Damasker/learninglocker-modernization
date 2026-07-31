@@ -50,7 +50,18 @@ ADR 0020 connection/indexes:
   for organisation/lrs/client/statement/querybuildercache; indexes body hashes
   match; connection accepts 200/403 (client-basic scope)
 
+ADR 0021 Persona / PersonaIdentifier (always-on native):
+
+- `NATIVE_PERSONA_COMPARE_OK` — both hosts **200** on list/by-id/count/connection
+  for persona + personaIdentifier; golden by-id body hashes match. List/count
+  volumes may differ across independent lab Mongo DBs (compare requires status +
+  kind; by-id requires hash). Fixture fix: seed `persona` (not `personaId`) so
+  persona-service `document.persona.toString()` does not crash.
+
 ## Next
 
 1. Keep soaking canary UI on `ll-modern`.
 2. Non-lab deploys remain opt-in (code defaults `false`).
+3. Remaining always-on HttpRoutes outside the restify inventory (uploads, statement
+   metadata, mergepersona) stay documented separately; no further GET strangler
+   flags on the inventory map.
