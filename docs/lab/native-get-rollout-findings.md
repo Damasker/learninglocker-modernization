@@ -2,8 +2,8 @@
 
 ## Status
 
-Stage 1 accepted under [ADR 0014](../adr/0014-native-get-rollout.md) on
-`feat/lab-native-get-rollout`.
+Stage 1 **live** on `ll-modern` under [ADR 0014](../adr/0014-native-get-rollout.md)
+(`feat/lab-native-get-rollout`).
 
 ## Decision executed
 
@@ -14,18 +14,16 @@ Stage 1 accepted under [ADR 0014](../adr/0014-native-get-rollout.md) on
 
 Code / base overlay defaults remain `false`. Modern persistence comes from
 `lab/env/app.env.overlay.modern-native-get` via `STACK=modern` in `start-core.sh`.
+Dual-run orchestrators keep modern flags on (`KEEP_MODERN_NATIVE_ON=1`).
 
-## Verification (pending first post-merge run)
+## Verification (2026-07-31)
 
-Re-run after syncing this branch / `master`:
+Synced branch to both VMs, rebuilt API on modern, compared:
 
-```bash
-BRANCH=feat/lab-native-get-rollout bash lab/scripts/dual-run-native-get.sh
-BRANCH=feat/lab-native-get-rollout bash lab/scripts/dual-run-org-jwt-get.sh
-```
+- `NATIVE_GET_COMPARE_OK` — 20/20 status parity (client basic)
+- `ORG_JWT_BODY_COMPARE_OK` — 20/20 canonical body parity (org JWT)
 
-Expect `NATIVE_GET_COMPARE_OK` and `ORG_JWT_BODY_COMPARE_OK`, with modern flags
-left on afterward.
+Modern flags left **on** after both runs.
 
 ## Next
 
