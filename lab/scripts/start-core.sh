@@ -14,6 +14,17 @@ cd "${APP}"
 if [[ -f lab/scripts/apply-env-overlay.sh && -f lab/env/app.env.overlay ]]; then
   bash lab/scripts/apply-env-overlay.sh "${APP}/.env" lab/env/app.env.overlay
 fi
+# ADR 0014 stage 1: modern lab keeps native GET routers on.
+STACK="${STACK:-}"
+if [[ -z "${STACK}" ]]; then
+  case "$(hostname -s 2>/dev/null || hostname)" in
+    *modern*) STACK=modern ;;
+    *legacy*) STACK=legacy ;;
+  esac
+fi
+if [[ "${STACK}" == "modern" && -f lab/env/app.env.overlay.modern-native-get ]]; then
+  bash lab/scripts/apply-env-overlay.sh "${APP}/.env" lab/env/app.env.overlay.modern-native-get
+fi
 if [[ -f lab/scripts/apply-env-overlay.sh && -f lab/env/xapi.env.overlay ]]; then
   bash lab/scripts/apply-env-overlay.sh "${XAPI}/.env" lab/env/xapi.env.overlay
 fi
