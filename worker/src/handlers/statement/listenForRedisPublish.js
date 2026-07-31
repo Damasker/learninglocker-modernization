@@ -4,14 +4,19 @@ import Statement from 'lib/models/statement';
 import statementHandler from 'worker/handlers/statement/statementHandler';
 import * as redis from 'lib/connections/redis';
 import cachePrefix from 'lib/helpers/cachePrefix';
+import {
+  STATEMENT_NOTIFY_CHANNEL_SUFFIX,
+  STATEMENT_NEW_LIST_SUFFIX,
+} from 'lib/kernel/worker/notify';
 
 const redisOpts = redis.getOptions();
 
 export default () => {
   const subClient = redis.createClient();
   const pubClient = redis.createClient();
-  const subKey = cachePrefix('statement.notify'); // subscribe channel is not prefixed by bull, so must manually do this!
-  const pubKey = cachePrefix('statement.new');
+  // subscribe channel is not prefixed by bull, so must manually do this!
+  const subKey = cachePrefix(STATEMENT_NOTIFY_CHANNEL_SUFFIX);
+  const pubKey = cachePrefix(STATEMENT_NEW_LIST_SUFFIX);
   logger.debug('Using redis options:', redisOpts);
   logger.info(`Subscribing to '${subKey}' and will rpop on key '${pubKey}'`);
 
