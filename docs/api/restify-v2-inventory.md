@@ -110,7 +110,11 @@ keeps CUD 405 plus specialised POSTs under the same flag (ADR 0018).
 
 ## Remaining restify-owned specials
 
-None for the inventory map in this doc. Connection/index helpers and persona
-dedicated routers remain as documented above.
+None for the inventory map in this doc. Persona / PersonaIdentifier stay on
+dedicated routers under `api/src/routes/personas/`.
+
+When `ENABLE_NATIVE_CONNECTION_INDEXES_ROUTER=true` (ADR 0020), native handlers
+serve `GET /connection/:model` and `GET /indexes/:model` for models with
+`connections: true` in `restifyModels.js`.
 
 Do not flip traffic without dual-run parity of scope filters from `lib/kernel/auth`.

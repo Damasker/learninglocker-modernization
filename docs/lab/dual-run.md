@@ -37,6 +37,8 @@ Differential check of the compatibility freeze golden path on `ll-legacy` vs `ll
 | `lab/scripts/dual-run-native-statement-write.sh` | legacy vs modern statement/batchdelete write + specialised POST status |
 | `lab/scripts/native-statement-aggregate-smoke.sh` | aggregate/async/count/v1 status + body hash |
 | `lab/scripts/dual-run-native-statement-aggregate.sh` | legacy vs modern analytics status + body hash |
+| `lab/scripts/native-connection-indexes-smoke.sh` | connection/indexes status + body hash |
+| `lab/scripts/dual-run-native-connection-indexes.sh` | legacy vs modern connection/indexes parity |
 
 Fixed lab credentials (synthetic only):
 

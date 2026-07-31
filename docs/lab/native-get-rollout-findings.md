@@ -47,4 +47,5 @@ ADR 0019 analytics:
 ## Next
 
 1. Keep soaking canary UI on `ll-modern`.
-2. Non-lab deploys remain opt-in (code defaults `false`).
+2. Persona / PersonaIdentifier dedicated routers (optional strangler).
+3. Non-lab deploys remain opt-in (code defaults `false`).

@@ -86,6 +86,7 @@ import queryBuilderCacheRouter from 'api/routes/queryBuilderCaches/router';
 import queryBuilderCacheValueRouter from 'api/routes/queryBuilderCacheValues/router';
 import statementRouter from 'api/routes/statements/router';
 import statementAnalyticsRouter from 'api/routes/statementAnalytics/router';
+import connectionIndexesRouter from 'api/routes/connectionIndexes/router';
 import { isNativeClientRouterEnabled } from 'lib/kernel/api/client';
 import { isNativeLrsRouterEnabled } from 'lib/kernel/api/lrs';
 import { isNativeOrganisationRouterEnabled } from 'lib/kernel/api/organisation';
@@ -118,6 +119,7 @@ import {
   isNativeStatementRouterEnabled,
   isNativeStatementAggregateRouterEnabled,
 } from 'lib/kernel/api/statementFlags';
+import { isNativeConnectionIndexesRouterEnabled } from 'lib/kernel/api/connectionIndexesFlags';
 
 // CONSTANTS
 import * as routes from 'lib/constants/routes';
@@ -315,6 +317,9 @@ if (isNativeStatementRouterEnabled()) {
 }
 if (isNativeStatementAggregateRouterEnabled()) {
   router.use(statementAnalyticsRouter);
+}
+if (isNativeConnectionIndexesRouterEnabled()) {
+  router.use(connectionIndexesRouter);
 }
 
 /**
@@ -546,72 +551,74 @@ restify.serve(router, BatchDelete, {
 });
 
 /**
- * CONNECTIONS and INDEXES
+ * CONNECTIONS and INDEXES (ADR 0020: native router when flag on).
  */
-const modelsByName = {
-  Organisation,
-  Stream,
-  Export,
-  Download,
-  Query,
-  ImportCsv,
-  User,
-  Client,
-  Visualisation,
-  Dashboard,
-  LRS,
-  Statement,
-  StatementForwarding,
-  QueryBuilderCache,
-  QueryBuilderCacheValue,
-  Role,
-  PersonaAttribute,
-  PersonasImport,
-  PersonasImportTemplate,
-  SiteSettings,
-  BatchDelete,
-};
+if (!isNativeConnectionIndexesRouterEnabled()) {
+  const modelsByName = {
+    Organisation,
+    Stream,
+    Export,
+    Download,
+    Query,
+    ImportCsv,
+    User,
+    Client,
+    Visualisation,
+    Dashboard,
+    LRS,
+    Statement,
+    StatementForwarding,
+    QueryBuilderCache,
+    QueryBuilderCacheValue,
+    Role,
+    PersonaAttribute,
+    PersonasImport,
+    PersonasImportTemplate,
+    SiteSettings,
+    BatchDelete,
+  };
 
-const generatedRouteModels = RESTIFY_V2_MODELS
-  .filter(model => model.connections)
-  .map((model) => {
-    const mongooseModel = modelsByName[model.modelName];
-    if (!mongooseModel) {
-      throw new Error(`Missing mongoose model for restify registry entry ${model.modelName}`);
-    }
-    return mongooseModel;
-  });
-
-const generateConnectionsRoute = (model, routeSuffix, authentication) => {
-  const route = `${routes.CONNECTION}/${routeSuffix}`;
-  const controller = generateConnectionController(model);
-  router.get(route, authentication, controller);
-};
-
-const generateIndexesRoute = (model, routeSuffix, authentication) => {
-  const route = `${routes.INDEXES}/${routeSuffix}`;
-  const controller = generateIndexesController(model);
-  router.get(route, authentication, controller);
-};
-
-const generateModelRoutes = (model) => {
-  const routeSuffix = model.modelName.toLowerCase();
-  const authentication = (req, res, next) => passport.authenticate(
-    ['jwt', 'clientBasic'],
-    DEFAULT_PASSPORT_OPTIONS,
-    (err, user) => {
-      if (err || !user) {
-        res.status(401).set('Content-Type', 'text/plain').send('Unauthorized');
-        return;
+  const generatedRouteModels = RESTIFY_V2_MODELS
+    .filter(model => model.connections)
+    .map((model) => {
+      const mongooseModel = modelsByName[model.modelName];
+      if (!mongooseModel) {
+        throw new Error(`Missing mongoose model for restify registry entry ${model.modelName}`);
       }
-      req.user = user;
-      next();
-    },
-  )(req, res, next);
-  generateConnectionsRoute(model, routeSuffix, authentication);
-  generateIndexesRoute(model, routeSuffix, authentication);
-};
+      return mongooseModel;
+    });
 
-generatedRouteModels.map(generateModelRoutes);
+  const generateConnectionsRoute = (model, routeSuffix, authentication) => {
+    const route = `${routes.CONNECTION}/${routeSuffix}`;
+    const controller = generateConnectionController(model);
+    router.get(route, authentication, controller);
+  };
+
+  const generateIndexesRoute = (model, routeSuffix, authentication) => {
+    const route = `${routes.INDEXES}/${routeSuffix}`;
+    const controller = generateIndexesController(model);
+    router.get(route, authentication, controller);
+  };
+
+  const generateModelRoutes = (model) => {
+    const routeSuffix = model.modelName.toLowerCase();
+    const authentication = (req, res, next) => passport.authenticate(
+      ['jwt', 'clientBasic'],
+      DEFAULT_PASSPORT_OPTIONS,
+      (err, user) => {
+        if (err || !user) {
+          res.status(401).set('Content-Type', 'text/plain').send('Unauthorized');
+          return;
+        }
+        req.user = user;
+        next();
+      },
+    )(req, res, next);
+    generateConnectionsRoute(model, routeSuffix, authentication);
+    generateIndexesRoute(model, routeSuffix, authentication);
+  };
+
+  generatedRouteModels.map(generateModelRoutes);
+}
 
 export default router;
