@@ -1,7 +1,7 @@
 import PersonaAttribute from 'lib/models/personaAttribute';
-import createScopedGetController from 'api/controllers/utils/createScopedGetController';
+import createScopedCrudController from 'api/controllers/utils/createScopedCrudController';
 
-export default createScopedGetController({
+export default createScopedCrudController({
   Model: PersonaAttribute,
   modelName: 'personaattribute',
   entityLabel: 'PersonaAttribute',

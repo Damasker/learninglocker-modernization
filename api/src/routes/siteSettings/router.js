@@ -7,4 +7,7 @@ export default createScopedGetRouter({
   idPath: routes.SITE_SETTINGS_ID,
   listHandler: SiteSettingsRestController.list,
   getByIdHandler: SiteSettingsRestController.getById,
+  createHandler: SiteSettingsRestController.create,
+  updateHandler: SiteSettingsRestController.update,
+  deleteHandler: SiteSettingsRestController.remove,
 });

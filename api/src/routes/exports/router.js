@@ -7,4 +7,7 @@ export default createScopedGetRouter({
   idPath: routes.EXPORT_REST_ID,
   listHandler: ExportRestController.list,
   getByIdHandler: ExportRestController.getById,
+  createHandler: ExportRestController.create,
+  updateHandler: ExportRestController.update,
+  deleteHandler: ExportRestController.remove,
 });

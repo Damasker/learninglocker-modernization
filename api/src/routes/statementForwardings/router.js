@@ -7,4 +7,7 @@ export default createScopedGetRouter({
   idPath: routes.STATEMENT_FORWARDING_ID,
   listHandler: StatementForwardingRestController.list,
   getByIdHandler: StatementForwardingRestController.getById,
+  createHandler: StatementForwardingRestController.create,
+  updateHandler: StatementForwardingRestController.update,
+  deleteHandler: StatementForwardingRestController.remove,
 });

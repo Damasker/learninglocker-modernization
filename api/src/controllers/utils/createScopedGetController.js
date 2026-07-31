@@ -12,7 +12,12 @@ const objectId = mongoose.Types.ObjectId;
 /**
  * Factory for restify-parity native GET list + GET by id controllers.
  */
-export default ({ Model, modelName, entityLabel }) => {
+export default ({
+  Model,
+  modelName,
+  entityLabel,
+  buildFilter = buildScopedReadFilter,
+}) => {
   const list = catchErrors(async (req, res) => {
     const authInfo = getAuthFromRequest(req);
     const scopeFilter = await getScopeFilter({
@@ -23,7 +28,7 @@ export default ({ Model, modelName, entityLabel }) => {
 
     const reqFilter = getJSONFromQuery(req, 'query', getJSONFromQuery(req, 'filter', {}));
     const parsedFilter = await parseQuery(reqFilter, { authInfo });
-    const filter = buildScopedReadFilter({
+    const filter = buildFilter({
       scopeFilter,
       requestFilter: parsedFilter,
     });
@@ -44,7 +49,7 @@ export default ({ Model, modelName, entityLabel }) => {
       throw new NotFoundError(`${entityLabel} not found for id ${req.params.id}`);
     }
 
-    const filter = buildScopedReadFilter({
+    const filter = buildFilter({
       scopeFilter,
       requestFilter: { _id: objectId(req.params.id) },
     });

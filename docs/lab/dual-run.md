@@ -17,6 +17,8 @@ Differential check of the compatibility freeze golden path on `ll-legacy` vs `ll
 | `lab/scripts/sync-app-branch.sh` | `git fetch/checkout` on a VM |
 | `lab/scripts/build-core.sh` | yarn install + build API/worker/CLI (+ xapi-service) |
 | `lab/scripts/start-core.sh` | pm2 API + Worker + xAPI (`pm2/core.json`) |
+| `lab/scripts/build-ui.sh` | yarn build UI server + client (canary stage 2) |
+| `lab/scripts/start-ui.sh` | pm2 UIServer (`pm2/ui.json`) beside core |
 | `lab/scripts/ensure-golden-fixtures.sh` | upsert synthetic org/LRS/client/user + deterministic cache fixtures |
 | `lab/scripts/golden-path.sh` | run the five checks; write `lab/reports/*.json` |
 | `lab/scripts/dual-run-golden.sh` | orchestrate both VMs from the workstation |
@@ -66,13 +68,31 @@ Native GET strangler flags stay **off** during the first golden pass so both hos
 |-------|-------|-------|
 | 1 Lab-only | `ll-modern` | all `ENABLE_NATIVE_*_ROUTER=true` |
 | 1 Oracle | `ll-legacy` | all `false` (restify) |
-| 2 Canary | non-prod modern serving UI | `true`, with off-switch |
+| 2 Canary | `ll-modern` UI (`build-ui`/`start-ui`) | `true`, with off-switch |
 | 3 Default on | deployment defaults | `true` after soak |
 
 `start-core.sh` with `STACK=modern` (or hostname `*modern*`) applies
 `lab/env/app.env.overlay.modern-native-get` after the base overlay. Code defaults
 stay `false`. Dual-run orchestrators keep modern flags on unless
 `KEEP_MODERN_NATIVE_ON=0`.
+
+Stage 2 canary on modern:
+
+```bash
+STACK=modern bash lab/scripts/build-ui.sh
+bash lab/scripts/start-ui.sh
+# UI proxies /api → API with native GET+write flags on
+```
+
+## Native writes (ADR 0016)
+
+Same flags own POST/PUT/PATCH/DELETE (except User / Statement / BatchDelete).
+
+```bash
+BRANCH=feat/... bash lab/scripts/dual-run-native-write.sh
+# or one host:
+HOST_LABEL=ll-modern bash lab/scripts/native-write-smoke.sh
+```
 
 ## Native GET flag-on dual-run
 

@@ -7,4 +7,7 @@ export default createScopedGetRouter({
   idPath: `${routes.RESTIFY_PREFIX}/personaattribute/:id`,
   listHandler: PersonaAttributeRestController.list,
   getByIdHandler: PersonaAttributeRestController.getById,
+  createHandler: PersonaAttributeRestController.create,
+  updateHandler: PersonaAttributeRestController.update,
+  deleteHandler: PersonaAttributeRestController.remove,
 });

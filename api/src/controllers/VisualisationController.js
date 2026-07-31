@@ -1,7 +1,7 @@
 import Visualisation from 'lib/models/visualisation';
-import createScopedGetController from 'api/controllers/utils/createScopedGetController';
+import createScopedCrudController from 'api/controllers/utils/createScopedCrudController';
 
-export default createScopedGetController({
+export default createScopedCrudController({
   Model: Visualisation,
   modelName: 'visualisation',
   entityLabel: 'Visualisation',

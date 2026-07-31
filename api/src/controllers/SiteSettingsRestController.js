@@ -1,7 +1,7 @@
 import SiteSettings from 'lib/models/siteSettings';
-import createScopedGetController from 'api/controllers/utils/createScopedGetController';
+import createScopedCrudController from 'api/controllers/utils/createScopedCrudController';
 
-export default createScopedGetController({
+export default createScopedCrudController({
   Model: SiteSettings,
   modelName: 'sitesettings',
   entityLabel: 'SiteSettings',

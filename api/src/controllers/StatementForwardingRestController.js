@@ -1,7 +1,7 @@
 import StatementForwarding from 'lib/models/statementForwarding';
-import createScopedGetController from 'api/controllers/utils/createScopedGetController';
+import createScopedCrudController from 'api/controllers/utils/createScopedCrudController';
 
-export default createScopedGetController({
+export default createScopedCrudController({
   Model: StatementForwarding,
   modelName: 'statementforwarding',
   entityLabel: 'StatementForwarding',

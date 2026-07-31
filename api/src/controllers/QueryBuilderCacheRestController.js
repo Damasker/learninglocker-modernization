@@ -1,7 +1,7 @@
 import QueryBuilderCache from 'lib/models/querybuildercache';
-import createScopedGetController from 'api/controllers/utils/createScopedGetController';
+import createScopedCrudController from 'api/controllers/utils/createScopedCrudController';
 
-export default createScopedGetController({
+export default createScopedCrudController({
   Model: QueryBuilderCache,
   modelName: 'querybuildercache',
   entityLabel: 'QueryBuilderCache',

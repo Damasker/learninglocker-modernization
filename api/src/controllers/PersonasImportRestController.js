@@ -1,7 +1,7 @@
 import PersonasImport from 'lib/models/personasImport';
-import createScopedGetController from 'api/controllers/utils/createScopedGetController';
+import createScopedCrudController from 'api/controllers/utils/createScopedCrudController';
 
-export default createScopedGetController({
+export default createScopedCrudController({
   Model: PersonasImport,
   modelName: 'personasimport',
   entityLabel: 'PersonasImport',

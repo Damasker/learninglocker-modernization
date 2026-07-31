@@ -7,4 +7,7 @@ export default createScopedGetRouter({
   idPath: routes.DOWNLOAD_REST_ID,
   listHandler: DownloadRestController.list,
   getByIdHandler: DownloadRestController.getById,
+  createHandler: DownloadRestController.create,
+  updateHandler: DownloadRestController.update,
+  deleteHandler: DownloadRestController.remove,
 });

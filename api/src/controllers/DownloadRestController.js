@@ -1,7 +1,7 @@
 import Download from 'lib/models/download';
-import createScopedGetController from 'api/controllers/utils/createScopedGetController';
+import createScopedCrudController from 'api/controllers/utils/createScopedCrudController';
 
-export default createScopedGetController({
+export default createScopedCrudController({
   Model: Download,
   modelName: 'download',
   entityLabel: 'Download',
