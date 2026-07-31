@@ -27,9 +27,12 @@ model (not GET-only):
 
 Exceptions (writes stay on restify):
 
-- **User** — complex `organisations` `checkOrg` + field picking / MANAGER_SELECT
 - **Statement** — create/update 405; delete gated by `ENABLE_STATEMENT_DELETION`
 - **BatchDelete** — create/update/delete 405; specialised POSTs stay custom
+
+**User** writes are native when `ENABLE_NATIVE_USER_ROUTER=true`
+(`lib/kernel/api/userWrite.js`: organisations `checkOrg` parity on create,
+field picks on create/update, `MANAGER_SELECT` response shape).
 
 ## Consequences
 
@@ -40,6 +43,7 @@ Exceptions (writes stay on restify):
 
 ### Negative
 
-- User and Statement/BatchDelete write paths still diverge from the shared
-  factory until follow-up ADRs.
-- Dual-run must cover write status parity (dashboard smoke) in addition to GET.
+- Statement/BatchDelete write paths still diverge from the shared factory until
+  follow-up ADRs.
+- Dual-run must cover write status parity (dashboard + user smoke) in addition
+  to GET.

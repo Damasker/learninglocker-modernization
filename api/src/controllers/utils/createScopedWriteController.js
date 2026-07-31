@@ -39,7 +39,7 @@ export default ({
     });
     body = stripMutableIds({ Model, body });
     if (beforeCreate) {
-      body = beforeCreate({ body, authInfo, req }) || body;
+      body = (await beforeCreate({ body, authInfo, req })) || body;
     }
 
     const doc = await Model.create(body);
@@ -76,7 +76,7 @@ export default ({
     });
     body = stripMutableIds({ Model, body });
     if (beforeUpdate) {
-      body = beforeUpdate({ body, authInfo, req, doc }) || body;
+      body = (await beforeUpdate({ body, authInfo, req, doc })) || body;
     }
 
     Object.keys(body).forEach((key) => {
