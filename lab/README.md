@@ -74,6 +74,25 @@ openssl rand -hex 32
 
 `virbr0` NAT for the lab is applied by `/usr/local/sbin/ll-lab-nft.sh` and `ll-lab-nft.service` on `home-server`.
 
+## Dual-run golden path
+
+See `docs/lab/dual-run.md`. Short form on a VM:
+
+```bash
+cd /opt/learninglocker/app
+BRANCH=feat/lab-dual-run-golden-path bash lab/scripts/sync-app-branch.sh
+STACK=modern bash lab/scripts/build-core.sh   # or STACK=legacy
+bash lab/scripts/start-core.sh
+bash lab/scripts/ensure-golden-fixtures.sh
+HOST_LABEL=$(hostname) bash lab/scripts/golden-path.sh
+```
+
+From the workstation (both VMs):
+
+```bash
+bash lab/scripts/dual-run-golden.sh
+```
+
 ## Safety
 
 - Do not modify existing host VMs (`omr-client`, `Haiku`) or production data.
