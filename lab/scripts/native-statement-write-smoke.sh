@@ -46,12 +46,6 @@ bd_create="$(curl -sS -o /dev/null -w '%{http_code}' -X POST "${API_URL}/v2/batc
   -u "${BASIC_KEY}:${BASIC_SECRET}" \
   -H 'Content-Type: application/json' \
   -d '{}')"
-bd_put="$(curl -sS -o /dev/null -w '%{http_code}' -X PUT "${API_URL}/v2/batchdelete/${STATEMENT_ID}" \
-  -u "${BASIC_KEY}:${BASIC_SECRET}" \
-  -H 'Content-Type: application/json' \
-  -d '{}')"
-bd_delete="$(curl -sS -o /dev/null -w '%{http_code}' -X DELETE "${API_URL}/v2/batchdelete/${STATEMENT_ID}" \
-  -u "${BASIC_KEY}:${BASIC_SECRET}")"
 
 # Non-matching filter: initialise should not delete golden statements.
 BD_FILTER='{"statement.id":"urn:lab:batch-delete-smoke-never-match"}'
@@ -64,8 +58,19 @@ bd_init="$(curl -sS -o "${bd_init_body}" -w '%{http_code}' -X POST \
 bd_init_id="$(node -e "try{const j=JSON.parse(require('fs').readFileSync(process.argv[1],'utf8'));process.stdout.write(j._id||'')}catch(e){}" "${bd_init_body}")"
 rm -f "${bd_init_body}"
 
+# CUD put/delete against a real BatchDelete id (restify 404s missing ids; native is 405 either way).
+bd_put='000'
+bd_delete='000'
 bd_term='000'
 if [[ -n "${bd_init_id}" ]]; then
+  bd_put="$(curl -sS -o /dev/null -w '%{http_code}' -X PUT \
+    "${API_URL}/v2/batchdelete/${bd_init_id}" \
+    -u "${BASIC_KEY}:${BASIC_SECRET}" \
+    -H 'Content-Type: application/json' \
+    -d '{}')"
+  bd_delete="$(curl -sS -o /dev/null -w '%{http_code}' -X DELETE \
+    "${API_URL}/v2/batchdelete/${bd_init_id}" \
+    -u "${BASIC_KEY}:${BASIC_SECRET}")"
   bd_term="$(curl -sS -o /dev/null -w '%{http_code}' -X POST \
     "${API_URL}/v2/batchdelete/terminate/${bd_init_id}" \
     -u "${BASIC_KEY}:${BASIC_SECRET}")"
@@ -114,16 +119,15 @@ const report = {
   },
 };
 // Restify runs getScopeFilter before 405. Org JWT without statements/write → 403 on
-// statement create/put. Client basic without statements/delete → 403 on batchdelete CUD.
-// Statement DELETE may be 403 (no delete scope), 405 (deletion disabled), or 204 (allowed).
-// Specialised POSTs: golden client has statements/delete → 200/204; empty filter → 400.
+// statement create/put. Statement DELETE may be 403/405/204.
+// BatchDelete CUD: golden client has statements/delete → scope then 405 (existing id).
+// Specialised POSTs: initialise 200, terminate 204, empty filter 400.
 const stmtWriteOk = [403, 405].includes(report.statement.createStatus)
   && report.statement.createStatus === report.statement.putStatus;
 const stmtDeleteOk = [403, 405, 204].includes(report.statement.deleteStatus);
-const bdOk = [403, 405].includes(report.batchDelete.createStatus)
-  && report.batchDelete.createStatus === report.batchDelete.putStatus
-  && report.batchDelete.createStatus === report.batchDelete.deleteStatus;
-// After fixtures grant statements/delete, CUD is scope-then-405 (405); without it, 403.
+const bdOk = report.batchDelete.createStatus === 405
+  && report.batchDelete.putStatus === 405
+  && report.batchDelete.deleteStatus === 405;
 const bdSpecialOk = report.batchDelete.initialiseStatus === 200
   && report.batchDelete.terminateStatus === 204
   && report.batchDelete.terminateAllStatus === 204
