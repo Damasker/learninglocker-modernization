@@ -64,6 +64,8 @@ import personaRESTHandler from 'api/routes/personas/personaRESTHandler';
 import personaIdentifierRESTHandler from 'api/routes/personas/personaIdentifierRESTHandler';
 import UserOrganisationsRouter from 'api/routes/userOrganisations/router';
 import UserOrganisationSettingsRouter from 'api/routes/userOrganisationSettings/router';
+import clientRouter from 'api/routes/clients/router';
+import { isNativeClientRouterEnabled } from 'lib/kernel/api/client';
 
 // CONSTANTS
 import * as routes from 'lib/constants/routes';
@@ -182,6 +184,12 @@ router.get(
  */
 router.use(personaRESTHandler);
 router.use(personaIdentifierRESTHandler);
+
+// Native Client GET strangler (feature-flagged). When enabled, mounts before restify
+// so GET /v2/client(+/:id) hits the kernel-backed controller; writes stay on restify.
+if (isNativeClientRouterEnabled()) {
+  router.use(clientRouter);
+}
 
 /**
  * User Organisations
