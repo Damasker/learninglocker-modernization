@@ -9,6 +9,13 @@ Two libvirt VMs on `home-server` (`192.168.168.110`) for strangler modernization
 | `ll-legacy` | `192.168.122.110` | Behavior oracle | Node 10 (container), Mongo 4.2 RS, Redis 4 |
 | `ll-modern` | `192.168.122.111` | Migration target | Node 20 LTS, Mongo 7 RS, Redis 7 |
 
+### Node version note (A005)
+
+Repo `.nvmrc` stays **`10`** for upstream Learning Locker parity and the legacy
+oracle path (`ll-node10-exec`). Lab **modern** deliberately runs **Node 20** via
+`lab/scripts/install-node.sh` (`STACK=modern`). Do not assume `nvm use` on a
+developer laptop matches the modern VM; use the stack installers / overlays.
+
 SSH from the Windows workstation:
 
 ```bash

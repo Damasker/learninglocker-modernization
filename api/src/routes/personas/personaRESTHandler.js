@@ -1,4 +1,4 @@
-// @ll-compat-audit: adapt:A004
+// @ll-compat-audit: ok 2026-08-01
 import * as routes from 'lib/constants/routes';
 import express from 'express';
 import passport from 'api/auth/passport';
@@ -57,12 +57,6 @@ router.get(
   passport.authenticate(['jwt', 'clientBasic'], DEFAULT_PASSPORT_OPTIONS),
   PersonaController.personaConnection
 );
-router.post(
-  routes.MERGE_PERSONA,
-  passport.authenticate(['jwt', 'clientBasic'], DEFAULT_PASSPORT_OPTIONS),
-  PersonaController.mergePersona
-);
-
 router.post(
   routes.MERGE_PERSONA,
   passport.authenticate(['jwt', 'clientBasic'], DEFAULT_PASSPORT_OPTIONS),

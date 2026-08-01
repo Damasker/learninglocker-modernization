@@ -13,10 +13,7 @@ const {
   isMarkableFile,
 } = require('./compat-audit-lib');
 
-const OVERRIDES = {
-  'package.json': 'adapt:A001',
-  '.nvmrc': 'adapt:A005',
-};
+const OVERRIDES = {};
 
 const newPrefixes = parseNewPrefixes();
 let doc = fs.readFileSync(EXCEPTIONS_DOC, 'utf8');

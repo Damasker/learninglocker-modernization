@@ -1,4 +1,4 @@
-// @ll-compat-audit: adapt:A002
+// @ll-compat-audit: ok 2026-08-01
 import * as fileService from 'lib/services/files';
 import { downloadToStream } from 'lib/services/files/storage';
 import getAuthFromRequest from 'lib/helpers/getAuthFromRequest';

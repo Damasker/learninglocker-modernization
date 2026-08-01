@@ -45,6 +45,14 @@ Differential check of the compatibility freeze golden path on `ll-legacy` vs `ll
 | `lab/scripts/dual-run-native-always-on-httproutes.sh` | host parity for remaining always-on HttpRoutes |
 | `lab/scripts/compat-audit-gap.sh` | list unmarked non-NEW markable files (audit completeness) |
 
+### Always-on HttpRoutes auth notes (A003)
+
+- `POST /v2/statementmetadata/:id` requires statement **edit** scopes:
+  `xapi/all` or `statements/write` (see `lib/services/auth/modelFilters/statement.js`).
+- Org JWT with only org-scope `all` returns **403** — use golden **client basic**
+  (`xapi/all`) in `native-always-on-httproutes-smoke.sh`.
+- `GET /downloadlogo/:org` returns **404** when the org has no logo (A002).
+
 Fixed lab credentials (synthetic only):
 
 - org `aaaaaaaaaaaaaaaaaaaaaaaa`

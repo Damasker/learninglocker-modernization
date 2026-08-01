@@ -89,7 +89,7 @@ report.ok =
   paths.health.status === 200 &&
   paths.version.status === 200 &&
   paths.downloadlogoUnauth.status === 401 &&
-  [200, 404, 500].includes(paths.downloadlogo.status) &&
+  [200, 404].includes(paths.downloadlogo.status) &&
   paths.statementMetadataUnauth.status === 401 &&
   paths.statementMetadata.status === 200 &&
   Boolean(paths.statementMetadata.hash);
