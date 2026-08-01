@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import ConfirmModal from 'ui/components/Modal/ConfirmModal';

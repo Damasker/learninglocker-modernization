@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import 'jest-enzyme';
 import { shallow } from 'enzyme';
 import { Map } from 'immutable';

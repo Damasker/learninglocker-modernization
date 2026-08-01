@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { take, put, call } from 'redux-saga/effects';
 import { alert } from 'ui/redux/modules/alerts';
 import { Map } from 'immutable';

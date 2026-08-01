@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { createSha } from 'lib/kernel/xapiStatements/testUtils';
 import stringToStream from 'string-to-stream';
 import StatementForwarding from 'lib/models/statementForwarding';

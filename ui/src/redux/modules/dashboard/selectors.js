@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { List } from 'immutable';
 import { createSelector } from 'reselect';
 import { modelsSchemaIdSelector } from 'ui/redux/selectors';

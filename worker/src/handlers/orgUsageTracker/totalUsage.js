@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 const toDict = orgStatsList =>
   orgStatsList.reduce((acc, orgStats) => ({
     ...acc,

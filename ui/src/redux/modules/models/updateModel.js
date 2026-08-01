@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { fromJS } from 'immutable';
 import { put, take, select } from 'redux-saga/effects';
 import isArray from 'lodash/isArray';

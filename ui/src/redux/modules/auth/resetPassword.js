@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { createSelector } from 'reselect';
 import createAsyncDuck from 'ui/utils/createAsyncDuck';
 import has from 'lodash/has';

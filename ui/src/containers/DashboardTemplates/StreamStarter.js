@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { connect } from 'react-redux';
 import { withProps, compose, withHandlers } from 'recompose';
 import { loggedInUserId } from 'ui/redux/modules/auth';

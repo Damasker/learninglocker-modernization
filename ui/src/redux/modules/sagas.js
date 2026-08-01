@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { map } from 'lodash';
 import createSagaMiddleware from 'redux-saga';
 import { fork } from 'redux-saga/effects';

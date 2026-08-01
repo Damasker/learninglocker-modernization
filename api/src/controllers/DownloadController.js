@@ -1,3 +1,4 @@
+// @ll-compat-audit: adapt:A002
 import * as fileService from 'lib/services/files';
 import { downloadToStream } from 'lib/services/files/storage';
 import getAuthFromRequest from 'lib/helpers/getAuthFromRequest';

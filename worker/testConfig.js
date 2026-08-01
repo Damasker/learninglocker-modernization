@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 require('dotenv/config');
 var path = require('path');
 var getWebpackConfig = require('../lib/tools/getWebpackConfig');

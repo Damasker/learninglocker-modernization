@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import SESSIONS_GREY_IMAGE from './ll-icon-accumulation-grey.svg';
 import SESSIONS_IMAGE from './ll-icon-accumulation.svg';
 import LEADERBOARD_GREY_IMAGE from './ll-icon-bar-graph-grey.svg';

@@ -11,6 +11,7 @@
  * @param {string} timezone
  * @returns object|string
  */
+// @ll-compat-audit: ok 2026-08-01
 export default (groupType, timezone) => {
   const expression = {
     date: '$timestamp',

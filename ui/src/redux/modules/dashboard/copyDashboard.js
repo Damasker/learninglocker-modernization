@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { List, Map } from 'immutable';
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { actions as routerActions } from 'redux-router5';

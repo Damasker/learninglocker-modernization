@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import React from 'react';
 import Switch from 'react-toolbox/lib/switch';
 import styled from 'styled-components';

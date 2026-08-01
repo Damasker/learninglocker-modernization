@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+// @ll-compat-audit: adapt:A001
 
 echo 'Removing "cli/src/node_modules"'
 rm -R -f cli/src/node_modules

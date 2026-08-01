@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import logger from 'lib/logger';
 import User from 'lib/models/user';
 import * as scopes from 'lib/constants/scopes';

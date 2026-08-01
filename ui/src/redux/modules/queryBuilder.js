@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { createSelector } from 'reselect';
 import { List, Set, Map, fromJS, Iterable } from 'immutable';
 import { identity, memoize, isString } from 'lodash';

@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { map as bmap } from 'bluebird';
 import { filter, get, forEach, set, toPairs, unset, cloneDeep } from 'lodash';
 import PersonasImports from 'lib/models/personasImport';

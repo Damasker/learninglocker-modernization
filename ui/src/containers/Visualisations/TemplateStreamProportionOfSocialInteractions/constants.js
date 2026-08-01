@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { PIE_GREY_IMAGE } from 'ui/components/VisualiseIcon/assets';
 
 export const title = 'Stream proportion of social interactions (last 7 days)';

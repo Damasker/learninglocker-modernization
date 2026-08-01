@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { put, call, select, take, fork } from 'redux-saga/effects';
 import { delay } from 'redux-saga';
 import { fetchModel, modelsSchemaIdSelector } from 'ui/redux/modules/models';

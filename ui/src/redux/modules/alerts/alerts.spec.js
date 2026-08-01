@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { createStore, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { List } from 'immutable';

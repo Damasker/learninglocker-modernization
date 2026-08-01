@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 export const VALUE_OP_CASE = {
   other: 0,
   value: 1,

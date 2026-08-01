@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import Statement from 'lib/models/statement';
 import Lrs from 'lib/models/lrs';
 import QueryBuilderCache from 'lib/models/querybuildercache';

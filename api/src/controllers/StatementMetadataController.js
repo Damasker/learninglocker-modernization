@@ -1,3 +1,4 @@
+// @ll-compat-audit: adapt:A006
 import getAuthFromRequest from 'lib/helpers/getAuthFromRequest';
 import catchErrors from 'api/controllers/utils/catchErrors';
 import { getScopeFilter } from 'lib/kernel/auth';

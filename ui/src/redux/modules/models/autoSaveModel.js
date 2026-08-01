@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { createSelector } from 'reselect';
 import { put, call, select, take, cancel, fork } from 'redux-saga/effects';
 import { delay } from 'redux-saga';

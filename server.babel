@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 //  enable runtime transpilation to use ES6/7 in node
 require('babel-runtime/core-js/promise').default = require('bluebird');
 require('babel-polyfill');

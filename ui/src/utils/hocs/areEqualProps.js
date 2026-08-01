@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { is, Iterable } from 'immutable';
 import _ from 'lodash';
 

@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import Role from 'lib/models/role';
 import testId from 'api/routes/tests/utils/testId';
 

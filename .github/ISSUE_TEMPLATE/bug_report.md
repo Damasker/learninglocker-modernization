@@ -1,3 +1,4 @@
+<!-- @ll-compat-audit: ok 2026-08-01 -->
 ---
 name: Bug report
 about: Create a report to help us improve

@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import logger from 'lib/logger';
 import Lrs from 'lib/models/lrs';
 import Statement from 'lib/models/statement';

@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import statementWorker from 'worker/handlers/statement';
 import importPersonasWorker from 'worker/handlers/importPersonas';
 import logger from 'lib/logger';

@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { STATEMENTS_GREY_IMAGE } from 'ui/components/VisualiseIcon/assets';
 
 export const title = 'Stream learner interactions by date and verb (last 30 days)';

@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import React from 'react';
 import { Route } from 'react-router';
 import { App, EmbeddableDashboard } from 'ui/containers';

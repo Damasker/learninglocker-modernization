@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { Map, List, fromJS } from 'immutable';
 import { update$dteTimezone } from 'lib/helpers/update$dteTimezone';
 import grouper from 'ui/utils/visualisations/aggregationGroup/grouper';

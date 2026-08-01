@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { Schema, arrayOf } from 'normalizr';
 import { Iterable, Map, List, OrderedMap, fromJS } from 'immutable';
 import { includes } from 'lodash';

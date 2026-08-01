@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { Map, List } from 'immutable';
 import { initialSections } from 'ui/redux/modules/queryBuilder';
 import Criteria from './Criteria';

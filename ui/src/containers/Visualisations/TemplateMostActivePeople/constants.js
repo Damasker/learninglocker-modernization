@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { LEADERBOARD_GREY_IMAGE } from 'ui/components/VisualiseIcon/assets';
 
 export const title = 'Who are the most active people?';

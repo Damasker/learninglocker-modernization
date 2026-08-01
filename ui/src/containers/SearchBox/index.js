@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import React from 'react';
 import { setModelQuery as setModelQueryAction, modelQueryStringSelector } from 'ui/redux/modules/search';
 import { fetchModels } from 'ui/redux/modules/pagination';

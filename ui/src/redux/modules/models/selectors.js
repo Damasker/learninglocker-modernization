@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { createSelector } from 'reselect';
 import { Map, Set, OrderedSet, OrderedMap } from 'immutable';
 import * as fetchModelsDuck from 'ui/redux/modules/pagination/fetchModels';

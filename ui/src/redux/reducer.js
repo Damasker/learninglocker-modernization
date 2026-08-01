@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { combineReducers } from 'redux';
 import recycleState from 'redux-recycle';
 import { router5Reducer } from 'redux-router5';

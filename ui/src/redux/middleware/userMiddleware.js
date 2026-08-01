@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { MERGE_ENTITIES } from 'ui/redux/modules/models';
 import { Map } from 'immutable';
 

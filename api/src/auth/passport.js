@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import passport from 'passport';
 import logger from 'lib/logger';
 import { BasicStrategy } from 'passport-http';

@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { connect } from 'react-redux';
 import { compose, withHandlers, mapProps } from 'recompose';
 import { withModel } from 'ui/utils/hocs';

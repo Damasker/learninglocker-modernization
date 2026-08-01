@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import SiteSettings from 'lib/models/siteSettings';
 import { SITE_SETTINGS_ID } from 'lib/constants/siteSettings';
 import { getConnection } from 'lib/connections/mongoose';

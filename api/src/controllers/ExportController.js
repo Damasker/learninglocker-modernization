@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import * as fileService from 'lib/services/files';
 import getAuthFromRequest from 'lib/helpers/getAuthFromRequest';
 import catchErrors from 'api/controllers/utils/catchErrors';

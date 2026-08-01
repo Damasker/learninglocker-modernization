@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-indent */
+// @ll-compat-audit: ok 2026-08-01
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Map } from 'immutable';

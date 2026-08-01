@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import assert from 'assert';
 import uuid from 'uuid';
 import { ALL, SITE_ADMIN } from 'lib/constants/scopes';

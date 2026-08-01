@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 const actors = [
   { $match: {
     'statement.actor.objectType': 'Agent'

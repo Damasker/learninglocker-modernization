@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import getJSONFromQuery from 'api/utils/getJSONFromQuery';
 import catchErrors from 'api/controllers/utils/catchErrors';
 import getPersonaFilter from 'api/controllers/utils/getPersonaFilter';

@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { publish } from 'lib/services/queue';
 import { promisify } from 'bluebird';
 import { PERSONA_IMPORT_QUEUE, STAGE_IMPORTED } from 'lib/constants/personasImport';

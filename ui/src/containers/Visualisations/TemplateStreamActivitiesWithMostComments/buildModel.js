@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { Map, fromJS } from 'immutable';
 import { TEMPLATE_STREAM_ACTIVITIES_WITH_MOST_COMMENTS } from 'lib/constants/visualise';
 import { LAST_7_DAYS } from 'ui/utils/constants';

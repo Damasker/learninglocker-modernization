@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { expect } from 'chai';
 import SiteSettings from 'lib/models/siteSettings';
 import BatchDelete from 'lib/models/batchDelete';

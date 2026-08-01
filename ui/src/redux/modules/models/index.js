@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { Map, fromJS } from 'immutable';
 import { take, put, fork, call, select } from 'redux-saga/effects';
 import { handleActions } from 'redux-actions';

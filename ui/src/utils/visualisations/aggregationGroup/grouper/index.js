@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { fromJS } from 'immutable';
 import { RESPONSE_ROWS_LIMIT } from 'lib/constants/visualise';
 import keyExists from 'ui/utils/visualisations/helpers/keyExists';

@@ -1,4 +1,5 @@
 /* eslint-disable import/prefer-default-export */
+// @ll-compat-audit: ok 2026-08-01
 export function mapUrl(availableActions = {}, url = []) {
   const notFound = { action: null, params: [] };
 

@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-indent */
+// @ll-compat-audit: ok 2026-08-01
 import { isString } from 'lodash';
 import React from 'react';
 import styled from 'styled-components';

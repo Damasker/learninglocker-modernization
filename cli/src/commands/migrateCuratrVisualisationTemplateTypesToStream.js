@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { invert } from 'lodash';
 
 import Visualisation from 'lib/models/visualisation';

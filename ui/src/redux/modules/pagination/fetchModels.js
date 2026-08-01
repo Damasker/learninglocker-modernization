@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { Map, fromJS, OrderedSet, Iterable, OrderedMap } from 'immutable';
 import { createSelector } from 'reselect';
 import { map } from 'lodash';

@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { withContext, compose } from 'recompose';
 import React from 'react';
 import PropTypes from 'prop-types';

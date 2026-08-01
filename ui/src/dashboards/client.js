@@ -1,6 +1,7 @@
 /**
  * THIS IS THE ENTRY POINT FOR THE CLIENT, JUST LIKE server.js IS THE ENTRY POINT FOR THE SERVER.
  */
+// @ll-compat-audit: ok 2026-08-01
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';

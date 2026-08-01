@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { createStore as _createStore, applyMiddleware, compose } from 'redux';
 import { router5Middleware } from 'redux-router5';
 import clientMiddleware from 'ui/redux/middleware/clientMiddleware';
