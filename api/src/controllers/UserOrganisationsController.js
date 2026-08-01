@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import User from 'lib/models/user';
 import NotFoundError from 'lib/errors/NotFoundError';
 import catchErrors from 'api/controllers/utils/catchErrors';

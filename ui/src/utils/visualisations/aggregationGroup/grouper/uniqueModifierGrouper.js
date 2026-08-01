@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import buildPeriodGroupKey from 'ui/utils/visualisations/helpers/buildPeriodGroupKey';
 import firstValuesOf from 'ui/utils/visualisations/helpers/firstValuesOf';
 

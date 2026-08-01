@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 export const MERGE_ENTITIES = 'learninglocker/models/learninglocker/models/MERGE_ENTITIES';
 
 const mergeEntitiesReducer = (state, action) => {

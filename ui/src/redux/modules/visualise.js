@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { List, Map, fromJS } from 'immutable';
 import { createSelector } from 'reselect';
 import { take, takeEvery, put, fork, select } from 'redux-saga/effects';

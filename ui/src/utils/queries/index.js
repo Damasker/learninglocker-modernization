@@ -1,4 +1,5 @@
 /* eslint-disable no-use-before-define */
+// @ll-compat-audit: ok 2026-08-01
 import { Map, List, Set } from 'immutable';
 import { memoize } from 'lodash';
 

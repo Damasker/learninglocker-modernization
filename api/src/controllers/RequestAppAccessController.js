@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import fs from 'fs';
 import htmlToText from 'html-to-text';
 import { defaultMailOptions } from 'lib/helpers/email';

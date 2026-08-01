@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import mdiff from 'mdiff';
 import { List } from 'immutable';
 import { FORWARD, BACKWARD } from './fetchModels';

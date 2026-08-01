@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import logger from 'lib/logger';
 import { EMAIL_EXPIRATION_NOTIFICATION_QUEUE } from 'lib/constants/expirationNotifications';
 import * as Queue from 'lib/services/queue';

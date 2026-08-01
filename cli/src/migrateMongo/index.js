@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import logger from 'lib/logger';
 import migration from 'cli/migrateMongo/models/migration';
 import { isBoolean, isString, map, find } from 'lodash';

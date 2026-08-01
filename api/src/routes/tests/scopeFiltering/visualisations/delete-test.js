@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import mongoose from 'mongoose';
 
 import { ALL, SITE_ADMIN } from 'lib/constants/scopes';

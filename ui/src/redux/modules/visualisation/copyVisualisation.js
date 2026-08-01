@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { call, takeEvery } from 'redux-saga/effects';
 import { addModel } from 'ui/redux/modules/models';
 

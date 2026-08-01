@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-expressions */
+// @ll-compat-audit: ok 2026-08-01
 import chai from 'chai';
 import chaiFs from 'chai-fs';
 import path from 'path';

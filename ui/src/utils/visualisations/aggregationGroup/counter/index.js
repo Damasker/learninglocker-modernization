@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import keyExists from 'ui/utils/visualisations/helpers/keyExists';
 import createStagePipeline from 'ui/utils/visualisations/helpers/createStagePipeline';
 import { VALUE_OP_CASE, getValueOpCase } from 'ui/utils/visualisations/helpers/valueOpCase';

@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { COOKIE_ACCESS_TOKEN } from 'lib/constants/cookies';
 import { startsWith, endsWith, includes, findKey } from 'lodash';
 

@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import * as routes from 'lib/constants/routes';
 import { ALL, SITE_ADMIN } from 'lib/constants/scopes';
 import { MANAGE_ALL_ORGANISATIONS } from 'lib/constants/orgScopes';

@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import Organisation, { EMAIL_NOOP, EMAIL_PROCESSING } from 'lib/models/organisation';
 import moment from 'moment';
 import { map } from 'bluebird';

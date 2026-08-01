@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import React from 'react';
 import boolean from 'boolean';
 import { fromJS, List, Map } from 'immutable';

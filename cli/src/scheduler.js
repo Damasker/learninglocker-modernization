@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import expirationNotificationEmails from 'cli/commands/expirationNotificationEmails';
 import orgUsageTracker from 'cli/commands/orgUsageTracker';
 import * as redis from 'lib/connections/redis';

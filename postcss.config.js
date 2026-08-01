@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 var postcssUrl = require('postcss-url');
 var postcssCustomProperties = require('postcss-custom-properties');
 var postcssCustomMedia = require('postcss-custom-media');

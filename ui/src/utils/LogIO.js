@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 const formatValue = arg => (arg && arg.toJS ? arg.toJS() : arg);
 
 const logFunctionInfo = (caller, label, args, result) => {

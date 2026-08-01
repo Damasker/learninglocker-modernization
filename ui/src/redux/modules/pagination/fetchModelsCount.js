@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { Map, Iterable } from 'immutable';
 import { createSelector } from 'reselect';
 import { call } from 'redux-saga/effects';

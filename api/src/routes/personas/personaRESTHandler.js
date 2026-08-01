@@ -1,3 +1,4 @@
+// @ll-compat-audit: adapt:A004
 import * as routes from 'lib/constants/routes';
 import express from 'express';
 import passport from 'api/auth/passport';

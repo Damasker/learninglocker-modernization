@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { compose, defaultProps, withProps, withState } from 'recompose';
 import { Map, fromJS } from 'immutable';
 

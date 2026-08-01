@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import 'dotenv/config';
 import path from 'path';
 import { all } from 'bluebird';

@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { Map, fromJS } from 'immutable';
 import reduceReducers from 'reduce-reducers';
 import * as fetchModelsDuck from 'ui/redux/modules/pagination/fetchModels';

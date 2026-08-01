@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import biConnector from './biConnector.png';
 import cornerstoneOnDemand from './cornerstoneOnDemand.png';
 import csvToXAPI from './csvToXAPI.png';

@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { put, call, takeEvery } from 'redux-saga/effects';
 import Promise, { delay } from 'bluebird';
 import identity from 'lodash/identity';

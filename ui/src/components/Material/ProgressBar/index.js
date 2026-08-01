@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import React from 'react';
 import ProgressBar from 'react-toolbox/lib/progress_bar';
 import styled from 'styled-components';

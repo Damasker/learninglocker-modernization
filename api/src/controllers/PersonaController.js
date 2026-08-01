@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import getAuthFromRequest from 'lib/helpers/getAuthFromRequest';
 import catchErrors from 'api/controllers/utils/catchErrors';
 import getJSONFromQuery from 'api/utils/getJSONFromQuery';

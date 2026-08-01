@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import boolean from 'boolean';
 import { get, map, isEmpty } from 'lodash';
 import BatchDelete, { inWindow } from 'lib/models/batchDelete';

@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { map } from 'bluebird';
 import logger from 'lib/logger';
 import Users from 'lib/models/user';

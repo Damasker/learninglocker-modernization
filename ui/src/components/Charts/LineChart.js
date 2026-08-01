@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import React from 'react';
 import { AutoSizer } from 'react-virtualized';
 import { LineChart as Chart, XAxis, YAxis, Line, CartesianGrid } from 'recharts';

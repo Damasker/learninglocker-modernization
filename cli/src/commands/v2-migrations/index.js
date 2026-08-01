@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { OrderedMap } from 'immutable';
 
 import commonIndexesMigration from './20171122100800_common_indexes';

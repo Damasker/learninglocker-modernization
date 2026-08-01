@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import mongoose from 'mongoose';
 import logger from 'lib/logger';
 import { Organisation, OrgUsageStats, Statement, StatementSample, StatementOrgSample } from 'lib/models';

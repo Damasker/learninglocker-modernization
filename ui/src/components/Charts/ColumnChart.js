@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import React from 'react';
 import { BarChart as Chart, XAxis, YAxis, CartesianGrid } from 'recharts';
 import { AutoSizer } from 'react-virtualized';

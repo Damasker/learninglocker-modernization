@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { Set } from 'immutable';
 import { ALL } from 'lib/constants/scopes';
 import scopes, {

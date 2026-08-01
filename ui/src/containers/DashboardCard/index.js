@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import React, { Component } from 'react';
 import Scroll from 'react-scroll';
 import * as _ from 'lodash';

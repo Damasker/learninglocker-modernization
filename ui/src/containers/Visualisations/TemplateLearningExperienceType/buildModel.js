@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { Map } from 'immutable';
 import { TEMPLATE_LEARNING_EXPERIENCE_TYPE } from 'lib/constants/visualise';
 import { LAST_7_DAYS } from 'ui/utils/constants';

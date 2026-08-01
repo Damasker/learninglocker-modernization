@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { ALL, SITE_ADMIN } from 'lib/constants/scopes';
 import createClient from 'api/routes/tests/utils/models/createClient';
 import createUserToken from 'api/routes/tests/utils/tokens/createUserToken';

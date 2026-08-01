@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import FocusGroup from 'ui/components/FocusGroup/FocusGroup';

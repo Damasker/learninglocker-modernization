@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 const isEmpty = value => value === undefined || value === null || value === '';
 const join = rules => (value, data) => rules.map(rule => rule(value, data)).filter(error => !!error)[0];
 

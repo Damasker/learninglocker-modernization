@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import assert from 'assert';
 import mongoose from 'mongoose';
 import uuid from 'uuid';

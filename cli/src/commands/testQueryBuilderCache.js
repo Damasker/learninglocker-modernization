@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import logger from 'lib/logger';
 import { filter } from 'lodash';
 import { STATEMENT_QUERYBUILDERCACHE_QUEUE } from 'lib/constants/statements';

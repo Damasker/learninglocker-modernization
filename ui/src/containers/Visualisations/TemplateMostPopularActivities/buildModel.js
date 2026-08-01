@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { Map } from 'immutable';
 import { TEMPLATE_MOST_POPULAR_ACTIVITIES } from 'lib/constants/visualise';
 import { LAST_2_MONTHS } from 'ui/utils/constants';

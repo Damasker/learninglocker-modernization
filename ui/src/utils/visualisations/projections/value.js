@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 const map = {
   scaled: '$statement.result.score.scaled',
   raw: '$statement.result.score.raw',

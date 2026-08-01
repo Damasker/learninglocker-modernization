@@ -1,4 +1,5 @@
 /* eslint-disable import/prefer-default-export*/
+// @ll-compat-audit: ok 2026-08-01
 export const AUTH_FAILURE = {
   USER_NOT_FOUND: 'USER_NOT_FOUND',
   PASSWORD_INCORRECT: 'PASSWORD_INCORRECT',

@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import highland from 'highland';
 import logger from 'lib/logger';
 import isPlainObject from 'lodash/isPlainObject';

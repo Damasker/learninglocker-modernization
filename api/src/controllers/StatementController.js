@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import catchErrors from 'api/controllers/utils/catchErrors';
 import {
   aggregate,

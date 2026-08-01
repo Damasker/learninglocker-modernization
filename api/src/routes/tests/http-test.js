@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { expect } from 'chai';
 import jsonwebtoken from 'jsonwebtoken';
 import moment from 'moment';

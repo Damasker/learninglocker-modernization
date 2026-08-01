@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import Client from 'lib/models/client';
 import createScopedCrudController from 'api/controllers/utils/createScopedCrudController';
 import {

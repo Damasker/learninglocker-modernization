@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import program from 'commander';
 
 import bulkInsert from 'cli/commands/bulkInsert';

@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { call } from 'redux-saga/effects';
 
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));

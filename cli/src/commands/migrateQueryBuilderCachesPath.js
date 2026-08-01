@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import logger from 'lib/logger';
 import highland from 'highland';
 import querybuildercache from 'lib/models/querybuildercache';

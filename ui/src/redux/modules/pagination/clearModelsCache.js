@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { handleActions } from 'redux-actions';
 import moment from 'moment';
 import { Iterable } from 'immutable';

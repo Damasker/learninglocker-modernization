@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import React from 'react';
 import Helmet from 'react-helmet';
 import { compose } from 'recompose';

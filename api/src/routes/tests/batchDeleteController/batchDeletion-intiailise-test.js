@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { XAPI_STATEMENTS_DELETE } from 'lib/constants/scopes';
 import { expect } from 'chai';
 import setup from 'api/routes/tests/utils/setup';

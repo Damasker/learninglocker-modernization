@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import logger from 'lib/logger';
 import { BATCH_STATEMENT_DELETION_QUEUE } from 'lib/constants/batchDelete';
 import * as Queue from 'lib/services/queue';

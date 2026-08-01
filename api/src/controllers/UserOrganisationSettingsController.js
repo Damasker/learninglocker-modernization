@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import User from 'lib/models/user';
 import { SITE_ADMIN, ALL } from 'lib/constants/scopes';
 import { MANAGE_ALL_USERS } from 'lib/constants/orgScopes';

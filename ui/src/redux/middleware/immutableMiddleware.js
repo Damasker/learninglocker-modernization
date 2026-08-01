@@ -1,3 +1,4 @@
+// @ll-compat-audit: ok 2026-08-01
 import { MERGE_MODELS } from 'ui/redux/modules/models';
 import { fromJS, Iterable } from 'immutable';
 
