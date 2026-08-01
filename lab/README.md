@@ -36,16 +36,24 @@ Both jump via `home-server` using `~/.ssh/laptop_key`.
 
 ## Bootstrap
 
+Supported **host OS**: Debian **12/13**, Ubuntu **22.04/24.04**.
+
 ```bash
 cd /opt/learninglocker/app
-git checkout chore/lab-baseline-infra
+# optional explicit deps step (also invoked by bootstrap-vm.sh):
+sudo -E bash lab/scripts/install-host-deps.sh
 STACK=legacy sudo -E bash lab/scripts/bootstrap-vm.sh   # on ll-legacy
 STACK=modern sudo -E bash lab/scripts/bootstrap-vm.sh   # on ll-modern
 STACK=legacy bash lab/scripts/install-node.sh
 STACK=modern bash lab/scripts/install-node.sh
 ```
 
-Legacy app commands run through `ll-node10-exec` because Ubuntu 24.04 cannot host Node 10 natively.
+`install-host-deps.sh` installs `docker` + `docker compose`, `rsync`, `curl`,
+`openssl`, `git`, and build tools. `install-node.sh` (modern) uses the
+NodeSource **nodistro** Node 20 apt repo (Debian 13–safe GPG keyring).
+
+Legacy app commands run through `ll-node10-exec` because Ubuntu 24.04 / Debian
+12+ cannot host Node 10 natively.
 
 Install dependencies with engine ignore (upstream `@learninglocker/persona-service` still declares Node 6-8).
 
