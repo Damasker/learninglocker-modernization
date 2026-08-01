@@ -48,6 +48,7 @@ fi
 echo "Installing host deps on ${PRETTY_NAME:-$ID_LC $VERSION_ID_RAW}"
 
 apt-get update -y
+# Keep the package set Debian+Ubuntu safe (no Ubuntu-only packages).
 apt-get install -y --no-install-recommends \
   ca-certificates \
   curl \
@@ -60,8 +61,7 @@ apt-get install -y --no-install-recommends \
   python3 \
   make \
   g++ \
-  apt-transport-https \
-  software-properties-common
+  apt-transport-https
 
 install_docker() {
   if command -v docker >/dev/null 2>&1; then
