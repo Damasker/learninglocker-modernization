@@ -40,7 +40,7 @@ Status: `ok` | `adapt:<id>` | `skip:<reason>`.
 | `.eslintignore` | ok |
 | `.eslintrc` | ok |
 | `.gitignore` | ok |
-| `.nvmrc` | adapt:A005 |
+| `.nvmrc` | ok |
 | `.yarnrc` | ok |
 | `api/.gitignore` | ok |
 | `api/src/downloads/.gitignore` | ok |
@@ -68,7 +68,7 @@ Status: `ok` | `adapt:<id>` | `skip:<reason>`.
 | `logos/561a679c0c5d017e4004714f` | ok |
 | `logs/.gitignore` | ok |
 | `nginx.conf.example` | ok |
-| `package.json` | adapt:A001 |
+| `package.json` | ok |
 | `pm2/all.json` | ok |
 | `pm2/all.json.dist` | ok |
 | `pm2/core.json` | ok |

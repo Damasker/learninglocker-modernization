@@ -1,7 +1,8 @@
-// @ll-compat-audit: adapt:A006
+// @ll-compat-audit: ok 2026-08-01
 import getAuthFromRequest from 'lib/helpers/getAuthFromRequest';
 import catchErrors from 'api/controllers/utils/catchErrors';
 import { getScopeFilter } from 'lib/kernel/auth';
+import NotFoundError from 'lib/errors/NotFoundError';
 
 import { generateQueryBuilderCaches } from 'lib/services/querybuildercache';
 import Statement, { mapDot } from 'lib/models/statement';
@@ -32,6 +33,9 @@ export const patchStatementMetadata = catchErrors(async (req, res) => {
     $set: mapKeys(metadata, (_value, key) => `metadata.${key}`)
   });
   const model = await Statement.findOne(filter).select({ _id: 1, organisation: 1, metadata: 1 }).lean();
+  if (!model) {
+    throw new NotFoundError(`Statement not found for id ${req.params.id}`);
+  }
   generateQueryBuilderCaches({ metadata }, model.organisation);
 
   return res.status(200).send(mapDot({ _id: model._id, metadata: model.metadata }));
@@ -57,6 +61,9 @@ export const postStatementMetadata = catchErrors(async (req, res) => {
   const update = { metadata };
   await Statement.updateOne(filter, update);
   const model = await Statement.findOne(filter).select({ _id: 1, organisation: 1, metadata: 1 }).lean();
+  if (!model) {
+    throw new NotFoundError(`Statement not found for id ${req.params.id}`);
+  }
   generateQueryBuilderCaches(update, model.organisation);
 
   return res.status(200).send(mapDot({ _id: model._id, metadata: model.metadata }));
